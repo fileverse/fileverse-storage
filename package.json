@@ -4,6 +4,7 @@
   "description": "Storage Service for Fileverse",
   "main": "src/index.js",
   "scripts": {
+    "start": "NODE_ENV=production node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -11,5 +12,17 @@
     "ipfs"
   ],
   "author": "Vijay Krishnavanshi",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@pinata/sdk": "^1.1.26",
+    "aws-sdk": "^2.1209.0",
+    "bunyan": "^1.8.15",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "express-validation": "^4.1.0",
+    "helmet": "^6.0.0",
+    "morgan": "^1.10.0",
+    "request": "^2.88.2",
+    "web3.storage": "^4.4.0"
+  }
 }
