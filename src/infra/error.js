@@ -12,4 +12,4 @@ function errorHandler(err, req, res, next) {
     .json({ message: err.message, token: err.token });
 }
 
-module.exports = errorHandler;
+module.exports = { expressHandler };

@@ -34,4 +34,4 @@ let verifyUcan = (req, res, next) => {
   }
 };
 
-module.exports = verifyUcan;
+module.exports = { verify };

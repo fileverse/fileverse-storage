@@ -1,10 +1,10 @@
 const qs = require('querystring');
 const mime = require('mime-types');
-const { content } = require('../domain');
-const { validator } = require('./middleware');
+const { content } = require('../../domain');
+const { validator } = require('../middleware');
 const { Joi, validate } = validator;
 
-const { Log } = require('../domain');
+const { Log } = require('../../domain');
 
 const contentValidation = {
   params: Joi.object({
@@ -25,9 +25,9 @@ async function contentFn(req, res) {
     header['Content-Disposition'] = `attachment; filename="${qs.escape(
       filename,
     )}"`;
-    await Log.create('download', ipfsHash);
+    await Log.create('download', { contractAddress, fileId, ipfsHash });
   } else {
-    await Log.create('view', ipfsHash);
+    await Log.create('view', { contractAddress, fileId, ipfsHash });
   }
   res.writeHead(200, header);
   contentStream.pipe(res);

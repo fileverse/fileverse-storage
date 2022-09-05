@@ -1,5 +1,5 @@
-const { upload } = require('../domain');
-const { validator } = require('./middleware');
+const { upload } = require('../../domain');
+const { validator } = require('../middleware');
 const { Joi, validate } = validator;
 
 const uploadValidation = {

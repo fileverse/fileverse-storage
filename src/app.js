@@ -11,7 +11,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 const router = require('./interface');
-const middleware = require('./interface/middleware');
+const error = require('./infra/error');
+const ucan = require('./infra/ucan');
 
 // Express App
 const app = express();
@@ -32,7 +33,7 @@ app.use(
   }),
 );
 
-app.use(middleware.verifyUcan);
+app.use(ucan.verify);
 
 // This is to check if the service is online or not
 app.use('/ping', function (req, res) {
@@ -42,7 +43,7 @@ app.use('/ping', function (req, res) {
 
 app.use('/', router);
 
-app.use(middleware.errorHandler);
+app.use(error.expressHandler);
 
 // Export the express app instance
 module.exports = app;
