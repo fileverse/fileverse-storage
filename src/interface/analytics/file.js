@@ -1,16 +1,18 @@
-const { File } = require('../../domain');
+const { analytics } = require('../../domain');
 const { validator } = require('../middlewares');
 const { Joi, validate } = validator;
 
-const analyticsValidation = {
+const analyticsByFileValidation = {
+  headers: Joi.object({ contractAddress: Joi.string() }),
   params: Joi.object({
-    uuid: Joi.string().required(),
+    fileId: Joi.string().required(),
   }),
 };
 
-async function analytics(req, res) {
-  const { uuid } = req.params;
-  res.json(await File.analytics(uuid));
+async function analyticsByFile(req, res) {
+  const { contractAddress } = req.headers;
+  const { fileId } = req.params;
+  res.json(await analytics.getByFile({ contractAddress, fileId }));
 }
 
-module.exports = [validate(analyticsValidation), analytics];
+module.exports = [validate(analyticsByFileValidation), analyticsByFile];
