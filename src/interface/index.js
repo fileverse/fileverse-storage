@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const upload = require('./upload');
-const content = require('./content/content');
+const content = require('./content');
 const analytics = require('./analytics');
 
 router.use('/upload', upload);

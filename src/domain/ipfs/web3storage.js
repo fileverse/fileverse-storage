@@ -14,16 +14,18 @@ class Web3StorageService {
     ]);
     if (!cid) return null;
     return {
-      ipfsUrl: `https://dweb.link/ipfs/${cid}/${name}`,
+      ipfsUrl: `https://w3s.link/ipfs/${cid}/${name}`,
       ipfsHash: `${cid}/${name}`,
       ipfsStorage: 'web3.storage',
     };
   }
 
-  async get({ ipfsUrl }) {
-    if (!ipfsUrl) {
+  async get({ ipfsHash }) {
+    if (!ipfsHash) {
       return null;
     }
+    const ipfsUrl = `https://w3s.link/ipfs/${ipfsHash}`;
+    console.log(ipfsUrl);
     const ipfsStream = new PassThrough();
     request(ipfsUrl).pipe(ipfsStream);
     return ipfsStream;

@@ -19,11 +19,8 @@ class IPFS {
     return this.pinata.upload(readableStreamForFile, { name, attributes });
   }
 
-  async get({ ipfsUrl, ipfsStorage }) {
-    if (ipfsStorage === 'web3.storage') {
-      return this.web3Storage.get({ ipfsUrl });
-    }
-    return this.pinata.get({ ipfsUrl });
+  async get(ipfsHash) {
+    return this.web3Storage.get({ ipfsHash });
   }
 
   async remove({ ipfsHash, ipfsStorage }) {
