@@ -3,7 +3,7 @@ const router = express.Router();
 
 const upload = require('./upload');
 const content = require('./content/content');
-const analytics = require('./analytics/file');
+const analytics = require('./analytics');
 
 router.use('/upload', upload);
 router.use('/content', content);
