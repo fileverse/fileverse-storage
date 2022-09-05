@@ -4,7 +4,8 @@
   "description": "Storage Service for Fileverse",
   "main": "src/index.js",
   "scripts": {
-    "start": "NODE_ENV=production node .",
+    "dev": "nodemon .",
+    "start": "NODE_ENV=production node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -26,5 +27,8 @@
     "morgan": "^1.10.0",
     "request": "^2.88.2",
     "web3.storage": "^4.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
   }
 }
