@@ -15,6 +15,12 @@ class S3Service {
     });
   }
 
+  queue(file) {
+    return {
+      cachedUrl: '',
+    };
+  }
+
   formatFile(file) {
     return {
       s3Key: file.key,

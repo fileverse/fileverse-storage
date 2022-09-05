@@ -5,7 +5,7 @@ const cache = new Cache();
 const ipfs = new IPFS();
 
 async function upload(file) {
-  const { name, mimetype, data } = file;
+  const { name, data } = file;
   const stream = Readable.from(data);
   stream.path = name;
   const ipfsFile = await ipfs.upload(stream, { name });
