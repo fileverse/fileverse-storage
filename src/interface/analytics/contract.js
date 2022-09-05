@@ -1,5 +1,5 @@
 const { analytics } = require('../../domain');
-const { validator } = require('../middlewares');
+const { validator } = require('../middleware');
 const { Joi, validate } = validator;
 
 const analyticsByContractValidation = {

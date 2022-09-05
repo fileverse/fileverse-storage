@@ -1,7 +1,7 @@
-const config = require('../../../config');
+// const config = require('../../config');
 const { v4: uuidv4 } = require('uuid');
 
-let verifyUcan = (req, res, next) => {
+let verify = (req, res, next) => {
   req.requestId = uuidv4();
   console.log('req.requestId: ', req.requestId);
   let token = req.headers['authorization']; // Express headers are auto converted to lowercase

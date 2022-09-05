@@ -11,7 +11,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 const router = require('./interface');
-const error = require('./infra/error');
+const { errorHandler } = require('./interface/middleware');
 const ucan = require('./infra/ucan');
 
 // Express App
@@ -43,7 +43,7 @@ app.use('/ping', function (req, res) {
 
 app.use('/', router);
 
-app.use(error.expressHandler);
+app.use(errorHandler);
 
 // Export the express app instance
 module.exports = app;
