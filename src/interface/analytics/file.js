@@ -3,7 +3,9 @@ const { validator } = require('../middleware');
 const { Joi, validate } = validator;
 
 const analyticsByFileValidation = {
-  headers: Joi.object({ contractAddress: Joi.string() }),
+  headers: Joi.object({
+    contract: Joi.string().required(),
+  }).unknown(true),
   params: Joi.object({
     fileId: Joi.string().required(),
   }),
