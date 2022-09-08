@@ -1,5 +1,5 @@
 async function canView(req, res, next) {
-    next();
+  next();
 }
 
 module.exports = canView;
