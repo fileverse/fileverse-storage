@@ -1,0 +1,438 @@
+[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "by",
+				"type": "address"
+			}
+		],
+		"name": "AddedCollaborator",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "fileId",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "by",
+				"type": "address"
+			}
+		],
+		"name": "AddedFile",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "fileId",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "by",
+				"type": "address"
+			}
+		],
+		"name": "EditedFile",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			}
+		],
+		"name": "RegisteredMember",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "by",
+				"type": "address"
+			}
+		],
+		"name": "RemovedCollaborator",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			}
+		],
+		"name": "RemovedMember",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "collaborator",
+				"type": "address"
+			}
+		],
+		"name": "addCollaborator",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "metadataIPFSHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "contentIPFSHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "gateIPFSHash",
+				"type": "string"
+			},
+			{
+				"internalType": "enum FileverseSubdomain.FileType",
+				"name": "filetype",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint256",
+				"name": "version",
+				"type": "uint256"
+			}
+		],
+		"name": "addFile",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "fileId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "metadataIPFSHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "contentIPFSHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "gateIPFSHash",
+				"type": "string"
+			},
+			{
+				"internalType": "enum FileverseSubdomain.FileType",
+				"name": "filetype",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint256",
+				"name": "version",
+				"type": "uint256"
+			}
+		],
+		"name": "editFile",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "files",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "metadataIPFSHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "contentIPFSHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "gateIPFSHash",
+				"type": "string"
+			},
+			{
+				"internalType": "enum FileverseSubdomain.FileType",
+				"name": "fileType",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint256",
+				"name": "version",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getCollaboratorCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getCollaborators",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getFileCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "collaborator",
+				"type": "address"
+			}
+		],
+		"name": "isCollaborator",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "keyVerifiers",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "decryptionKeyVerifier",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "encryptionKeyVerifier",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "members",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "viewDid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "editDid",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "viewDid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "editDid",
+				"type": "string"
+			}
+		],
+		"name": "registerSelfFromMember",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "prevCollaborator",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "collaborator",
+				"type": "address"
+			}
+		],
+		"name": "removeCollaborator",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "removeSelfFromMember",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

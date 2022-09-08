@@ -1,5 +1,9 @@
-// const config = require('../../config');
+const config = require('../../config');
+const member = require('./member');
 const { v4: uuidv4 } = require('uuid');
+const ucans = require('ucans');
+
+const serviceDID = config.SERVICE_DID;
 
 let verify = (req, res, next) => {
   req.requestId = uuidv4();
@@ -12,23 +16,37 @@ let verify = (req, res, next) => {
 
   req.isAuthenticated = false;
   if (token) {
-    next();
-    // encryption
-    //   .verifyToken(token)
-    //   .then((decoded) => {
-    //     req.userId = decoded.userId;
-    //     req.sessionId = decoded.sessionId;
-    //     req.address = decoded.address;
-    //     req.account = decoded;
-    //     req.isAuthenticated = true;
-    //     next();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     return res.status(401).json({
-    //       message: 'Token is not valid',
-    //     });
-    //   });
+    const contractAddress = req.headers && req.headers.contract;
+    const invokerAddress = req.headers && req.headers.invoker;
+    member(contractAddress, invokerAddress)
+      .then((member) => {
+        const invokerDID = member.editDid;
+        ucans.verify(token, {
+          // to make sure we're the intended recipient of this UCAN
+          audience: serviceDID,
+          // capabilities required for this invocation & which owner we expect for each capability
+          requiredCapabilities: [
+            {
+              capability: {
+                with: { scheme: "storage", hierPart: contractAddress },
+                can: { namespace: "file", segments: ["CREATE"] }
+              },
+              rootIssuer: invokerDID,
+            }
+          ],
+        }).then((result) => {
+          if (result.ok) {
+            req.isAuthenticated = true;
+            req.invokerAddress = invokerAddress;
+            req.contractAddress = contractAddress;
+          }
+          next();
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
   } else {
     next();
   }

@@ -20,6 +20,7 @@
     "bunyan": "^1.8.15",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
+    "ethers": "^5.7.0",
     "express": "^4.18.1",
     "express-fileupload": "^1.4.0",
     "express-validation": "^4.1.0",
@@ -27,6 +28,7 @@
     "mongoose": "^6.5.4",
     "morgan": "^1.10.0",
     "request": "^2.88.2",
+    "ucans": "^0.10.0",
     "web3.storage": "^4.4.0"
   },
   "devDependencies": {
