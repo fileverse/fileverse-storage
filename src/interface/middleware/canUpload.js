@@ -2,7 +2,7 @@ const ErrorHandler = require('../../infra/errorHandler');
 
 async function canUpload(req, res, next) {
   const invokerAddress = req.invokerAddress;
-  const contractAddress = req.invokerAddress;
+  const contractAddress = req.contractAddress;
   if (req.isAuthenticated) {
     next();
   } else {
