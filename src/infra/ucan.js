@@ -19,8 +19,7 @@ let verify = (req, res, next) => {
     const contractAddress = req.headers && req.headers.contract;
     const invokerAddress = req.headers && req.headers.invoker;
     member({ contractAddress, invokerAddress })
-      .then((member) => {
-        const invokerDID = member.editDid;
+      .then((invokerDID) => {
         ucans.verify(token, {
           // to make sure we're the intended recipient of this UCAN
           audience: serviceDID,
@@ -28,13 +27,14 @@ let verify = (req, res, next) => {
           requiredCapabilities: [
             {
               capability: {
-                with: { scheme: "storage", hierPart: contractAddress },
+                with: { scheme: "storage", hierPart: contractAddress.toLowerCase() },
                 can: { namespace: "file", segments: ["CREATE"] }
               },
               rootIssuer: invokerDID,
             }
           ],
         }).then((result) => {
+          console.log(result);
           if (result.ok) {
             req.isAuthenticated = true;
             req.invokerAddress = invokerAddress;

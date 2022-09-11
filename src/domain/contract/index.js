@@ -1,3 +1,4 @@
+const config = require('../../../config');
 const abi = require('./abi.json');
 const { ethers } = require("ethers");
 
@@ -48,8 +49,7 @@ class SubdomainContract {
 
     async getMember(address) {
         const memberDetail = await this.contractInstance.members(address);
-        console.log(memberDetail);
-        return memberDetail;
+        return { account: memberDetail[0], viewDid: memberDetail[1], editDid: memberDetail[2] };
     }
 
     async isOwner(address) {
