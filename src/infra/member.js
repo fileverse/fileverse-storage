@@ -1,3 +1,7 @@
-module.exports = async function member() {
-    return { account: '0x6b8ddbA9c380e68201F76072523C4aC9AC4113ae', viewDid: 'did:key:z6MkqaoPAz1ghxomvHDRyKjFPJQtNEihBk9Mk9so2LSACmGm', editDid: 'did:key:z6Mkounome5ey7HwzVg5yVuDbPHSTqzRAomYEco5iXkdieN5' };
+const Contract = require('../domain/contract');
+
+module.exports = async function member({ contractAddress, invokerAddress }) {
+    const contract = new Contract(contractAddress);
+    const member = await contract.getMember(invokerAddress);
+    return member;
 }

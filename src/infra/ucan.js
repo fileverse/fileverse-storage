@@ -18,7 +18,7 @@ let verify = (req, res, next) => {
   if (token) {
     const contractAddress = req.headers && req.headers.contract;
     const invokerAddress = req.headers && req.headers.invoker;
-    member(contractAddress, invokerAddress)
+    member({ contractAddress, invokerAddress })
       .then((member) => {
         const invokerDID = member.editDid;
         ucans.verify(token, {

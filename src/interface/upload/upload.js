@@ -4,12 +4,12 @@ const { validator } = require('../middleware');
 const { Joi, validate } = validator;
 
 const uploadValidation = {
-    headers: Joi.object({
-      contract: Joi.string().required(),
-    }).unknown(true),
-    params: Joi.object({
-      fileId: Joi.string().required(),
-    }),
+  headers: Joi.object({
+    contract: Joi.string().required(),
+  }).unknown(true),
+  params: Joi.object({
+    fileId: Joi.string().required(),
+  }),
 };
 
 async function uploadFn(req, res) {
