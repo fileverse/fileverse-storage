@@ -7,19 +7,15 @@ const uploadValidation = {
   headers: Joi.object({
     contract: Joi.string().required(),
   }).unknown(true),
-  params: Joi.object({
-    fileId: Joi.string().required(),
-  }),
 };
 
 async function uploadFn(req, res) {
-  const { contract } = req.headers;
-  const { fileId } = req.params;
+  const { contractAddress, invokerAddress } = req;
   const createdFile = await upload({
-    contractAddress: contract,
+    contractAddress,
     file: req.files && req.files.file,
   });
-  await Log.create('upload', { contractAddress: contract, fileId, ipfsHash: createdFile.ipfsHash });
+  await Log.create('upload', { contractAddress, invokerAddress, ipfsHash: createdFile.ipfsHash });
   res.json(createdFile);
 }
 

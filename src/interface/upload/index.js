@@ -17,7 +17,7 @@ const {
 } = require('../middleware');
 
 router.post(
-  '/:fileId',
+  '/',
   asyncHandler(canUpload),
   fileUpload(),
   asyncHandlerArray(upload),
