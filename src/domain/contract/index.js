@@ -49,7 +49,7 @@ class SubdomainContract {
 
     async getMember(address) {
         const memberDetail = await this.contractInstance.members(address);
-        return { account: memberDetail[0], viewDid: memberDetail[1], editDid: memberDetail[2] };
+        return { account: address, viewDid: memberDetail[0], editDid: memberDetail[1] };
     }
 
     async isOwner(address) {
