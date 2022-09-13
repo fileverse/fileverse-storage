@@ -4,9 +4,10 @@ const { Schema } = mongoose;
 const _log = {};
 
 _log.schema = new Schema({
+  invokerAddress: { type: String },
   contractAddress: { type: String, lowercase: true, required: true },
   eventName: { type: String, required: true },
-  fileId: { type: String, required: true },
+  fileId: { type: String },
   timeStamp: { type: Date, required: true, default: Date.now },
 });
 
@@ -16,7 +17,7 @@ _log.schema.pre('save', function (next) {
 });
 
 _log.schema.methods.safeObject = function () {
-  const safeFields = ['_id', 'eventName', 'contractAddress', 'fileId', 'timeStamp'];
+  const safeFields = ['_id', 'eventName', 'invokerAddress', 'contractAddress', 'fileId', 'timeStamp'];
   const newSafeObject = {};
   safeFields.forEach((elem) => {
     // eslint-disable-next-line security/detect-object-injection
