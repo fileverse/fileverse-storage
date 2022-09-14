@@ -12,7 +12,7 @@ const analyticsByFileValidation = {
 };
 
 async function analyticsByFile(req, res) {
-  const { contractAddress } = req.headers;
+  const { contractAddress } = req;
   const { fileId } = req.params;
   res.json(await analytics.getByFile({ contractAddress, fileId }));
 }

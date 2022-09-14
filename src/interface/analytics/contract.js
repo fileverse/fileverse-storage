@@ -9,8 +9,8 @@ const analyticsByContractValidation = {
 };
 
 async function analyticsByContract(req, res) {
-  const { contract } = req.headers;
-  res.json(await analytics.getByContract({ contractAddress: contract }));
+  const { contractAddress } = req;
+  res.json(await analytics.getByContract({ contractAddress }));
 }
 
 module.exports = [validate(analyticsByContractValidation), analyticsByContract];
