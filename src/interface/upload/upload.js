@@ -15,7 +15,7 @@ async function uploadFn(req, res) {
     contractAddress,
     file: req.files && req.files.file,
   });
-  await Log.create('upload', { contractAddress, invokerAddress, ipfsHash: createdFile.ipfsHash });
+  // await Log.create('upload', { contractAddress, invokerAddress, ipfsHash: createdFile.ipfsHash });
   res.json(createdFile);
 }
 

@@ -1,29 +1,30 @@
-const { Log } = require('../../infra/database/models');
+const { Log } = require("../../infra/database/models");
 
 async function getByContract({ contractAddress }) {
-  const startFrom = new Date();
+  contractAddress = contractAddress.toLowerCase();
+  // const startFrom = new Date();
   const res = await Log.aggregate([
     {
       $match: {
         contractAddress,
-        timeStamp: { $gte: startFrom },
+        // timeStamp: { $gte: startFrom },
       },
     },
     {
       $group: {
         _id: {
-          time: { $dateToString: { format: '%Y-%m-%d', date: '$timeStamp' } },
-          eventName: '$eventName',
+          time: { $dateToString: { format: "%Y-%m-%d", date: "$timeStamp" } },
+          eventName: "$eventName",
         },
-        eventName: { $first: '$eventName' },
+        eventName: { $first: "$eventName" },
         count: { $sum: 1 },
         dateLabel: {
           $first: {
-            $dateToString: { format: '%Y-%m-%d', date: '$timeStamp' },
+            $dateToString: { format: "%Y-%m-%d", date: "$timeStamp" },
           },
         },
         timeStamp: {
-          $first: { $subtract: ['$timeStamp', new Date('1970-01-01')] },
+          $first: { $subtract: ["$timeStamp", new Date("1970-01-01")] },
         },
       },
     },
@@ -35,7 +36,13 @@ async function getByContract({ contractAddress }) {
     },
   ]);
 
-  return { contractAddress, dataPoints: res };
+  const downloads = await Log.find({
+    eventName: "download",
+    contractAddress,
+  }).count();
+  const views = await Log.find({ eventName: "view", contractAddress }).count();
+
+  return { contractAddress, dataPoints: res, downloads, views };
 }
 
 module.exports = getByContract;
