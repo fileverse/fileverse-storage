@@ -19,43 +19,32 @@ let verify = (req, res, next) => {
   if (token && contractAddress) {
     member({ contractAddress, invokerAddress })
       .then((invokerDID) => {
-        const data = {
-          // to make sure we're the intended recipient of this UCAN
-          audience: serviceDID,
-          // capabilities required for this invocation & which owner we expect for each capability
-          requiredCapabilities: [
-            {
-              capability: {
-                with: { scheme: "storage", hierPart: contractAddress.toLowerCase() },
-                can: { namespace: "file", segments: ["CREATE"] }
-              },
-              rootIssuer: invokerDID,
+        if (invokerDID) {
+          ucans.verify(token, {
+            // to make sure we're the intended recipient of this UCAN
+            audience: serviceDID,
+            // capabilities required for this invocation & which owner we expect for each capability
+            requiredCapabilities: [
+              {
+                capability: {
+                  with: { scheme: "storage", hierPart: contractAddress.toLowerCase() },
+                  can: { namespace: "file", segments: ["CREATE"] }
+                },
+                rootIssuer: invokerDID,
+              }
+            ],
+          }).then((result) => {
+            console.log(result);
+            if (result.ok) {
+              req.isAuthenticated = true;
+              req.invokerAddress = invokerAddress;
+              req.contractAddress = contractAddress;
             }
-          ],
-        };
-        console.log('data: ', data);
-        ucans.verify(token, {
-          // to make sure we're the intended recipient of this UCAN
-          audience: serviceDID,
-          // capabilities required for this invocation & which owner we expect for each capability
-          requiredCapabilities: [
-            {
-              capability: {
-                with: { scheme: "storage", hierPart: contractAddress.toLowerCase() },
-                can: { namespace: "file", segments: ["CREATE"] }
-              },
-              rootIssuer: invokerDID,
-            }
-          ],
-        }).then((result) => {
-          console.log(result);
-          if (result.ok) {
-            req.isAuthenticated = true;
-            req.invokerAddress = invokerAddress;
-            req.contractAddress = contractAddress;
-          }
+            next();
+          });
+        } else {
           next();
-        });
+        }
       })
       .catch((error) => {
         console.log(error);
