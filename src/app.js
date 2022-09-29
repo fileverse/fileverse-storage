@@ -12,6 +12,7 @@ const helmet = require('helmet');
 
 const router = require('./interface');
 const { errorHandler } = require('./interface/middleware');
+const { asyncHandler } = require('./infra/asyncHandler');
 const ucan = require('./infra/ucan');
 
 // Express App
@@ -33,7 +34,7 @@ app.use(
   }),
 );
 
-app.use(ucan.verify);
+app.use(asyncHandler(ucan.verify));
 
 // This is to check if the service is online or not
 app.use('/ping', function (req, res) {
