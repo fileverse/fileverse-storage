@@ -16,6 +16,8 @@ let verify = (req, res, next) => {
   const contractAddress = req.headers && req.headers.contract;
   const invokerAddress = req.headers && req.headers.invoker;
   req.isAuthenticated = false;
+  req.invokerAddress = invokerAddress;
+  req.contractAddress = contractAddress;
   if (token && contractAddress) {
     member({ contractAddress, invokerAddress })
       .then((invokerDID) => {
@@ -37,8 +39,6 @@ let verify = (req, res, next) => {
             console.log(result);
             if (result.ok) {
               req.isAuthenticated = true;
-              req.invokerAddress = invokerAddress;
-              req.contractAddress = contractAddress;
             }
             next();
           });
