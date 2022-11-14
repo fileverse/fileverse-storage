@@ -15,11 +15,12 @@ let verify = (req, res, next) => {
   }
   const contractAddress = req.headers && req.headers.contract;
   const invokerAddress = req.headers && req.headers.invoker;
+  const chainId = req.headers && req.headers.chain;
   req.isAuthenticated = false;
   req.invokerAddress = invokerAddress;
   req.contractAddress = contractAddress;
   if (token && contractAddress) {
-    member({ contractAddress, invokerAddress })
+    member({ contractAddress, invokerAddress, chainId })
       .then((invokerDID) => {
         if (invokerDID) {
           ucans.verify(token, {

@@ -14,7 +14,7 @@ function fromDevNetworks(network) {
   if (network === 'fileverse_testnet') {
     return config.FILEVERSE_TESTNET_RPC_URL;
   }
-  return null;
+  return config.ETH_GOERLI_RPC_URL;
 }
 
 function fromProdNetworks(network) {
