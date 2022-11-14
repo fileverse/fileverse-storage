@@ -4,11 +4,9 @@ const provider = require('./provider');
 
 class SubdomainContract {
     constructor(contractAddress, network) {
-        console.log(network);
         this.contractAddress = contractAddress;
         this.contractABI = abi;
         this.networkProviderUrl = provider.getNetworkUrl(network);
-        console.log(this.networkProviderUrl);
         this.networkProvider = new ethers.providers.JsonRpcProvider(this.networkProviderUrl);
         this.contractInstance = new ethers.Contract(this.contractAddress, this.contractABI, this.networkProvider);
     }
