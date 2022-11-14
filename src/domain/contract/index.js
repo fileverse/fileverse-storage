@@ -1,12 +1,12 @@
-const config = require('../../../config');
 const abi = require('./abi.json');
 const { ethers } = require("ethers");
+const provider = require('./provider');
 
 class SubdomainContract {
-    constructor(contractAddress) {
+    constructor(contractAddress, network) {
         this.contractAddress = contractAddress;
         this.contractABI = abi;
-        this.networkProviderUrl = config.NETWORK_PROVIDER_URL;
+        this.networkProviderUrl = provider.getNetworkUrl(network);
         this.networkProvider = new ethers.providers.JsonRpcProvider(this.networkProviderUrl);
         this.contractInstance = new ethers.Contract(this.contractAddress, this.contractABI, this.networkProvider);
     }
@@ -56,6 +56,29 @@ class SubdomainContract {
         const owner = await this.contractInstance.owner();
         console.log(owner);
         return address.toLowerCase() === owner.toLowerCase();
+    }
+
+    static networkFromChainId(chainId) {
+        if (!chainId) {
+            return 'eth_goerli';
+        }
+        const chainIdInNumber = Number(chainId);
+        if (chainIdInNumber === 5) {
+            return 'eth_goerli';
+        }
+        if (chainIdInNumber === 8420) {
+            return 'fileverse_testnet';
+        }
+        if (chainIdInNumber === 1) {
+            return 'eth_mainnet';
+        }
+        if (chainIdInNumber === 137) {
+            return 'polygon_mainnet';
+        }
+        if (chainIdInNumber === 100) {
+            return 'gnosis_mainnet';
+        }
+        return 'eth_goerli';
     }
 };
 
