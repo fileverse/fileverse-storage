@@ -19,6 +19,7 @@ let verify = (req, res, next) => {
   req.isAuthenticated = false;
   req.invokerAddress = invokerAddress;
   req.contractAddress = contractAddress;
+  req.chainId = chainId;
   if (token && contractAddress) {
     member({ contractAddress, invokerAddress, chainId })
       .then((invokerDID) => {
