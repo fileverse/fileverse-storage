@@ -1,6 +1,8 @@
 const config = require('../../../config');
 
 function getNetworkUrl(network) {
+  console.log(config.NODE_ENV);
+  console.log(network);
   if ((config && config.NODE_ENV) === 'production') {
     return fromProdNetworks(network);
   }
