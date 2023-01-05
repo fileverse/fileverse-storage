@@ -1,4 +1,4 @@
-const { analytics } = require('../../domain');
+const { analytics, file } = require('../../domain');
 const { validator } = require('../middleware');
 const { Joi, validate } = validator;
 
@@ -10,7 +10,10 @@ const analyticsByContractValidation = {
 
 async function analyticsByContract(req, res) {
   const { contractAddress } = req;
-  res.json(await analytics.getByContract({ contractAddress }));
+  const data = await analytics.getByContract({ contractAddress });
+  const fileData = await file.getSizeByContract({ contractAddress });
+  data.totalFileSize = fileData.totalFileSize;
+  res.json(data);
 }
 
 module.exports = [validate(analyticsByContractValidation), analyticsByContract];

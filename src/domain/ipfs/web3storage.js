@@ -13,10 +13,13 @@ class Web3StorageService {
       { name, stream: () => readableStreamForFile },
     ]);
     if (!cid) return null;
+    const info = await this.client.status(cid);
     return {
       ipfsUrl: `https://w3s.link/ipfs/${cid}/${name}`,
       ipfsHash: `${cid}/${name}`,
       ipfsStorage: 'web3.storage',
+      pinSize: info.dagSize,
+      timestamp: (new Date(info.created)).getTime(),
     };
   }
 
