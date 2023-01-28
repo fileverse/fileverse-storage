@@ -1,3 +1,4 @@
+const config = require('../../../../config');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
@@ -9,7 +10,10 @@ _limit.schema = new Schema({
     lowercase: true,
     required: true,
   },
-  storageLimit: { type: Number },
+  storageLimit: {
+    type: Number,
+    default: config.DEFAULT_STORAGE_LIMIT || 200000000,
+  },
   timeStamp: {
     type: Date,
     required: true,
