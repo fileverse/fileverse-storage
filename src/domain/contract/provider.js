@@ -1,23 +1,13 @@
 const config = require('../../../config');
 
 function getNetworkUrl(network) {
-  if ((config && config.DEPLOYMENT) === 'production') {
-    return fromProdNetworks(network);
-  }
-  return fromDevNetworks(network);
+  return fromNetworks(network);
 }
 
-function fromDevNetworks(network) {
+function fromNetworks(network) {
   if (network === 'eth_goerli') {
     return config.ETH_GOERLI_RPC_URL;
   }
-  if (network === 'fileverse_testnet') {
-    return config.FILEVERSE_TESTNET_RPC_URL;
-  }
-  return config.ETH_GOERLI_RPC_URL;
-}
-
-function fromProdNetworks(network) {
   if (network === 'eth_mainnet') {
     return config.ETH_MAINNET_RPC_URL;
   }
