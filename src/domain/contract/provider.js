@@ -17,6 +17,9 @@ function fromNetworks(network) {
   if (network === 'gnosis_mainnet') {
     return config.GNOSIS_MAINNET_RPC_URL;
   }
+  if (network === 'gnosis_testnet') {
+    return config.GNOSIS_TESTNET_RPC_URL;
+  }
   return null;
 }
 
