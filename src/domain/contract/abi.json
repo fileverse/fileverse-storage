@@ -1,6 +1,59 @@
 [
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_metadataIPFSHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_ownerViewDid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_ownerEditDid",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_trustedForwarder",
+				"type": "address"
+			},
+			{
+				"components": [
+					{
+						"internalType": "bytes32",
+						"name": "portalEncryptionKeyVerifier",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "portalDecryptionKeyVerifier",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "memberEncryptionKeyVerifier",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "memberDecryptionKeyVerifier",
+						"type": "bytes32"
+					}
+				],
+				"internalType": "struct PortalKeyVerifiers.KeyVerifier",
+				"name": "_keyVerifier",
+				"type": "tuple"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
@@ -10,7 +63,7 @@
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "to",
+				"name": "account",
 				"type": "address"
 			},
 			{
@@ -33,6 +86,24 @@
 				"type": "uint256"
 			},
 			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "metadataIPFSHash",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "contentIPFSHash",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "gateIPFSHash",
+				"type": "string"
+			},
+			{
 				"indexed": true,
 				"internalType": "address",
 				"name": "by",
@@ -50,6 +121,24 @@
 				"internalType": "uint256",
 				"name": "fileId",
 				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "metadataIPFSHash",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "contentIPFSHash",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "gateIPFSHash",
+				"type": "string"
 			},
 			{
 				"indexed": true,
@@ -77,6 +166,25 @@
 				"type": "address"
 			}
 		],
+		"name": "OwnershipTransferStarted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
 		"name": "OwnershipTransferred",
 		"type": "event"
 	},
@@ -86,11 +194,11 @@
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "to",
+				"name": "account",
 				"type": "address"
 			}
 		],
-		"name": "RegisteredMember",
+		"name": "RegisteredCollaboratorKeys",
 		"type": "event"
 	},
 	{
@@ -99,7 +207,7 @@
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "to",
+				"name": "account",
 				"type": "address"
 			},
 			{
@@ -118,12 +226,69 @@
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "to",
+				"name": "account",
 				"type": "address"
 			}
 		],
-		"name": "RemovedMember",
+		"name": "RemovedCollaboratorKeys",
 		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "portalEncryptionKeyVerifier",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "portalDecryptionKeyVerifier",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "memberEncryptionKeyVerifier",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "memberDecryptionKeyVerifier",
+				"type": "bytes32"
+			}
+		],
+		"name": "UpdatedKeyVerifiers",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "metadataIPFSHash",
+				"type": "string"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "by",
+				"type": "address"
+			}
+		],
+		"name": "UpdatedPortalMetadata",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "acceptOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [
@@ -142,21 +307,21 @@
 		"inputs": [
 			{
 				"internalType": "string",
-				"name": "metadataIPFSHash",
+				"name": "_metadataIPFSHash",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "contentIPFSHash",
+				"name": "_contentIPFSHash",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "gateIPFSHash",
+				"name": "_gateIPFSHash",
 				"type": "string"
 			},
 			{
-				"internalType": "enum FileverseSubdomain.FileType",
+				"internalType": "enum FileversePortal.FileType",
 				"name": "filetype",
 				"type": "uint8"
 			},
@@ -174,27 +339,51 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "collaboratorKeys",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "viewDid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "editDid",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "fileId",
 				"type": "uint256"
 			},
 			{
 				"internalType": "string",
-				"name": "metadataIPFSHash",
+				"name": "_metadataIPFSHash",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "contentIPFSHash",
+				"name": "_contentIPFSHash",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "gateIPFSHash",
+				"name": "_gateIPFSHash",
 				"type": "string"
 			},
 			{
-				"internalType": "enum FileverseSubdomain.FileType",
+				"internalType": "enum FileversePortal.FileType",
 				"name": "filetype",
 				"type": "uint8"
 			},
@@ -235,7 +424,7 @@
 				"type": "string"
 			},
 			{
-				"internalType": "enum FileverseSubdomain.FileType",
+				"internalType": "enum FileversePortal.FileType",
 				"name": "fileType",
 				"type": "uint8"
 			},
@@ -251,6 +440,19 @@
 	{
 		"inputs": [],
 		"name": "getCollaboratorCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getCollaboratorKeysCount",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -291,11 +493,30 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "collaborator",
+				"name": "account",
 				"type": "address"
 			}
 		],
 		"name": "isCollaborator",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "forwarder",
+				"type": "address"
+			}
+		],
+		"name": "isTrustedForwarder",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -317,42 +538,36 @@
 		"name": "keyVerifiers",
 		"outputs": [
 			{
-				"internalType": "string",
-				"name": "decryptionKeyVerifier",
-				"type": "string"
+				"internalType": "bytes32",
+				"name": "portalEncryptionKeyVerifier",
+				"type": "bytes32"
 			},
 			{
-				"internalType": "string",
-				"name": "encryptionKeyVerifier",
-				"type": "string"
+				"internalType": "bytes32",
+				"name": "portalDecryptionKeyVerifier",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "memberEncryptionKeyVerifier",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "memberDecryptionKeyVerifier",
+				"type": "bytes32"
 			}
 		],
 		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "members",
+		"inputs": [],
+		"name": "metadataIPFSHash",
 		"outputs": [
 			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
 				"internalType": "string",
-				"name": "viewDid",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "editDid",
+				"name": "",
 				"type": "string"
 			}
 		],
@@ -373,6 +588,19 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "pendingOwner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "string",
@@ -385,7 +613,7 @@
 				"type": "string"
 			}
 		],
-		"name": "registerSelfFromMember",
+		"name": "registerCollaboratorKeys",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -410,7 +638,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "removeSelfFromMember",
+		"name": "removeCollaboratorKeys",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -431,6 +659,47 @@
 			}
 		],
 		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "portalEncryptionKeyVerifier",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "portalDecryptionKeyVerifier",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "memberEncryptionKeyVerifier",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "memberDecryptionKeyVerifier",
+				"type": "bytes32"
+			}
+		],
+		"name": "updateKeyVerifiers",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_metadataIPFSHash",
+				"type": "string"
+			}
+		],
+		"name": "updateMetadata",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
