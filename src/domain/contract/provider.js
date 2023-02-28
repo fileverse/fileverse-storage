@@ -8,6 +8,9 @@ function fromNetworks(network) {
   if (network === 'eth_goerli') {
     return config.ETH_GOERLI_RPC_URL;
   }
+  if (network === 'eth_sepolia') {
+    return config.ETH_SEPOLIA_RPC_URL;
+  }
   if (network === 'eth_mainnet') {
     return config.ETH_MAINNET_RPC_URL;
   }
