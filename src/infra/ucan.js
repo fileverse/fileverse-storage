@@ -1,5 +1,5 @@
 const config = require('../../config');
-const member = require('./member');
+const collaboratorKey = require('./collaboratorKey');
 const { v4: uuidv4 } = require('uuid');
 const ucans = require('ucans');
 
@@ -21,7 +21,7 @@ let verify = (req, res, next) => {
   req.contractAddress = contractAddress;
   req.chainId = chainId;
   if (token && contractAddress) {
-    member({ contractAddress, invokerAddress, chainId })
+    collaboratorKey({ contractAddress, invokerAddress, chainId })
       .then((invokerDID) => {
         if (invokerDID) {
           ucans.verify(token, {
