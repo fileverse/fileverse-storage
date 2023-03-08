@@ -14,6 +14,11 @@ _limit.schema = new Schema({
     type: Number,
     default: config.DEFAULT_STORAGE_LIMIT || 200000000,
   },
+  storageUse: {
+    type: Number,
+    default: 0,
+  },
+  unit: { type: String, default: 'bytes' },
   timeStamp: {
     type: Date,
     required: true,
