@@ -1,5 +1,5 @@
 const claimStorage = require('./claimStorage');
 const getStorageStatus = require('./getStorageStatus');
-const getStorageLimit = require('./getStorageLimit');
+const getStorageUse = require('./getStorageUse');
 
-module.exports = { claimStorage, getStorageStatus, getStorageLimit };
+module.exports = { claimStorage, getStorageStatus, getStorageUse };
