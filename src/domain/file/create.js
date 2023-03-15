@@ -7,6 +7,7 @@ async function create({
   ipfsHash,
   contractAddress,
   invokerAddress,
+  tags,
 }) {
   const file = await new File({
     fileId,
@@ -15,6 +16,7 @@ async function create({
     ipfsHash,
     contractAddress,
     invokerAddress,
+    tags,
   }).save();
   return file.safeObject();
 }

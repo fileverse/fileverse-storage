@@ -1,93 +1,39 @@
 const config = require('../../../config');
 const { Limit } = require('../../infra/database/models');
+const { claims } = require('./claim');
+
+const NodeCache = require('node-cache');
+const storageClaimChache = new NodeCache({ stdTTL: 300 });
+
+async function formatClaims(invokerAddress, contractAddress, claimsMap) {
+  const cacheKey = `${invokerAddress}_${contractAddress}`;
+  let claimsData = storageClaimChache.get(cacheKey);
+  if (!claimsData) {
+    const promises = claims.map(async (elem) => {
+      console.log(elem);
+      const object = {};
+      object.id = elem.id;
+      object.name = elem.name;
+      object.logo = elem.logo;
+      object.storage = elem.storage;
+      object.unit = elem.unit;
+      object.type = elem.type;
+      object.claimed = claimsMap ? claimsMap[elem.id] || false : false;
+      object.canClaim = await elem.canClaim({ invokerAddress, contractAddress });
+      return object;
+    })
+    claimData = await Promise.all(promises);  
+    storageClaimChache.set(cacheKey, claimData);
+  }
+  return claimData;
+}
 
 async function getStorageStatus({ contractAddress, invokerAddress }) {
   const limit = await Limit.findOne({ contractAddress });
   return {
     contractAddress,
     storageLimit: limit && limit.storageLimit || config.DEFAULT_STORAGE_LIMIT,
-    claims: [
-      {
-        id: "ENS",
-        name: "ENS",
-        logo: "",
-        storage: 1000,
-        unit: 'bytes',
-        canClaim: true,
-        claimed: false,
-        type: 'External'
-      },
-      {
-        id: "LENS",
-        name: "Lens",
-        logo: "",
-        storage: 1000,
-        unit: 'bytes',
-        canClaim: false,
-        claimed: false,
-        type: 'External'
-      },
-      {
-        id: "SAFE",
-        name: "Safe",
-        logo: "",
-        storage: 1000,
-        unit: 'bytes',
-        canClaim: false,
-        claimed: false,
-        type: 'External'
-      },
-      {
-        id: "IMPACTDAO",
-        name: "Impact DAO",
-        logo: "",
-        storage: 1000,
-        unit: 'bytes',
-        canClaim: false,
-        claimed: false,
-        type: 'External'
-      },
-      {
-        id: "PUBLIC_FILES",
-        name: "Create three public files",
-        logo: "",
-        storage: 1000,
-        unit: 'bytes',
-        canClaim: true,
-        claimed: false,
-        type: 'Internal'
-      },
-      {
-        id: "WHITEBOARD",
-        name: "Create one whiteboard",
-        logo: "",
-        storage: 1000,
-        unit: 'bytes',
-        canClaim: false,
-        claimed: false,
-        type: 'Internal'
-      },
-      {
-        id: "FILEVERSE_DOC",
-        name: "Create one fileverse doc",
-        logo: "",
-        storage: 1000,
-        unit: 'bytes',
-        canClaim: false,
-        claimed: false,
-        type: 'Internal'
-      },
-      {
-        id: "MEMBERS",
-        name: "Invite atleast one member",
-        logo: "",
-        storage: 1000,
-        unit: 'bytes',
-        canClaim: false,
-        claimed: false,
-        type: 'Internal'
-      },
-    ],
+    claims: await formatClaims(invokerAddress, limit && limit.claimsMap),
   };
 }
 

@@ -19,6 +19,7 @@ _limit.schema = new Schema({
     default: 0,
   },
   unit: { type: String, default: 'bytes' },
+  claimsMap: { type: Schema.Types.Mixed },
   timeStamp: {
     type: Date,
     required: true,
