@@ -10,7 +10,6 @@ async function formatClaims(invokerAddress, contractAddress, claimsMap) {
   let claimsData = storageClaimChache.get(cacheKey);
   if (!claimsData) {
     const promises = claims.map(async (elem) => {
-      console.log(elem);
       const object = {};
       object.id = elem.id;
       object.name = elem.name;
@@ -18,7 +17,7 @@ async function formatClaims(invokerAddress, contractAddress, claimsMap) {
       object.storage = elem.storage;
       object.unit = elem.unit;
       object.type = elem.type;
-      object.claimed = claimsMap ? claimsMap[elem.id] || false : false;
+      object.claimed = (claimsMap && claimsMap[elem.id]) ? true : false;
       object.canClaim = await elem
         .canClaim({ invokerAddress, contractAddress })
         .catch((error) => {
@@ -38,7 +37,7 @@ async function getStorageStatus({ contractAddress, invokerAddress }) {
   return {
     contractAddress,
     storageLimit: (limit && limit.storageLimit) || config.DEFAULT_STORAGE_LIMIT,
-    claims: await formatClaims(invokerAddress, limit && limit.claimsMap),
+    claims: await formatClaims(invokerAddress, contractAddress, limit && limit.claimsMap),
   };
 }
 
