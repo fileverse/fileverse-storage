@@ -1,8 +1,8 @@
-const config = require('../../../config');
-const { Limit } = require('../../infra/database/models');
-const { claims } = require('./claim');
+const config = require("../../../config");
+const { Limit } = require("../../infra/database/models");
+const { claims } = require("./claim");
 
-const NodeCache = require('node-cache');
+const NodeCache = require("node-cache");
 const storageClaimChache = new NodeCache({ stdTTL: 300 });
 
 async function formatClaims(invokerAddress, contractAddress, claimsMap) {
@@ -19,10 +19,15 @@ async function formatClaims(invokerAddress, contractAddress, claimsMap) {
       object.unit = elem.unit;
       object.type = elem.type;
       object.claimed = claimsMap ? claimsMap[elem.id] || false : false;
-      object.canClaim = await elem.canClaim({ invokerAddress, contractAddress });
+      object.canClaim = await elem
+        .canClaim({ invokerAddress, contractAddress })
+        .catch((error) => {
+          console.log(error);
+          return false;
+        });
       return object;
-    })
-    claimData = await Promise.all(promises);  
+    });
+    claimData = await Promise.all(promises);
     storageClaimChache.set(cacheKey, claimData);
   }
   return claimData;
@@ -32,7 +37,7 @@ async function getStorageStatus({ contractAddress, invokerAddress }) {
   const limit = await Limit.findOne({ contractAddress });
   return {
     contractAddress,
-    storageLimit: limit && limit.storageLimit || config.DEFAULT_STORAGE_LIMIT,
+    storageLimit: (limit && limit.storageLimit) || config.DEFAULT_STORAGE_LIMIT,
     claims: await formatClaims(invokerAddress, limit && limit.claimsMap),
   };
 }
