@@ -4,6 +4,8 @@ const safe = require("./safe");
 const publicFiles = require("./publicFiles");
 const whiteboard = require("./whiteboard");
 const privateFiles = require("./privateFiles");
+const impactDAO = require("./impactDAO");
+const members = require("./members");
 
 module.exports = {
   claims: [
@@ -15,6 +17,7 @@ module.exports = {
       unit: "bytes",
       canClaim: ens,
       type: "External",
+      enabled: true,
     },
     {
       id: "LENS",
@@ -24,6 +27,7 @@ module.exports = {
       unit: "bytes",
       canClaim: lens,
       type: "External",
+      enabled: true,
     },
     {
       id: "SAFE",
@@ -33,6 +37,17 @@ module.exports = {
       unit: "bytes",
       canClaim: safe,
       type: "External",
+      enabled: true,
+    },
+    {
+      id: "IMPACTDAO",
+      name: "Impact DAO",
+      logo: "",
+      storage: 100000000,
+      unit: "bytes",
+      canClaim: impactDAO,
+      type: "External",
+      enabled: false,
     },
     {
       id: "PUBLIC_FILES",
@@ -42,6 +57,7 @@ module.exports = {
       unit: "bytes",
       canClaim: publicFiles,
       type: "Internal",
+      enabled: true,
     },
     {
       id: "WHITEBOARD",
@@ -51,6 +67,7 @@ module.exports = {
       unit: "bytes",
       canClaim: whiteboard,
       type: "Internal",
+      enabled: true,
     },
     {
       id: "PRIVATE_FILES",
@@ -60,6 +77,17 @@ module.exports = {
       unit: "bytes",
       canClaim: privateFiles,
       type: "Internal",
+      enabled: true,
+    },
+    {
+      id: "MEMBERS",
+      name: "Add three members",
+      logo: "",
+      storage: 100000000,
+      unit: "bytes",
+      canClaim: members,
+      type: "Internal",
+      enabled: false,
     },
   ],
 };

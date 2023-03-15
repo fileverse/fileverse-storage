@@ -1,8 +1,5 @@
-const { File } = require('../../../infra/database/models');
-
-async function canClaim({ contractAddress }) {
-  const data = await File.findOne({ contractAddress, tags: 'fileverse_whiteboard' });
-  return !!data;
+async function canClaim() {
+  return false;
 }
 
 module.exports = canClaim;
