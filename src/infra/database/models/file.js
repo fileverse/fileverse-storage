@@ -14,6 +14,11 @@ _file.schema = new Schema({
   chainId: { type: String },
   ipfsHash: { type: String },
   fileSize: { type: Number },
+  tags: {
+    type: [String],
+    index: true,
+    default: [],
+  },
   timeStamp: {
     type: Date,
     required: true,
@@ -34,6 +39,7 @@ _file.schema.methods.safeObject = function () {
     'fileId',
     'ipfsHash',
     'fileSize',
+    'tags',
     'timeStamp',
   ];
   const newSafeObject = {};

@@ -1,5 +1,7 @@
 async function claimStorage({ contractAddress }) {
-  return { contractAddress };
+  return {
+    contractAddress,
+  };
 }
 
 module.exports = claimStorage;
