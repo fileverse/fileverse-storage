@@ -1,11 +1,11 @@
-const { Limit } = require('../../infra/database/models');
+const getStorageUse = require('../../domain/limit/getStorageUse');
 const ErrorHandler = require('../../infra/errorHandler');
 
 async function canUpload(req, res, next) {
   const invokerAddress = req.invokerAddress;
   const contractAddress = req.contractAddress;
   if (req.isAuthenticated) {
-    const limit = await Limit.findOne({ contractAddress });
+    const limit = await getStorageUse({ contractAddress });
     if (limit.storageUse < limit.storageLimit) {
       next();
     } else {
