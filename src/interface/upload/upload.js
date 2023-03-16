@@ -9,7 +9,7 @@ const uploadValidation = {
   }).unknown(true),
   body: Joi.object({
     tags: Joi.array().items(Joi.string()).optional(),
-  }),
+  }).unknown(true),
 };
 
 async function uploadFn(req, res) {
