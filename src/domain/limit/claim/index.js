@@ -11,7 +11,7 @@ module.exports = {
   claims: [
     {
       id: "ENS",
-      name: "ENS",
+      name: "Own an ENS Domain",
       logo: "",
       storage: 100000000,
       unit: "bytes",
@@ -21,7 +21,7 @@ module.exports = {
     },
     {
       id: "LENS",
-      name: "Lens",
+      name: "Own a Lens handle",
       logo: "",
       storage: 100000000,
       unit: "bytes",
@@ -31,7 +31,7 @@ module.exports = {
     },
     {
       id: "SAFE",
-      name: "Safe",
+      name: "Own a Safe multisig",
       logo: "",
       storage: 100000000,
       unit: "bytes",
@@ -51,7 +51,7 @@ module.exports = {
     },
     {
       id: "PUBLIC_FILES",
-      name: "Create three public files",
+      name: "Upload 3 Public Files",
       logo: "",
       storage: 200000000,
       unit: "bytes",
@@ -61,7 +61,7 @@ module.exports = {
     },
     {
       id: "WHITEBOARD",
-      name: "Create one whiteboard",
+      name: "Create & Upload 1 Whiteboard",
       logo: "",
       storage: 100000000,
       unit: "bytes",
@@ -71,7 +71,7 @@ module.exports = {
     },
     {
       id: "PRIVATE_FILES",
-      name: "Create one private file",
+      name: "Created 1 Private File",
       logo: "",
       storage: 100000000,
       unit: "bytes",
@@ -81,7 +81,7 @@ module.exports = {
     },
     {
       id: "MEMBERS",
-      name: "Add three members",
+      name: "Have 3 Portal Members",
       logo: "",
       storage: 100000000,
       unit: "bytes",
