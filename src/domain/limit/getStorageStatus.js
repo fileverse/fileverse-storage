@@ -17,6 +17,7 @@ async function formatClaims(invokerAddress, contractAddress, claimsMap) {
       object.storage = elem.storage;
       object.unit = elem.unit;
       object.type = elem.type;
+      object.enabled = elem.enabled;
       object.claimed = (claimsMap && claimsMap[elem.id]) ? true : false;
       object.canClaim = await elem
         .canClaim({ invokerAddress, contractAddress })
