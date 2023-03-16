@@ -5,7 +5,7 @@ const IPFS = require('./ipfs');
 const cache = new Cache();
 const ipfs = new IPFS();
 
-async function upload({ fileId, chainId, contractAddress, file, invokerAddress }) {
+async function upload({ fileId, chainId, contractAddress, file, invokerAddress, tags }) {
   const { name, mimetype, data } = file;
   const stream = Readable.from(data);
   stream.path = name;
@@ -19,6 +19,7 @@ async function upload({ fileId, chainId, contractAddress, file, invokerAddress }
     contractAddress,
     invokerAddress,
     fileSize: ipfsFile && ipfsFile.pinSize,
+    tags: tags || [],
   });
   // full file
   return {

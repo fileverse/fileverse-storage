@@ -4,5 +4,6 @@ const analytics = require('./analytics');
 const contract = require('./contract');
 const log = require('./log');
 const file = require('./file');
+const limit = require('./limit');
 
-module.exports = { upload, content, analytics, contract, log, file };
+module.exports = { upload, content, analytics, contract, log, file, limit };

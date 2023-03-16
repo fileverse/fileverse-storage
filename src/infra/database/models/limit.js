@@ -14,6 +14,12 @@ _limit.schema = new Schema({
     type: Number,
     default: config.DEFAULT_STORAGE_LIMIT || 200000000,
   },
+  storageUse: {
+    type: Number,
+    default: 0,
+  },
+  unit: { type: String, default: 'bytes' },
+  claimsMap: { type: Schema.Types.Mixed },
   timeStamp: {
     type: Date,
     required: true,
