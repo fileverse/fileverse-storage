@@ -12,7 +12,7 @@ async function upload({ fileId, chainId, contractAddress, file, invokerAddress, 
   const ipfsFile = await ipfs.upload(stream, { name });
   const cachedFile = await cache.queue(ipfsFile);
   // add file to db
-  const res = await File.create({
+  await File.create({
     chainId,
     fileId,
     ipfsHash: ipfsFile && ipfsFile.ipfsHash,
