@@ -4,11 +4,12 @@ const { Schema } = mongoose;
 const _file = {};
 
 _file.schema = new Schema({
-  invokerAddress: { type: String },
+  invokerAddress: { type: String, index: true },
   contractAddress: {
     type: String,
     lowercase: true,
     required: true,
+    index: true,
   },
   fileId: { type: String },
   chainId: { type: String },
