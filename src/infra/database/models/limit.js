@@ -9,6 +9,7 @@ _limit.schema = new Schema({
     type: String,
     lowercase: true,
     required: true,
+    index: true,
   },
   storageLimit: {
     type: Number,
