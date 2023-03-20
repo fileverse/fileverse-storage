@@ -11,7 +11,7 @@ _log.schema = new Schema({
   timeStamp: { type: Date, required: true, default: Date.now },
 });
 
-_log.index({ eventName: 1, contractAddress: 1 });
+_log.schema.index({ eventName: 1, contractAddress: 1 });
 
 _log.schema.pre('save', function (next) {
   this.timeStamp = Date.now();
