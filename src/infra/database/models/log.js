@@ -5,7 +5,12 @@ const _log = {};
 
 _log.schema = new Schema({
   invokerAddress: { type: String },
-  contractAddress: { type: String, lowercase: true, required: true },
+  contractAddress: {
+    type: String,
+    lowercase: true,
+    required: true,
+    index: true
+  },
   eventName: { type: String, required: true },
   fileId: { type: String },
   timeStamp: { type: Date, required: true, default: Date.now },
