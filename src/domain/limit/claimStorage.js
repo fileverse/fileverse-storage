@@ -21,7 +21,7 @@ async function claimStorage({ contractAddress, invokerAddress }) {
     }
   })
   await oldLimit.save();
-  const newStatus = await getStorageStatus({ contractAddress, invokerAddress });
+  const newStatus = await getStorageStatus({ contractAddress, invokerAddress, setCache: true });
   return newStatus;
 }
 

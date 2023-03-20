@@ -5,10 +5,10 @@ const { claims } = require("./claim");
 const NodeCache = require("node-cache");
 const storageClaimChache = new NodeCache({ stdTTL: 300 });
 
-async function formatClaims(invokerAddress, contractAddress, claimsMap) {
+async function formatClaims(invokerAddress, contractAddress, claimsMap, removeCache = false) {
   const cacheKey = `${invokerAddress}_${contractAddress}`;
   let claimsData = storageClaimChache.get(cacheKey);
-  if (!claimsData) {
+  if (!claimsData || removeCache) {
     const promises = claims.map(async (elem) => {
       const object = {};
       object.id = elem.id;
@@ -33,12 +33,12 @@ async function formatClaims(invokerAddress, contractAddress, claimsMap) {
   return claimData;
 }
 
-async function getStorageStatus({ contractAddress, invokerAddress }) {
+async function getStorageStatus({ contractAddress, invokerAddress, setCache = false }) {
   const limit = await Limit.findOne({ contractAddress });
   return {
     contractAddress,
     storageLimit: (limit && limit.storageLimit) || config.DEFAULT_STORAGE_LIMIT,
-    claims: await formatClaims(invokerAddress, contractAddress, limit && limit.claimsMap),
+    claims: await formatClaims(invokerAddress, contractAddress, limit && limit.claimsMap, setCache),
   };
 }
 
