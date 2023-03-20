@@ -1,27 +1,31 @@
+const config = require("../../../config");
 const { Limit } = require("../../infra/database/models");
-const getStorageStatus = require('./getStorageStatus');
+const getStorageStatus = require("./getStorageStatus");
 
 async function claimStorage({ contractAddress, invokerAddress }) {
-  const status = await getStorageStatus({ contractAddress, invokerAddress });
-  const possibleClaims = status.claims.filter(elem => elem.canClaim && !elem.claimed);
-  let oldLimit = await Limit.findOne({ contractAddress });
-  if (!oldLimit) {
-    oldLimit = new Limit({ contractAddress });
-  }
-  if (!oldLimit.storageLimit) {
-    oldLimit.storageLimit = status.storageLimit;
-  }
-  possibleClaims.map((elem) => {
-    if (!oldLimit.claimsMap) {
-      oldLimit.claimsMap = {};
+  const status = await getStorageStatus({
+    contractAddress,
+    invokerAddress,
+    setCache: true,
+  });
+  let storageLimit = Number(config.DEFAULT_STORAGE_LIMIT);
+  const claimsMap = {};
+  status.claims.map((elem) => {
+    if (elem.canClaim) {
+      claimsMap[elem.id] = elem.storage;
+      storageLimit += elem.storage;
     }
-    if (!oldLimit.claimsMap[elem.id]) {
-      oldLimit.claimsMap[elem.id] = elem.storage;
-      oldLimit.storageLimit += elem.storage;
-    }
-  })
-  await oldLimit.save();
-  const newStatus = await getStorageStatus({ contractAddress, invokerAddress });
+  });
+  await Limit.findOneAndUpdate(
+    { contractAddress },
+    { $set: { storageLimit, claimsMap } },
+    { upsert: true }
+  );
+  const newStatus = await getStorageStatus({
+    contractAddress,
+    invokerAddress,
+    setCache: true,
+  });
   return newStatus;
 }
 
