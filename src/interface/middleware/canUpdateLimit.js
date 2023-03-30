@@ -1,3 +1,5 @@
+const ErrorHandler = require('../../infra/errorHandler');
+
 async function canUpdateLimit(req, res, next) {
   const invokerAddress = req.invokerAddress;
   const contractAddress = req.contractAddress;
