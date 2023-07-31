@@ -1,3 +1,3 @@
 # Fileverse Storage
 
-Service to handle upload of file from authorised UCANs
+Service to handle upload of file from authorised UCANs.
