@@ -1,6 +1,6 @@
 const PortalContract = require('../domain/contract');
 const MemberCreds = require('node-cache');
-const cache = new MemberCreds();
+const cache = new MemberCreds({ stdTTL: 60 });
 
 module.exports = async function collaboratorKey({ contractAddress, invokerAddress, chainId }) {
     const network = PortalContract.networkFromChainId(chainId);
