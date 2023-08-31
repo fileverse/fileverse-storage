@@ -23,6 +23,9 @@ function fromNetworks(network) {
   if (network === 'gnosis_testnet') {
     return config.GNOSIS_TESTNET_RPC_URL;
   }
+  if (network === 'eth_scroll_sepolia') {
+    return config.ETH_SCROLL_SEPOLIA_RPC_URL;
+  }
   return null;
 }
 
