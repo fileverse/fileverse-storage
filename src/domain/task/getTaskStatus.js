@@ -22,7 +22,7 @@ async function formatTasks({
       object.points = elem.points;
       object.type = elem.type;
       object.category = elem.category;
-      object.completed = true;
+      object.completed = taskMap[elem.taskId] ? true : false;
       return object;
     });
     tasksData = await Promise.all(promises);

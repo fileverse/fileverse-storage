@@ -8,10 +8,14 @@ const completeValidation = {
     invoker: Joi.string().required(),
     chain: Joi.string().required(),
   }).unknown(true),
+  body: Joi.object({
+    taskId: Joi.string().required(),
+  }),
 };
 
 async function complete(req, res) {
   const { contractAddress, invokerAddress } = req;
+  const { taskId } = req.body;
   const data = await task.completeTask({ contractAddress, invokerAddress, taskId });
   res.json({ success: data });
 }
