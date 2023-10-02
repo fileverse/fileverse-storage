@@ -14,6 +14,6 @@ const complete = require('./complete');
 const { canCompleteTask, canListTask } = require('../middleware');
 
 router.get('/list', asyncHandler(canListTask), asyncHandlerArray(list));
-router.get('/complete', asyncHandler(canCompleteTask), asyncHandlerArray(complete));
+router.post('/complete', asyncHandler(canCompleteTask), asyncHandlerArray(complete));
 
 module.exports = router;

@@ -1,9 +1,10 @@
 const { Task } = require("../../infra/database/models");
 
-async function comepleteTask({ contractAddress, invokerAddress, taskId }) {
+async function completeTask({ contractAddress, invokerAddress, taskId }) {
   const taskStatus = await Task.findOne({ contractAddress }).lean();
   const taskMap = taskStatus && taskStatus.taskMap || {};
   taskMap[taskId] = invokerAddress;
+  console.log(taskMap);
   await Task.findOneAndUpdate(
     { contractAddress },
     { $set: { taskMap } },
@@ -12,4 +13,4 @@ async function comepleteTask({ contractAddress, invokerAddress, taskId }) {
   return true;
 }
 
-module.exports = comepleteTask;
+module.exports = completeTask;

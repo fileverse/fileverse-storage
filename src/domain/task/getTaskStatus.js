@@ -57,8 +57,8 @@ async function formatTaskStatus({
     taskMap,
     removeCache,
   });
-  const totalPoints = 0;
-  const collectedPoints = 0;
+  let totalPoints = 0;
+  let collectedPoints = 0;
   tasks.map((elem) => {
     totalPoints += elem.points;
     if (elem.completed) {
@@ -82,10 +82,11 @@ async function getTaskStatus({
   setCache = false,
 }) {
   const taskStatus = await Task.findOne({ contractAddress });
+  console.log({ taskStatus });
   const { tasks, rank, totalPoints, collectedPoints } = await formatTaskStatus({
     invokerAddress,
     contractAddress,
-    taskMap: taskStatus && taskStatus.taskMap,
+    taskMap: taskStatus && taskStatus.taskMap || {},
     removeCache: setCache,
   });
   return {
