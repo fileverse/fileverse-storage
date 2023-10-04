@@ -7,4 +7,6 @@ module.exports = {
   canCheckLimit: require('./canCheckLimit'),
   canUpdateLimit: require('./canUpdateLimit'),
   canCheckLimitUse: require('./canCheckLimitUse'),
+  canListTask: require('./canListTask'),
+  canCompleteTask: require('./canCompleteTask'),
 };
