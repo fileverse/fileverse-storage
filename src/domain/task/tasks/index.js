@@ -27,7 +27,7 @@ module.exports = {
       points: 50,
       completed: isCompleted,
       type: "ENS",
-      category: "ACHIEVEMENT",
+      category: "ONCHAIN",
     },
   ],
 };
