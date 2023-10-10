@@ -94,7 +94,7 @@ async function formatTaskStatus({
 async function getTaskStatus({
   contractAddress,
   invokerAddress,
-  setCache = false,
+  setCache = true,
 }) {
   const taskStatus = await Task.findOne({ contractAddress });
   console.log({ taskStatus });
