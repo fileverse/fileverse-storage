@@ -45,10 +45,28 @@ function getRank({ totalPoints, collectedPoints }) {
   return "explorer 4";
 }
 
-function getStorage() {
+function getStorage({
+  totalPoints,
+  collectedPoints,
+}) {
+  const totalUnlockableStorage = 1000000000;
+  const percent = parseInt((collectedPoints / totalPoints) * 100, 10);
+  let unlockedStorage = 0;
+  if (percent > 30) {
+    unlockedStorage = totalUnlockableStorage * 0.30;
+  }
+  if (percent > 60) {
+    unlockedStorage = totalUnlockableStorage * 0.60;
+  }
+  if (percent > 80) {
+    unlockedStorage = totalUnlockableStorage * 0.80;
+  }
+  if (percent === 100) {
+    unlockedStorage = totalUnlockableStorage;
+  }
   return {
-    totalUnlockableStorage: 1000000000,
-    unlockedStorage: 200000000,
+    totalUnlockableStorage,
+    unlockedStorage,
     storageUnit: "byte",
   };
 }
@@ -73,6 +91,10 @@ async function formatTaskStatus({
       collectedPoints += elem.points;
     }
   });
+  const rank = getRank({
+    totalPoints,
+    collectedPoints,
+  });
   const { totalUnlockableStorage, unlockedStorage, storageUnit } = getStorage({
     totalPoints,
     collectedPoints,
@@ -81,10 +103,7 @@ async function formatTaskStatus({
     tasks,
     totalPoints,
     collectedPoints,
-    rank: getRank({
-      totalPoints,
-      collectedPoints,
-    }),
+    rank,
     totalUnlockableStorage,
     unlockedStorage,
     storageUnit,
@@ -97,7 +116,6 @@ async function getTaskStatus({
   setCache = true,
 }) {
   const taskStatus = await Task.findOne({ contractAddress });
-  console.log({ taskStatus });
   const {
     tasks,
     rank,
