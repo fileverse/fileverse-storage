@@ -13,6 +13,11 @@ _log.schema = new Schema({
   },
   eventName: { type: String, required: true },
   fileId: { type: String },
+  tags: {
+    type: [String],
+    index: true,
+    default: [],
+  },
   timeStamp: { type: Date, required: true, default: Date.now },
 });
 
