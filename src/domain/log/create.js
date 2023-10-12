@@ -5,7 +5,7 @@ async function create(eventName, { fileId, contractAddress, invokerAddress, ipfs
   const logObject = await new Log({ eventName, fileId, contractAddress, invokerAddress, ipfsHash, tags }).save();
   const safeLog = logObject.safeObject();
   // process logs
-  await process(contractAddress, 'system', safeLog)
+  await process(contractAddress, invokerAddress, safeLog)
   return safeLog;
 }
 
