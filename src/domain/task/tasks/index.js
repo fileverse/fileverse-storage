@@ -1,6 +1,11 @@
+const getRank = require('./getRank');
+const getStorage = require('./getStorage');
+
 function isCompleted() { return true };
 
 module.exports = {
+  getRank,
+  getStorage,
   tasks: [
     {
       taskId: "PRIVATE_KEY_DOWNLOAD",

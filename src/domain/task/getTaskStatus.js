@@ -1,6 +1,6 @@
 const config = require("../../../config");
 const { Task } = require("../../infra/database/models");
-const { tasks } = require("./tasks");
+const { tasks, getRank, getStorage } = require("./tasks");
 
 const NodeCache = require("node-cache");
 const taskChache = new NodeCache({ stdTTL: 300 });
@@ -31,50 +31,11 @@ async function formatTasks({
   return tasksData;
 }
 
-function getRank({ totalPoints, collectedPoints }) {
-  const percent = parseInt((collectedPoints / totalPoints) * 100, 10);
-  if (percent < 30) {
-    return "explorer 1";
-  }
-  if (percent < 60) {
-    return "explorer 2";
-  }
-  if (percent < 80) {
-    return "explorer 3";
-  }
-  return "explorer 4";
-}
-
-function getStorage({
-  totalPoints,
-  collectedPoints,
-}) {
-  const totalUnlockableStorage = 1000000000;
-  const percent = parseInt((collectedPoints / totalPoints) * 100, 10);
-  let unlockedStorage = 0;
-  if (percent > 30) {
-    unlockedStorage = totalUnlockableStorage * 0.30;
-  }
-  if (percent > 60) {
-    unlockedStorage = totalUnlockableStorage * 0.60;
-  }
-  if (percent > 80) {
-    unlockedStorage = totalUnlockableStorage * 0.80;
-  }
-  if (percent === 100) {
-    unlockedStorage = totalUnlockableStorage;
-  }
-  return {
-    totalUnlockableStorage,
-    unlockedStorage,
-    storageUnit: "byte",
-  };
-}
-
 async function formatTaskStatus({
   invokerAddress,
   contractAddress,
   taskMap,
+  currentRank,
   removeCache,
 }) {
   const tasks = await formatTasks({
@@ -91,22 +52,25 @@ async function formatTaskStatus({
       collectedPoints += elem.points;
     }
   });
-  const rank = getRank({
-    totalPoints,
+  const newRank = getRank({
     collectedPoints,
   });
+  let canLevelUp = false;
+  if (currentRank !== newRank) {
+    canLevelUp = true;
+  }
   const { totalUnlockableStorage, unlockedStorage, storageUnit } = getStorage({
-    totalPoints,
-    collectedPoints,
+    rank: currentRank,
   });
   return {
     tasks,
     totalPoints,
     collectedPoints,
-    rank,
+    rank: currentRank,
     totalUnlockableStorage,
     unlockedStorage,
     storageUnit,
+    canLevelUp,
   };
 }
 
@@ -116,23 +80,26 @@ async function getTaskStatus({
   setCache = true,
 }) {
   const taskStatus = await Task.findOne({ contractAddress });
+  const currentRank = taskStatus && taskStatus.rank || 'explorer';
   const {
     tasks,
-    rank,
     totalPoints,
     collectedPoints,
     totalUnlockableStorage,
     unlockedStorage,
     storageUnit,
+    canLevelUp,
   } = await formatTaskStatus({
     invokerAddress,
     contractAddress,
     taskMap: (taskStatus && taskStatus.taskMap) || {},
+    currentRank,
     removeCache: setCache,
   });
   return {
     tasks,
-    rank,
+    rank: currentRank,
+    canLevelUp,
     totalPoints,
     collectedPoints,
     totalUnlockableStorage,
