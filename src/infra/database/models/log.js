@@ -35,6 +35,7 @@ _log.schema.methods.safeObject = function () {
     "invokerAddress",
     "contractAddress",
     "fileId",
+    "tags",
     "timeStamp",
   ];
   const newSafeObject = {};
