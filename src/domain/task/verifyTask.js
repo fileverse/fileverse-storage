@@ -1,8 +1,8 @@
-const TaskList = require("./tasks");
+const { tasks } = require("./tasks");
 const { Task } = require("../../infra/database/models");
 
 async function verifyTask({ contractAddress, invokerAddress, taskId }) {
-  const onchainTaskIds = TaskList.filter(
+  const onchainTaskIds = tasks.filter(
     (elem) => elem.category === "ONCHAIN"
   ).map((elem) => elem.taskId);
   if (!onchainTaskIds.includes(taskId)) return false;
