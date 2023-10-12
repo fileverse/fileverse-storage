@@ -104,10 +104,10 @@ module.exports = {
     {
       taskId: "COMMENT_ON_10_FILES",
       name: "Comment on 10 Files",
-      activityType: "CLIENT",
+      activityType: "AUTO",
       points: 50,
       completed: isCompleted,
-      type: "CREATE",
+      type: "CHAT",
       category: "ACHIEVEMENT",
     },
     {

@@ -12,7 +12,7 @@ async function canCompleteTask(req, res, next) {
     }
     return ErrorHandler.throwError({
       code: statusCode,
-      message: `${invokerAddress} does not have permission to update limit for portal ${contractAddress}`,
+      message: `${invokerAddress} does not have permission to complete tasks for portal ${contractAddress}`,
       req,
     });
   }

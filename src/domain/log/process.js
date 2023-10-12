@@ -53,6 +53,12 @@ async function completeTasks({
     taskIds.push("PUBLISH_PUBLIC_DPAGE");
   }
   if (
+    tagStats["fileverse_chat"] > 0 &&
+    currentTags.includes("fileverse_chat")
+  ) {
+    taskIds.push("CHAT_ON_FILE");
+  }
+  if (
     tagStats["fileverse_dpage"] >= 3 &&
     currentTags.includes("fileverse_dpage")
   ) {
@@ -78,11 +84,18 @@ async function completeTasks({
   ) {
     taskIds.push("PUBLISH_10_PUBLIC_DDOCS");
   }
+  if (
+    tagStats["fileverse_chat"] >= 10 &&
+    currentTags.includes("fileverse_chat")
+  ) {
+    taskIds.push("COMMENT_ON_10_FILES");
+  }
+
   if (taskIds.length === 0) return;
   await completeMultipleTask({ contractAddress, invokerAddress, taskIds });
 }
 
-async function process(contractAddress, invokerAddress, log) {
+async function process(contractAddress, invokerAddress = 'system', log) {
   const currentTags = log.tags || [];
   if (currentTags.length === 0) {
     return;
