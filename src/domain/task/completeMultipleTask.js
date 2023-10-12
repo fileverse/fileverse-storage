@@ -4,11 +4,10 @@ async function completeMultipleTask({ contractAddress, invokerAddress, taskIds }
   const taskStatus = await Task.findOne({ contractAddress }).lean();
   const taskMap = taskStatus && taskStatus.taskMap || {};
   taskIds.map(elem => {
-    if (!taskMap[taskId]) {
-      taskMap[taskId] = invokerAddress;
+    if (!taskMap[elem]) {
+      taskMap[elem] = invokerAddress;
     }
   })
-  console.log(taskMap);
   await Task.findOneAndUpdate(
     { contractAddress },
     { $set: { taskMap } },
