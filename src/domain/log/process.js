@@ -83,7 +83,7 @@ async function completeTasks({
 }
 
 async function process(contractAddress, invokerAddress, log) {
-  const currentTags = log.tags;
+  const currentTags = log.tags || [];
   if (currentTags.length === 0) {
     return;
   }
