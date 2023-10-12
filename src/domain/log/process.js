@@ -19,62 +19,62 @@ async function completeTasks({
   const taskIds = [];
   if (
     tagStats["fileverse_files"] > 0 &&
-    currentTags.contains("fileverse_files") &&
-    currentTags.contains("public")
+    currentTags.includes("fileverse_files") &&
+    currentTags.includes("public")
   ) {
     taskIds.push("PUBLISH_PUBLIC_DDOC");
   }
   if (
     tagStats["fileverse_files"] > 0 &&
-    currentTags.contains("fileverse_files") &&
-    currentTags.contains("private")
+    currentTags.includes("fileverse_files") &&
+    currentTags.includes("private")
   ) {
     taskIds.push("UPLOAD_PUBLIC_FILE");
   }
   if (
     tagStats["fileverse_documents"] > 0 &&
-    currentTags.contains("fileverse_documents") &&
-    currentTags.contains("public")
+    currentTags.includes("fileverse_documents") &&
+    currentTags.includes("public")
   ) {
     taskIds.push("PUBLISH_PUBLIC_DDOC");
   }
   if (
     tagStats["fileverse_whiteboard"] > 0 &&
-    currentTags.contains("fileverse_whiteboard") &&
-    currentTags.contains("private")
+    currentTags.includes("fileverse_whiteboard") &&
+    currentTags.includes("private")
   ) {
     taskIds.push("PUBLISH_PRIVATE_WHITEBOARD");
   }
   if (
     tagStats["fileverse_dpage"] > 0 &&
-    currentTags.contains("fileverse_dpage") &&
-    currentTags.contains("public")
+    currentTags.includes("fileverse_dpage") &&
+    currentTags.includes("public")
   ) {
     taskIds.push("PUBLISH_PUBLIC_DPAGE");
   }
   if (
     tagStats["fileverse_dpage"] >= 3 &&
-    currentTags.contains("fileverse_dpage")
+    currentTags.includes("fileverse_dpage")
   ) {
     taskIds.push("CREATE_PUBLISH_3_DPAGES");
   }
   if (
     tagStats["fileverse_documents"] >= 3 &&
-    currentTags.contains("fileverse_documents")
+    currentTags.includes("fileverse_documents")
   ) {
     taskIds.push("CREATE_PUBLISH_3_DDOCS");
   }
   if (
     tagStats["fileverse_whiteboard"] >= 10 &&
-    currentTags.contains("fileverse_whiteboard") &&
-    currentTags.contains("public")
+    currentTags.includes("fileverse_whiteboard") &&
+    currentTags.includes("public")
   ) {
     taskIds.push("PUBLISH_10_PUBLIC_WHITEBOARDS");
   }
   if (
     tagStats["fileverse_documents"] >= 10 &&
-    currentTags.contains("fileverse_documents") &&
-    currentTags.contains("public")
+    currentTags.includes("fileverse_documents") &&
+    currentTags.includes("public")
   ) {
     taskIds.push("PUBLISH_10_PUBLIC_DDOCS");
   }
