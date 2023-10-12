@@ -10,6 +10,7 @@ _task.schema = new Schema({
     required: true,
     index: true,
   },
+  rank: { type: String, default: 'explorer' },
   taskMap: { type: Schema.Types.Mixed },
   timeStamp: {
     type: Date,
@@ -28,6 +29,7 @@ _task.schema.methods.safeObject = function () {
     '_id',
     'contractAddress',
     'taskMap',
+    'rank',
     'timeStamp',
   ];
   const newSafeObject = {};
