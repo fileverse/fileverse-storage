@@ -1,4 +1,5 @@
 // best way is to process the logs and increment the stats in the DB per portal
+// fileverse_chat -> File
 // fileverse_files -> File
 // fileverse_documents -> DDocs
 // fileverse_whiteboard -> Whiteboard

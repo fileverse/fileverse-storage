@@ -1,3 +1,4 @@
+const { Task } = require("../../infra/database/models");
 const { getRank } = require('./tasks');
 const getTaskStatus = require('./getTaskStatus');
 
