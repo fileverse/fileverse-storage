@@ -1,11 +1,21 @@
 const getRank = require('./getRank');
 const getStorage = require('./getStorage');
+const ownsENSHandle = require('./ownsENSHandle');
+const ownsFarcasterHandle = require('./ownsFarcasterHandle');
+const ownsLensHandle = require('./ownsLensHandle');
+const ownsSafeMultiSig = require('./ownsSafeMultiSig');
+const ownsGitcoinPassport = require('./ownsGitcoinPassport');
 
 function isCompleted() { return true };
 
 module.exports = {
   getRank,
   getStorage,
+  ownsENSHandle,
+  ownsFarcasterHandle,
+  ownsLensHandle,
+  ownsSafeMultiSig,
+  ownsGitcoinPassport,
   tasks: [
     {
       taskId: "PRIVATE_KEY_DOWNLOAD",
