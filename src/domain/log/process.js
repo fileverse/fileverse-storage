@@ -23,7 +23,7 @@ async function completeTasks({
     currentTags.includes("fileverse_files") &&
     currentTags.includes("public")
   ) {
-    taskIds.push("PUBLISH_PUBLIC_FILE");
+    taskIds.push("UPLOAD_PUBLIC_FILE");
   }
   if (
     tagStats["fileverse_files"] > 0 &&
