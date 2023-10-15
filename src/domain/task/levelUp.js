@@ -1,16 +1,17 @@
 const { Task, Limit } = require("../../infra/database/models");
-const { getRank, getStorage } = require('./tasks');
-const getTaskStatus = require('./getTaskStatus');
+const { getRank, getStorage } = require("./tasks");
+const getTaskStatus = require("./getTaskStatus");
 
 async function updateStorageLimit({ contractAddress, addedStorage }) {
-  await Limit.findOneAndUpdate(
-    { contractAddress },
-    { $inc: { storageLimit } },
-  );
+  await Limit.findOneAndUpdate({ contractAddress }, { $inc: { storageLimit: addedStorage } });
 }
 
 async function levelUp({ contractAddress, invokerAddress }) {
-  const { collectedPoints, canLevelUp, rank: currentRank } = await getTaskStatus({ contractAddress, invokerAddress });
+  const {
+    collectedPoints,
+    canLevelUp,
+    rank: currentRank,
+  } = await getTaskStatus({ contractAddress, invokerAddress });
   if (!canLevelUp) {
     return false;
   }
