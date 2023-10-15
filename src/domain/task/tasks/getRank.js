@@ -1,5 +1,5 @@
 function getRank({ collectedPoints }) {
-  if (collectedPoints >= 740) {
+  if (collectedPoints >= 580) {
     return "open-sourcerer-gold";
   }
   if (collectedPoints >= 440) {
