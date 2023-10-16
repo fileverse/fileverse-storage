@@ -24,7 +24,7 @@ async function levelUp({ contractAddress, invokerAddress }) {
   const currentStorage = getStorage({ rank: currentRank });
   const newRank = getRank({ collectedPoints });
   const newStorage = getStorage({ rank: newRank });
-  const addedStorage = newStorage - currentStorage;
+  const addedStorage = newStorage.unlockedStorage - currentStorage.unlockedStorage;
   // add to the limit
   await updateStorageLimit({ contractAddress, addedStorage });
   await Task.findOneAndUpdate(
