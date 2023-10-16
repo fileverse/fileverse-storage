@@ -7,17 +7,19 @@ const createValidation = {
     eventName: Joi.string().required(),
     fileId: Joi.string().required(),
     ipfsHash: Joi.string().optional(),
+    tags: Joi.array().optional(),
   }),
 };
 
 async function create(req, res) {
   const { contractAddress, invokerAddress } = req;
-  const { eventName, fileId, ipfsHash } = req.body;
+  const { eventName, fileId, ipfsHash, tags } = req.body;
   const createdData = await log.create(eventName, {
     fileId,
     contractAddress,
     invokerAddress,
     ipfsHash,
+    tags,
   });
   res.json(createdData);
 }
