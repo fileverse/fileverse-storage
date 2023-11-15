@@ -167,5 +167,21 @@ module.exports = {
       type: "GITCOIN",
       category: "ONCHAIN",
     },
+    {
+      taskId: "CREATE_TWITTER_POST",
+      name: "Create a twitter post!",
+      activityType: "CLIENT",
+      points: 50,
+      type: "CREATE",
+      category: "ACHIEVEMENT",
+    },
+    {
+      taskId: "CREATE_TWITTER_POST",
+      name: "Create a lenster post!",
+      activityType: "CLIENT",
+      points: 50,
+      type: "CREATE",
+      category: "ACHIEVEMENT",
+    },
   ],
 };
