@@ -43,13 +43,20 @@ async function formatTaskStatus({
     contractAddress,
     taskMap,
     removeCache,
-  });
+  });  
+  const categoryInitData = { totalPoints: 0, collectedPoints: 0 };
+  const categoryMap = {};
   let totalPoints = 0;
   let collectedPoints = 0;
   tasks.map((elem) => {
+    if (!categoryMap[elem.category]) {
+      categoryMap[elem.category] = { ...categoryInitData };
+    }
     totalPoints += elem.points;
+    categoryMap[elem.category].totalPoints += elem.points;
     if (elem.completed) {
       collectedPoints += elem.points;
+      categoryMap[elem.category].collectedPoints += elem.points;
     }
   });
   const newRank = getRank({
@@ -71,6 +78,7 @@ async function formatTaskStatus({
     unlockedStorage,
     storageUnit,
     canLevelUp,
+    categoryMap,
   };
 }
 
@@ -89,6 +97,7 @@ async function getTaskStatus({
     unlockedStorage,
     storageUnit,
     canLevelUp,
+    categoryMap,
   } = await formatTaskStatus({
     invokerAddress,
     contractAddress,
@@ -105,6 +114,7 @@ async function getTaskStatus({
     totalUnlockableStorage,
     unlockedStorage,
     storageUnit,
+    categoryMap,
   };
 }
 
