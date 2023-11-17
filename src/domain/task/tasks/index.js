@@ -176,7 +176,7 @@ module.exports = {
       category: "ACHIEVEMENT",
     },
     {
-      taskId: "CREATE_TWITTER_POST",
+      taskId: "CREATE_LENSTER_POST",
       name: "Create a lenster post!",
       activityType: "CLIENT",
       points: 50,
