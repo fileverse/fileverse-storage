@@ -72,14 +72,6 @@ module.exports = {
       category: "DISCOVERY",
     },
     {
-      taskId: "UPLOAD_PRIVATE_FILE",
-      name: "Upload a private file",
-      activityType: "AUTO",
-      points: 10,
-      type: "UPLOAD",
-      category: "DISCOVERY",
-    },
-    {
       taskId: "INVITE_PORTAL_COLLABORATOR",
       name: "Invite a collaborator to a portal",
       activityType: "CLIENT",
