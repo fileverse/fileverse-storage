@@ -32,6 +32,14 @@ module.exports = {
       category: "DISCOVERY",
     },
     {
+      taskId: "UPLOAD_PRIVATE_FILE",
+      name: "Upload a private file",
+      activityType: "AUTO",
+      points: 10,
+      type: "UPLOAD",
+      category: "DISCOVERY",
+    },
+    {
       taskId: "PUBLISH_PUBLIC_DPAGE",
       name: "Publish a public dPage",
       activityType: "AUTO",
