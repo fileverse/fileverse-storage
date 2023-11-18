@@ -19,7 +19,7 @@ async function completeTasks({
 }) {
   const taskIds = [];
   if (
-    tagStats["fileverse_files"] > 0 &&
+    tagStats["fileverse_files"] >= 3 &&
     currentTags.includes("fileverse_files") &&
     currentTags.includes("public")
   ) {
