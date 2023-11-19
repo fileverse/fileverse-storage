@@ -25,7 +25,7 @@ module.exports = {
     },
     {
       taskId: "UPLOAD_PUBLIC_FILE",
-      name: "Upload 3 public file",
+      name: "Upload 3 public files",
       activityType: "AUTO",
       points: 10,
       type: "UPLOAD",
@@ -81,7 +81,7 @@ module.exports = {
     },
     {
       taskId: "INVITE_PORTAL_COLLABORATOR",
-      name: "Invite a collaborator to a portal",
+      name: "Invite a collaborator to your portal",
       activityType: "CLIENT",
       points: 10,
       type: "GROUP",
@@ -97,7 +97,7 @@ module.exports = {
     },
     {
       taskId: "CREATE_PUBLISH_3_DPAGES",
-      name: "Create and publish 3 DPages",
+      name: "Create and publish 3 dPages",
       activityType: "AUTO",
       points: 25,
       type: "CREATE",
@@ -105,7 +105,7 @@ module.exports = {
     },
     {
       taskId: "CREATE_PUBLISH_3_DDOCS",
-      name: "Create and publish 3 DDocs",
+      name: "Create and publish 3 dDocs",
       activityType: "AUTO",
       points: 25,
       type: "CREATE",
@@ -129,7 +129,7 @@ module.exports = {
     },
     {
       taskId: "PUBLISH_10_PUBLIC_DDOCS",
-      name: "Publish 10 Public DDocs",
+      name: "Publish 10 Public dDocs",
       activityType: "AUTO",
       points: 50,
       type: "CREATE",
@@ -137,7 +137,7 @@ module.exports = {
     },
     {
       taskId: "CREATE_LENSTER_POST",
-      name: "Share a dPage on Hey!",
+      name: "Share a dPage on Hey",
       activityType: "CLIENT",
       points: 50,
       type: "CREATE",
