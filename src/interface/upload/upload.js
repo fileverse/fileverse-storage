@@ -21,7 +21,7 @@ async function uploadFn(req, res) {
     chainId,
     file: req.files && req.files.file,
     tags,
-  });
+  }).catch(console.log);
   await Log.create('upload', { contractAddress, invokerAddress, ipfsHash: createdFile.ipfsHash, tags });
   res.json(createdFile);
 }
