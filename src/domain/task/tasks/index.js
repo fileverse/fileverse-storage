@@ -17,7 +17,7 @@ module.exports = {
   tasks: [
     {
       taskId: "PRIVATE_KEY_DOWNLOAD",
-      name: "Download your private keys",
+      name: "Download your encryption keys",
       activityType: "CLIENT",
       points: 50,
       type: "SECURITY",
@@ -81,7 +81,7 @@ module.exports = {
     },
     {
       taskId: "INVITE_PORTAL_COLLABORATOR",
-      name: "Invite a collaborator to your portal",
+      name: "Invite a collaborator",
       activityType: "CLIENT",
       points: 10,
       type: "GROUP",
