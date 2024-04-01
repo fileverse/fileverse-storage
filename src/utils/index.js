@@ -1,0 +1,1 @@
+export { getTotalAllowedStorage } from "./storageUtils";
