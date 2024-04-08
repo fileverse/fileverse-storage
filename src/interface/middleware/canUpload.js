@@ -1,18 +1,12 @@
 const getStorageUse = require("../../domain/limit/getStorageUse");
 const ErrorHandler = require("../../infra/errorHandler");
-const { getTotalAllowedStorage } = require("../../utils");
 
 async function canUpload(req, res, next) {
   const invokerAddress = req.invokerAddress;
   const contractAddress = req.contractAddress;
   if (req.isAuthenticated) {
     const limit = await getStorageUse({ contractAddress });
-
-    const totalAllowedStorage = getTotalAllowedStorage({
-      address: contractAddress,
-      defaultStorage: limit.storageLimit,
-    });
-
+    const totalAllowedStorage = limit.storageLimit + limit.extraStorage;
     if (limit.storageUse < totalAllowedStorage) {
       next();
     } else {
