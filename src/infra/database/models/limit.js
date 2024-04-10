@@ -1,5 +1,5 @@
-const config = require('../../../../config');
-const mongoose = require('mongoose');
+const config = require("../../../../config");
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const _limit = {};
@@ -19,7 +19,11 @@ _limit.schema = new Schema({
     type: Number,
     default: 0,
   },
-  unit: { type: String, default: 'bytes' },
+  extraStorage: {
+    type: Number,
+    default: 0,
+  },
+  unit: { type: String, default: "bytes" },
   claimsMap: { type: Schema.Types.Mixed },
   timeStamp: {
     type: Date,
@@ -28,17 +32,18 @@ _limit.schema = new Schema({
   },
 });
 
-_limit.schema.pre('save', function (next) {
+_limit.schema.pre("save", function (next) {
   this.timeStamp = Date.now();
   next();
 });
 
 _limit.schema.methods.safeObject = function () {
   const safeFields = [
-    '_id',
-    'contractAddress',
-    'storageLimit',
-    'timeStamp',
+    "_id",
+    "contractAddress",
+    "storageLimit",
+    "timeStamp",
+    "extraStorage",
   ];
   const newSafeObject = {};
   safeFields.forEach((elem) => {
@@ -48,6 +53,6 @@ _limit.schema.methods.safeObject = function () {
   return newSafeObject;
 };
 
-_limit.model = mongoose.model('limits', _limit.schema);
+_limit.model = mongoose.model("limits", _limit.schema);
 
 module.exports = _limit;

@@ -1,5 +1,5 @@
-const { limit } = require('../../domain');
-const { validator } = require('../middleware');
+const { limit } = require("../../domain");
+const { validator } = require("../middleware");
 const { Joi, validate } = validator;
 
 const useValidation = {
@@ -14,7 +14,7 @@ async function use(req, res) {
   const { contractAddress, invokerAddress, chainId } = req;
   console.log({ contractAddress, invokerAddress, chainId });
   const data = await limit.getStorageUse({ contractAddress, invokerAddress });
-  res.json(data);
+  res.json({ ...data, storageLimit: data.storageLimit + data.extraStorage });
 }
 
 module.exports = [validate(useValidation), use];
