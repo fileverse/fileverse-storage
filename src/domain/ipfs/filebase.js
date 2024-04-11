@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const { config } = require('dotenv');
+const config = require('../../../config');
 const IpfsStorageInterface = require('./interface');
 
 class FileBase extends IpfsStorageInterface {
@@ -8,8 +8,15 @@ class FileBase extends IpfsStorageInterface {
         this.accessKey = config.FILEBASE_ACCESS_KEY
         this.secret = config.FILEBASE_SECRET
         this.access_token = this.get_access_token()
-        this.bucket_config = JSON.parse(config.FILEBASE_BUCKET)
-        this.s3 = new AWS.S3({ endpoint: 'https://s3.filebase.com', signatureVersion: 'v4' })
+
+        this.s3 = new AWS.S3({
+            apiVersion: '2006-03-01',
+            accessKeyId: this.accessKey,
+            secretAccessKey: this.secret,
+            endpoint: 'https://s3.filebase.com',
+            region: 'us-east-1',
+            s3ForcePathStyle: true
+        })
     }
 
     get_access_token() {
@@ -18,35 +25,38 @@ class FileBase extends IpfsStorageInterface {
     }
 
     async upload(readableStreamForFile, { name, attribute }) {
-        let params = {
-            Bucket: attribute,
+        let bucket_name = attribute ? attribute : "test-fileverse"
+
+        let uploadParams = {
+            Bucket: bucket_name,
             Key: name,
-            ContentType: 'text/plain'
+            Body: readableStreamForFile,
+            ACL: 'public-read'
         };
 
-        self.s3.putObject(params, function (error, data) {
-            if (error) {
-                console.error(error);
-            } else {
-                console.log('Successfully uploaded file' + name + ":" + bucket);
+        this.s3.putObject(uploadParams, function (err, data) {
+            if (err) {
+                console.log("Error", err.message);
+            }
+            else if (data) {
+                console.log("Upload Success", data.Location);
+            }
+            else {
+                console.log("Something else")
             }
         });
 
-        // pin after file upload? NO. we don't
-        // return struct
     }
 
 
     async get({ ipfsUrl }) {
         let params = {
             Key: ipfsUrl,
-            Bucket: bucket
+            Bucket: "test-fileverse"
         };
 
-        // Do we need to get pinned object from IPFS? NO
-        // or the object itself.  We'll get the object itself.
         try {
-            self.s3.getObject(params, function (error, data) {
+            this.s3.getObject(params, function (error, data) {
                 if (error) {
                     console.log("Error while reading file " + key + ":" + bucket);
                     return callback("Error!");

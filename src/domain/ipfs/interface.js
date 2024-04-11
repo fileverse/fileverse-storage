@@ -14,3 +14,5 @@ class IpfsStorageInterface {
         throw new Error('No Ipfs storage service found');
     }
 }
+
+module.exports = IpfsStorageInterface;

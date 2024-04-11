@@ -13,6 +13,7 @@ const FileBase = require('./filebase');
  */
 function GetIpfsService(ipfsStorage) {
   let defaultService = config.DEFAULT_IPFS_SERVICE ? config.DEFAULT_IPFS_SERVICE : 'pinata';
+  ipfsStorage = ipfsStorage ? ipfsStorage : defaultService;
 
   switch (ipfsStorage) {
     case 'web3.storage':
@@ -23,7 +24,7 @@ function GetIpfsService(ipfsStorage) {
       return new FileBase();
     default:
       console.error(`Invalid IPFS storage: ${ipfsStorage}. Using default IPFS storage: ${defaultService}`);
-      return getIpfsService(defaultService)
+      return GetIpfsService(defaultService)
   }
 }
 

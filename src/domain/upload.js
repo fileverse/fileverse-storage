@@ -1,7 +1,7 @@
 const { Readable } = require('stream');
 const File = require('./file');
 const Cache = require('./cache');
-const GetIpfsService = require('./ipfs');
+const { GetIpfsService } = require('./ipfs');
 const cache = new Cache();
 
 async function upload({ fileId, chainId, contractAddress, file, invokerAddress, tags }) {
