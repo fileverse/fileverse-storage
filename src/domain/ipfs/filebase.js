@@ -15,7 +15,7 @@ class FileBase extends IpfsStorageInterface {
             secretAccessKey: this.secret,
             endpoint: 'https://s3.filebase.com',
             region: 'us-east-1',
-            s3ForcePathStyle: true
+            signatureVersion: 'v4',
         })
     }
 
@@ -31,10 +31,10 @@ class FileBase extends IpfsStorageInterface {
             Bucket: bucket_name,
             Key: name,
             Body: readableStreamForFile,
-            ACL: 'public-read'
+            Metadata: { import: "car" }
         };
 
-        this.s3.putObject(uploadParams, function (err, data) {
+        const request = this.s3.putObject(uploadParams, function (err, data) {
             if (err) {
                 console.log("Error", err.message);
             }
@@ -45,6 +45,11 @@ class FileBase extends IpfsStorageInterface {
                 console.log("Something else")
             }
         });
+
+        request.on('httpHeaders', (statusCode, headers) => {
+            console.log(`CID: ${headers['x-amz-meta-cid']}`);
+        });
+        request.send();
 
     }
 
