@@ -1,15 +1,14 @@
 const { Readable } = require('stream');
 const File = require('./file');
 const Cache = require('./cache');
-const IPFS = require('./ipfs');
+const GetIpfsService = require('./ipfs');
 const cache = new Cache();
-const ipfs = new IPFS();
 
 async function upload({ fileId, chainId, contractAddress, file, invokerAddress, tags }) {
   const { name, mimetype, data } = file;
   const stream = Readable.from(data);
   stream.path = name;
-  const ipfsFile = await ipfs.upload(stream, { name });
+  const ipfsFile = await GetIpfsService().upload(stream, { name });
   const cachedFile = await cache.queue(ipfsFile);
   // add file to db
   await File.create({
