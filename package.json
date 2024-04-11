@@ -15,6 +15,7 @@
   "author": "Vijay Krishnavanshi",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.552.0",
     "@pinata/sdk": "^1.1.26",
     "aws-sdk": "^2.1209.0",
     "bunyan": "^1.8.15",
