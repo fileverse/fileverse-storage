@@ -30,7 +30,6 @@ class Web3StorageService extends IpfsStorageInterface {
       return null;
     }
     const authenticUrl = `https://w3s.link/ipfs/${ipfsUrl}`;
-    console.log(authenticUrl);
     const ipfsStream = new PassThrough();
     request(authenticUrl).pipe(ipfsStream);
     return ipfsStream;
