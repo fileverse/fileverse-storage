@@ -23,7 +23,7 @@ class Pinata extends IpfsStorageInterface {
     };
   }
 
-  async upload(readableStreamForFile, { name, attributes }) {
+  async upload(readableStreamForFile, { name, attributes, filesize }) {
     const keyvalues = {};
     (attributes || []).forEach((attribute) => {
       keyvalues[attribute.trait_type] = attribute.value;

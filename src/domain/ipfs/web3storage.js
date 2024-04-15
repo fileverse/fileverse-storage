@@ -10,7 +10,7 @@ class Web3StorageService extends IpfsStorageInterface {
     this.client = new Web3Storage({ token: config.WEB3STORAGE_TOKEN });
   }
 
-  async upload(readableStreamForFile, { name }) {
+  async upload(readableStreamForFile, { name, attribute, filesize }) {
     const cid = await this.client.put([
       { name, stream: () => readableStreamForFile },
     ]);

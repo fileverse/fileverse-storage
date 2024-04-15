@@ -8,7 +8,8 @@ async function upload({ fileId, chainId, contractAddress, file, invokerAddress, 
   const { name, mimetype, data } = file;
   const stream = Readable.from(data);
   stream.path = name;
-  const ipfsFile = await GetIpfsService().upload(stream, { name });
+  const filesize = data.length;
+  const ipfsFile = await GetIpfsService().upload(stream, { name, filesize });
   const cachedFile = await cache.queue(ipfsFile);
   // add file to db
   await File.create({

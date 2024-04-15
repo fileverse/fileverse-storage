@@ -2,7 +2,7 @@ class IpfsStorageInterface {
     constructor() {
 
     }
-    async upload(readableStreamForFile, { name, attribute }) {
+    async upload(readableStreamForFile, { name, attribute, filesize }) {
         throw new Error('No Ipfs storage service found');
     }
 

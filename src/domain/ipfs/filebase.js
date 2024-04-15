@@ -1,94 +1,122 @@
-const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
-const config = require('../../../config');
-const IpfsStorageInterface = require('./interface');
+const { ObjectManager, PinManager } = require('@filebase/sdk');
 
+const config = require('../../../config');
+const { Readable, PassThrough } = require('stream');
+const IpfsStorageInterface = require('./interface');
+const { error } = require('console');
+
+/**
+ * Represents a Filebase object.
+ * @class
+ * @extends IpfsStorageInterface
+ */
 class FileBase extends IpfsStorageInterface {
+    /**
+     * Represents a Filebase object.
+     * @constructor
+     */
     constructor() {
         super();
-        this.accessKey = config.FILEBASE_ACCESS_KEY
-        this.secret = config.FILEBASE_SECRET
+        const accessKey = config.FILEBASE_ACCESS_KEY
+        const secret = config.FILEBASE_SECRET
+        const bucketName = config.FILEBASE_BUCKET_NAME
 
-        this.s3 = new S3Client({
-            endpoint: 'https://s3.filebase.com',
-            region: 'us-east-1',
-            signatureVersion: 'v4',
-            credentials: {
-                accessKeyId: this.accessKey,
-                secretAccessKey: this.secret,
-            },
+        this.objectManager = new ObjectManager(accessKey, secret, {
+            bucket: bucketName
         });
+
+        this.pinManager = new PinManager(accessKey, secret, {
+            bucket: bucketName
+        });
+
     }
 
+    /**
+     * Uploads a file to IPFS using the Filebase storage.
+     *
+     * @param {ReadableStream} readableStreamForFile - The readable stream for the file to be uploaded.
+     * @param {Object} options - The options for the upload.
+     * @param {string} options.name - The name of the file.
+     * @param {string} options.attribute - The attribute of the file.
+     * @param {number} options.filesize - The size of the file in bytes.
+     * @returns {Object} - The upload result containing the IPFS URL, IPFS hash, storage type, pin size, and timestamp.
+     */
+    async upload(readableStreamForFile, { name, attribute, filesize }) {
+        try {
+            let response = await this.objectManager.upload(name, readableStreamForFile);
+            let cid = response.cid;
 
-    async upload(readableStreamForFile, { name, attribute }) {
-        let bucket_name = attribute ? attribute : "test-fileverse"
+            return {
+                ipfsUrl: `https://ipfs.filebase.io/ipfs/${cid}`,
+                ipfsHash: `${cid}`,
+                ipfsStorage: 'filebase',
+                pinSize: filesize,
+                timestamp: Date.now(),
+            };
+        } catch (error) {
+            console.error("Error while uploading object to filebase:", error);
+        }
 
-        let uploadParams = {
-            Bucket: bucket_name,
-            Key: name,
-            Body: readableStreamForFile,
-        };
-
-        const command = new PutObjectCommand(uploadParams);
-        let cid = null;
-        let ts = null;
-        command.middlewareStack.add(
-            (next) => async (args) => {
-                const response = await next(args);
-                if (!response.response.statusCode) return response;
-                // Get cid from headers
-                cid = response.response.headers["x-amz-meta-cid"];
-                ts = response.response.headers["date"];
-
-                return response;
-            },
-
-        );
-
-        await Promise.resolve(this.s3.send(command));
-
-        return {
-            ipfsUrl: `https://w3s.link/ipfs/${cid}/${name}`,
-            ipfsHash: `${cid}/${name}`,
-            ipfsStorage: 'filebase',
-            pinSize: null,
-            timestamp: (new Date(ts)).getTime(),
-        };
     }
 
-
+    /**
+     * Retrieves the IPFS content from the specified URL.
+     * @param {Object} options - The options for retrieving the IPFS content.
+     * @param {string} options.ipfsUrl - The URL of the IPFS content.
+     * @returns {ReadableStream} - A readable stream containing the IPFS content.
+     */
     async get({ ipfsUrl }) {
-        let params = {
-            Key: ipfsUrl,
-            Bucket: "test-fileverse"
-        };
+        try {
+            let resp = await this.pinManager.download(ipfsUrl, {
+                endpoint: "https://ipfs.filebase.io/"
+            });
 
-        const command = new GetObjectCommand(params);
-        command.middlewareStack.add(
-            (next) => async (args) => {
-                const response = await next(args);
-                if (!response.response.statusCode) return response;
-                // Get cid from headers
-                console.log(response);
-
-                return response;
-            },
-
-        );
-
-        await Promise.resolve(this.s3.send(command));
-
+            const ipfsStream = Readable.from(resp);
+            return ipfsStream;
+        } catch (error) {
+            console.error("Error while getting object from filebase:", error);
+        }
     }
 
+    /**
+     * Removes a file from IPFS based on the given IPFS hash.
+     * @param {Object} options - The options for removing the file.
+     * @param {string} options.ipfsHash - The IPFS hash of the file to be removed.
+     * @returns {Promise} A promise that resolves when the file is successfully removed.
+     */
     async remove({ ipfsHash }) {
-        let hashes = ipfsHash.split('/');
-        let params = {
-            Key: hashes[0],
-            Bucket: "test-fileverse"
-        };
+        try {
+            let hashes = ipfsHash.split('/');
 
-        const command = new DeleteObjectCommand(params);
-        await Promise.resolve(this.s3.send(command));
+            const requestid = await this.getRequestId({ hashes });
+            if (requestid == "" || requestid == undefined) {
+                throw error("No object found for the given IPFS hash");
+            }
+
+            return await this.pinManager.delete(requestid);
+        } catch (error) {
+            console.error("Error while removing object from filebase:", error);
+        }
+    }
+
+    /**
+     * Retrieves the request ID associated with the given IPFS hash.
+     *
+     * @param {Object} options - The options object.
+     * @param {string} options.ipfsHash - The IPFS hash.
+     * @returns {string} The request ID.
+     */
+    async getRequestId({ ipfsHash }) {
+        try {
+            const resp = await this.pinManager.list({ cid: [ipfsHash] });
+            if (resp['count'] == 0) {
+                console.log("No pin found with the given cid: ", cid);
+                return;
+            }
+            return resp['results'][0]['requestid']
+        } catch (error) {
+            console.error("Error while getting request ID from filebase:", error);
+        }
     }
 }
 
