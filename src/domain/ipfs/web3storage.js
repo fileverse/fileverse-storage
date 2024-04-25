@@ -1,14 +1,16 @@
 const PassThrough = require('stream').PassThrough;
 const request = require('request');
 const { Web3Storage } = require('web3.storage');
+const IpfsStorageInterface = require('./interface');
 const config = require('./../../../config');
 
-class Web3StorageService {
+class Web3StorageService extends IpfsStorageInterface {
   constructor() {
+    super();
     this.client = new Web3Storage({ token: config.WEB3STORAGE_TOKEN });
   }
 
-  async upload(readableStreamForFile, { name }) {
+  async upload(readableStreamForFile, { name, attribute, filesize }) {
     const cid = await this.client.put([
       { name, stream: () => readableStreamForFile },
     ]);
@@ -23,14 +25,13 @@ class Web3StorageService {
     };
   }
 
-  async get({ ipfsHash }) {
-    if (!ipfsHash) {
+  async get({ ipfsUrl }) {
+    if (!ipfsUrl) {
       return null;
     }
-    const ipfsUrl = `https://w3s.link/ipfs/${ipfsHash}`;
-    console.log(ipfsUrl);
+    const authenticUrl = `https://w3s.link/ipfs/${ipfsUrl}`;
     const ipfsStream = new PassThrough();
-    request(ipfsUrl).pipe(ipfsStream);
+    request(authenticUrl).pipe(ipfsStream);
     return ipfsStream;
   }
 
