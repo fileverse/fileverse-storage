@@ -52,6 +52,24 @@ let verify = (req, res, next) => {
         console.log(error);
         next();
       });
+  } else if (token) {
+    ucans.verify(token, {
+      audience: serviceDID,
+      requiredCapabilities: [
+        {
+          capability: {
+            with: { scheme: "storage", hierPart: invokerAddress /** we can make this env driven with values like : https://dev-fileverse-storage.herokuapp.com etc */},
+            can: { namespace: "file", segments: ["CREATE"] }
+          },
+          rootIssuer: invokerAddress,
+        }
+      ],
+    }).then((result) => {
+      if (result.ok) {
+        req.isAuthenticated = true;
+      }
+      next();
+    });
   } else {
     next();
   }
