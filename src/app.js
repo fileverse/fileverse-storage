@@ -26,7 +26,7 @@ app.use(express.json());
 
 // Use default logger for now
 app.use(logger('combined'));
-app.use(cors({ origin: '*' }));
+app.use(cors());
 app.use(
   helmet({
     contentSecurityPolicy: false,
