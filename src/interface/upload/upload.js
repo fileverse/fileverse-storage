@@ -5,7 +5,7 @@ const { Joi, validate } = validator;
 
 const uploadValidation = {
   headers: Joi.object({
-    contract: Joi.string().required(),
+    contract: Joi.string().optional(),
   }).unknown(true),
   query: Joi.object({
     tags: Joi.array().items(Joi.string()).optional(),
@@ -15,6 +15,9 @@ const uploadValidation = {
 async function uploadFn(req, res) {
   const { contractAddress, invokerAddress, chainId } = req;
   const { tags } = req.query;
+
+
+  // create a new upload fn to handle upload for when  there is no contract address in request ( temp account)
 
   const createdFile = await upload({
     contractAddress,
