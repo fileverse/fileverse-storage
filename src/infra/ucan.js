@@ -32,29 +32,33 @@ let verify = (req, res, next) => {
     collaboratorKey({
       contractAddress, invokerAddress, chainId
     }).then((invokerDID) => {
-      if (!invokerDID) {
+      if (invokerDID) {
+        ucans.verify(token, {
+          // to make sure we're the intended recipient of this UCAN
+          audience: serviceDID,
+          // capabilities required for this invocation & which owner we expect for each capability
+          requiredCapabilities: [
+            {
+              capability: {
+                with: { scheme: "storage", hierPart: contractAddress.toLowerCase() },
+                can: { namespace: "file", segments: ["CREATE"] }
+              },
+              rootIssuer: invokerDID,
+            }
+          ],
+        }).then((result) => {
+          console.log(result);
+          if (result.ok) {
+            req.isAuthenticated = true;
+          }
+          next();
+        });
+      } else {
         next();
       }
-
-      ucans.verify(token, {
-        // to make sure we're the intended recipient of this UCAN
-        audience: serviceDID,
-        // capabilities required for this invocation & which owner we expect for each capability
-        requiredCapabilities: [
-          {
-            capability: {
-              with: { scheme: "storage", hierPart: contractAddress.toLowerCase() },
-              can: { namespace: "file", segments: ["CREATE"] }
-            },
-            rootIssuer: invokerDID,
-          }
-        ],
-      }).then((result) => {
-        console.log(result);
-        req.isAuthenticated = result.ok;
-      });
     }).catch((error) => {
       console.log(error);
+      next();
     });
   } else {
     /* handle temp user auth
