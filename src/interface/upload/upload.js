@@ -15,13 +15,15 @@ const uploadValidation = {
 async function uploadFn(req, res) {
   const { contractAddress, invokerAddress, chainId } = req;
   const { tags } = req.query;
+
   const createdFile = await upload({
     contractAddress,
     invokerAddress,
     chainId,
-    file: req.files && req.files.file,
+    file: req.files?.file,
     tags,
   }).catch(console.log);
+
   await Log.create('upload', { contractAddress, invokerAddress, ipfsHash: createdFile.ipfsHash, tags });
   res.json(createdFile);
 }
