@@ -1,11 +1,12 @@
 const qs = require('querystring');
 const mime = require('mime-types');
-const File = require('./file');
+const File = require('../../domain/file')
 const { content } = require('../../domain');
 const { validator } = require('../middleware');
 const { Joi, validate } = validator;
 
 const Log = require('../../domain/log');
+const { getFileVisibility } = require('../../domain/file/utils');
 
 const contentValidation = {
   headers: Joi.object({
@@ -36,7 +37,7 @@ async function contentFn(req, res) {
   const { contentStream } = await content(ipfsHash);
 
   // Find the file metadata in the database based on the ipfsHash
-  const file = await File.findOne({ ipfsHash });
+  const file = await File.findOne(ipfsHash);
   // If the file metadata is not found, return a 404 error
   if (!file) {
     const err = "file metadata not found";
@@ -44,15 +45,15 @@ async function contentFn(req, res) {
     return res.status(404).json({ error: err });
   }
 
-  // Extract the tags from the file metadata
-  let tags = file.tags;
   // Determine the visibility based on the tags
-  let visibility = tags.includes('private') ? 'private' : 'public';
+  let visibility = getFileVisibility(file);
+  let encyption_type = getFileEncryptionType(file);
 
   // Set the response headers
   const header = {
     'Content-Type': mimetype,
     'Content-Visibility': visibility,
+    'Content-Encryption': encyption_type,
   };
 
   console.log(contentStream);
