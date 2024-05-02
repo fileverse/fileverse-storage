@@ -58,11 +58,13 @@ let verify = (req, res, next) => {
       requiredCapabilities: [
         {
           capability: {
-            with: { scheme: "storage", hierPart: invokerAddress /** we can make this env driven with values like : https://dev-fileverse-storage.herokuapp.com etc */ },
-            can: { namespace: "file", segments: ["CREATE"] }
-          },
-          rootIssuer: invokerAddress,
-        }
+            with: {
+              scheme: "storage", hierPart: invokerAddress,
+              can: { namespace: "file", segments: ["CREATE", "GET"] }
+            },
+            rootIssuer: invokerAddress,
+          }
+        },
       ],
     }).then((result) => {
       if (result.ok) {

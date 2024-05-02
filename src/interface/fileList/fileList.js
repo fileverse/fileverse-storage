@@ -1,4 +1,4 @@
-const { getFileVisibility, getFileEncryptionType } = require('../../domain/file/utils');
+const { getFileVisibility } = require('../../domain/file/utils');
 const File = require('../../domain/file');
 
 async function fileList(req, resp) {
@@ -15,9 +15,8 @@ async function fileList(req, resp) {
         const { ipfsHash, gatewayUrl } = file;
 
         const visibility = getFileVisibility(file);
-        const encyption_type = getFileEncryptionType(file);
 
-        return { ipfsHash, gatewayUrl, visibility, encyption_type };
+        return { ipfsHash, gatewayUrl, visibility };
     });
 
     resp.status(200).json(fileList);
