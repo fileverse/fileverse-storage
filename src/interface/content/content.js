@@ -35,7 +35,6 @@ async function contentFn(req, res) {
   const { download } = req.query;
   // Retrieve the content stream using the ipfsHash
   const { contentStream } = await content(ipfsHash);
-
   // Find the file metadata in the database based on the ipfsHash
   const file = await File.findOne(ipfsHash);
   // If the file metadata is not found, return a 404 error
@@ -47,13 +46,11 @@ async function contentFn(req, res) {
 
   // Determine the visibility based on the tags
   let visibility = getFileVisibility(file);
-  let encyption_type = getFileEncryptionType(file);
 
   // Set the response headers
   const header = {
     'Content-Type': mimetype,
     'Content-Visibility': visibility,
-    'Content-Encryption': encyption_type,
   };
 
   console.log(contentStream);
