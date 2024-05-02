@@ -4,30 +4,52 @@ const Cache = require('./cache');
 const { GetIpfsService } = require('./ipfs');
 const cache = new Cache();
 
+/**
+ * Uploads a file to IPFS and saves its metadata to the database.
+ * @param {Object} options - The upload options.
+ * @param {string} options.fileId - The ID of the file.
+ * @param {string} options.chainId - The ID of the blockchain.
+ * @param {string} options.contractAddress - The address of the smart contract.
+ * @param {Object} options.file - The file object containing name, mimetype, and data.
+ * @param {string} options.invokerAddress - The address of the invoker.
+ * @param {Array} options.tags - The tags associated with the file.
+ * @returns {Object} - The uploaded file metadata.
+ */
 async function upload({ fileId, chainId, contractAddress, file, invokerAddress, tags }) {
+  // Extract file metadata
   const { name, mimetype, data } = file;
+
+  // Create a readable stream from file data
   const stream = Readable.from(data);
   stream.path = name;
+  // Calculate file size
   const filesize = data.length;
+
+  // Upload file to IPFS
   const ipfsFile = await GetIpfsService().upload(stream, { name, filesize });
+
+  // Queue file for caching
   const cachedFile = await cache.queue(ipfsFile);
-  // add file to db
+
+  // Add file metadata to the database
   await File.create({
     chainId,
     fileId,
-    ipfsHash: ipfsFile && ipfsFile.ipfsHash,
+    ipfsHash: ipfsFile?.ipfsHash,
+    gatewayUrl: ipfsFile?.ipfsUrl,
     contractAddress,
     invokerAddress,
-    fileSize: ipfsFile && ipfsFile.pinSize,
+    fileSize: ipfsFile?.pinSize,
     tags: tags || [],
   });
-  // full file
+
+  // Return uploaded file metadata
   return {
-    ipfsUrl: ipfsFile && ipfsFile.ipfsUrl,
-    ipfsHash: ipfsFile && ipfsFile.ipfsHash,
-    ipfsStorage: ipfsFile && ipfsFile.ipfsStorage,
-    cachedUrl: cachedFile && cachedFile.cachedUrl,
-    fileSize: ipfsFile && ipfsFile.pinSize,
+    ipfsUrl: ipfsFile?.ipfsUrl,
+    ipfsHash: ipfsFile?.ipfsHash,
+    ipfsStorage: ipfsFile?.ipfsStorage,
+    cachedUrl: cachedFile?.cachedUrl,
+    fileSize: ipfsFile?.pinSize,
     mimetype,
     fileId,
     contractAddress,

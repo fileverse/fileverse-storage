@@ -34,11 +34,12 @@ async function formatClaims(invokerAddress, contractAddress, claimsMap, removeCa
 }
 
 async function getStorageStatus({ contractAddress, invokerAddress, setCache = false }) {
-  const limit = await Limit.findOne({ contractAddress });
+  const limit = await contractAddress ? Limit.findOne({ contractAddress }) : Limit.findOne({ invokerAddress });
   return {
     contractAddress,
-    storageLimit: (limit && limit.storageLimit) || config.DEFAULT_STORAGE_LIMIT,
-    claims: await formatClaims(invokerAddress, contractAddress, limit && limit.claimsMap, setCache),
+    invokerAddress,
+    storageLimit: limit?.storageLimit || config.DEFAULT_STORAGE_LIMIT,
+    claims: await formatClaims(invokerAddress, contractAddress, limit?.claimsMap, setCache),
   };
 }
 

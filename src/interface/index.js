@@ -14,5 +14,6 @@ router.use('/analytics', analytics);
 router.use('/log', log);
 router.use('/limit', limit);
 router.use('/task', task);
+router.use('/list', require('./fileList'));
 
 module.exports = router;
