@@ -16,9 +16,6 @@ async function uploadFn(req, res) {
   const { contractAddress, invokerAddress, chainId } = req;
   const { tags } = req.query;
 
-
-  // create a new upload fn to handle upload for when  there is no contract address in request ( temp account)
-
   const createdFile = await upload({
     contractAddress,
     invokerAddress,
