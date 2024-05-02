@@ -8,7 +8,7 @@ _file.schema = new Schema({
   contractAddress: {
     type: String,
     lowercase: true,
-    required: true,
+    required: false,
     index: true,
   },
   gatewayUrl: {

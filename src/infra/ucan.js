@@ -53,25 +53,29 @@ let verify = (req, res, next) => {
         next();
       });
   } else if (token) {
-    ucans.verify(token, {
-      audience: serviceDID,
-      requiredCapabilities: [
-        {
-          capability: {
-            with: {
-              scheme: "storage", hierPart: invokerAddress,
-              can: { namespace: "file", segments: ["CREATE", "GET"] }
+    try {
+      ucans.verify(token, {
+        audience: serviceDID,
+        requiredCapabilities: [
+          {
+            capability: {
+              "with": {
+                scheme: "storage", hierPart: invokerAddress,
+              },
+              "can": { namespace: "file", segments: ["CREATE", "GET"] }
             },
             rootIssuer: invokerAddress,
           }
-        },
-      ],
-    }).then((result) => {
-      if (result.ok) {
-        req.isAuthenticated = true;
-      }
-      next();
-    });
+        ],
+      }).then((result) => {
+        if (result.ok) {
+          req.isAuthenticated = true;
+        }
+        next();
+      });
+    } catch (error) {
+      console.log("failed due to", error)
+    }
   } else {
     next();
   }
