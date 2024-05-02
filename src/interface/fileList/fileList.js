@@ -12,12 +12,12 @@ async function fileList(req, resp) {
 
     // create list of dictionaries with file metadata containing only the necessary fields
     const fileList = files.map((file) => {
-        const { ipfsHash, filename } = file;
+        const { ipfsHash, filename, gatewayUrl } = file;
 
         visibility = getFileVisibility(file);
         encyption_type = getFileEncryptionType(file);
 
-        return { ipfsHash, filename, visibility, encyption_type };
+        return { ipfsHash, filename, gatewayUrl, visibility, encyption_type };
     });
 
     resp.status(200).json(fileList);

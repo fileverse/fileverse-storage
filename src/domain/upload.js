@@ -35,20 +35,21 @@ async function upload({ fileId, chainId, contractAddress, file, invokerAddress, 
   await File.create({
     chainId,
     fileId,
-    ipfsHash: ipfsFile && ipfsFile.ipfsHash,
+    ipfsHash: ipfsFile?.ipfsHash,
+    gatewayUrl: ipfsFile?.ipfsUrl,
     contractAddress,
     invokerAddress,
-    fileSize: ipfsFile && ipfsFile.pinSize,
+    fileSize: ipfsFile?.pinSize,
     tags: tags || [],
   });
 
   // Return uploaded file metadata
   return {
-    ipfsUrl: ipfsFile && ipfsFile.ipfsUrl,
-    ipfsHash: ipfsFile && ipfsFile.ipfsHash,
-    ipfsStorage: ipfsFile && ipfsFile.ipfsStorage,
-    cachedUrl: cachedFile && cachedFile.cachedUrl,
-    fileSize: ipfsFile && ipfsFile.pinSize,
+    ipfsUrl: ipfsFile?.ipfsUrl,
+    ipfsHash: ipfsFile?.ipfsHash,
+    ipfsStorage: ipfsFile?.ipfsStorage,
+    cachedUrl: cachedFile?.cachedUrl,
+    fileSize: ipfsFile?.pinSize,
     mimetype,
     fileId,
     contractAddress,
