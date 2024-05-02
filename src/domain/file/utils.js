@@ -4,7 +4,12 @@ function getFileVisibility(file) {
 }
 
 function getFileEncryptionType(file) {
-    return file.tags.includes('aes') ? 'aes' : 'rsa';
+    const visibility = getFileVisibility(file);
+    let encryptionType = 'none';
+    if (visibility == 'private') {
+        encryptionType = file.tags.includes('aes') ? 'aes' : 'rsa';
+    }
+    return encryptionType;
 }
 
 module.exports = { getFileVisibility, getFileEncryptionType };
