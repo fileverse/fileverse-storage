@@ -1,7 +1,11 @@
 const { File } = require("../../infra/database/models");
 
-async function findAll(invokerAddress) {
-    return await File.find({ invokerAddress });
+async function findAll({ invokerAddress, ipfsHash }) {
+    if (invokerAddress) {
+        return await File.find({ invokerAddress });
+    } else if (ipfsHash) {
+        return await File.find({ ipfsHash });
+    }
 }
 
 async function findOne(ipfsHash) {
