@@ -16,10 +16,12 @@ let verify = (req, res, next) => {
   const contractAddress = req.headers && req.headers.contract;
   const invokerAddress = req.headers && req.headers.invoker;
   const chainId = req.headers && req.headers.chain;
+  const namespace = req.headers?.namespace;
   req.isAuthenticated = false;
   req.invokerAddress = invokerAddress;
   req.contractAddress = contractAddress;
   req.chainId = chainId;
+  req.namespace = namespace;
   if (token && contractAddress) {
     collaboratorKey({ contractAddress, invokerAddress, chainId })
       .then((invokerDID) => {
@@ -32,7 +34,7 @@ let verify = (req, res, next) => {
               {
                 capability: {
                   with: { scheme: "storage", hierPart: contractAddress.toLowerCase() },
-                  can: { namespace: "file", segments: ["CREATE"] }
+                  can: { namespace: 'file' /** TODO: use contract address as the namespace */, segments: ["CREATE"] }
                 },
                 rootIssuer: invokerDID,
               }
@@ -52,17 +54,17 @@ let verify = (req, res, next) => {
         console.log(error);
         next();
       });
-  } else if (token) {
+  } else if (token && namespace) {
     try {
       ucans.verify(token, {
         audience: serviceDID,
         requiredCapabilities: [
           {
             capability: {
-              "with": {
+              with: {
                 scheme: "storage", hierPart: invokerAddress,
               },
-              "can": { namespace: "file", segments: ["CREATE", "GET"] }
+              can: { namespace, segments: ["CREATE", "GET"] }
             },
             rootIssuer: invokerAddress,
           }
