@@ -6,7 +6,6 @@ const { validator } = require('../middleware');
 const { Joi, validate } = validator;
 
 const Log = require('../../domain/log');
-const { getFileVisibility } = require('../../domain/file/utils');
 
 const contentValidation = {
   headers: Joi.object({
@@ -35,22 +34,10 @@ async function contentFn(req, res) {
   const { download } = req.query;
   // Retrieve the content stream using the ipfsHash
   const { contentStream } = await content(ipfsHash);
-  // Find the file metadata in the database based on the ipfsHash
-  const file = await File.findOne(ipfsHash);
-  // If the file metadata is not found, return a 404 error
-  if (!file) {
-    const err = "file metadata not found";
-    console.log(err);
-    return res.status(404).json({ error: err });
-  }
-
-  // Determine the visibility based on the tags
-  let visibility = getFileVisibility(file);
 
   // Set the response headers
   const header = {
     'Content-Type': mimetype,
-    'Content-Visibility': visibility,
   };
 
   console.log(contentStream);
