@@ -52,7 +52,7 @@ let verify = (req, res, next) => {
         console.log(error);
         next();
       });
-  } else if (token) {
+  } else if (token && invokerAddress) {
     try {
       ucans.verify(token, {
         audience: serviceDID,
