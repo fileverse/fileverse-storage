@@ -1,11 +1,16 @@
 const { getFileVisibility } = require('../../domain/file/utils');
 const File = require('../../domain/file');
 
+const genericResp = {
+    message: "",
+    data: [],
+    error: null
+}
+
 function getResponse(files) {
     // create list of dictionaries with file metadata containing only the necessary fields
     const fileList = files.map((file) => {
         const { ipfsHash, gatewayUrl, fileId, chainId, contractAddress } = file;
-
         const visibility = getFileVisibility(file);
 
         return { ipfsHash, gatewayUrl, visibility, fileId, chainId, contractAddress };
@@ -16,37 +21,42 @@ function getResponse(files) {
 
 async function getUniqueFile(req, resp) {
     const { ipfsHash } = req.query;
+    const response = { ...genericResp };
     if (!ipfsHash) {
-        return resp.status(400).json({ error: 'ipfsHash is required' });
+        response.error = 'ipfsHash is required';
+        return resp.status(400).json(response);
     }
 
     const file = await File.findOne(ipfsHash);
     if (!file) {
-        return resp.status(400).json({ error: 'no files found for given ipfsHash' });
+        response.message = 'no files found for given ipfsHash';
+        return resp.status(200).json(response);
     }
 
-    const fileList = getResponse([file])
-    resp.status(200).json(fileList);
+    response.data = getResponse([file]);
+    response.message = "SUCCESS";
+    resp.status(200).json(response);
 }
 
 async function fileList(req, resp) {
+    const response = { ...genericResp };
+
     if (!req.isAuthenticated) {
-        return resp
-            .status(401)
-            .json({ error: 'UNAUTHORISED REQUEST' })
+        response.error = 'UNAUTHORISED REQUEST';
+        return resp.status(401).json(response);
     }
     const { invokerAddress } = req.query;
 
 
     const files = await File.findAll(invokerAddress);
     if (!files) {
-        return resp
-            .status(400)
-            .json({ error: 'no files found for given invokerAddress' });
+        response.message = 'no files found for given invokerAddress'
+        return resp.status(400).json(response);
     }
 
-    const fileList = getResponse(files)
-    resp.status(200).json(fileList);
+    response.data = getResponse(files);
+    response.message = "SUCCESS";
+    resp.status(200).json(response);
 }
 
 module.exports = { fileList, getUniqueFile };
