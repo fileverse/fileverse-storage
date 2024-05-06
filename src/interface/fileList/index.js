@@ -7,10 +7,9 @@ const {
 } = require('../../infra/asyncHandler');
 
 // domain
-const fileList = require('./fileList');
+const { fileList, getUniqueFile } = require('./fileList');
 
-// TODO: confirm do if we need any middleware here.
-
-router.get('/', asyncHandlerArray(fileList));
+router.get('/hash', asyncHandlerArray([getUniqueFile]));
+router.get('/invoker', asyncHandlerArray([fileList]));
 
 module.exports = router;
