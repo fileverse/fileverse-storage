@@ -59,10 +59,8 @@ let verify = (req, res, next) => {
         requiredCapabilities: [
           {
             capability: {
-              "with": {
-                scheme: "storage", hierPart: invokerAddress,
-              },
-              "can": { namespace: "file", segments: ["CREATE", "GET"] }
+              with: { scheme: "storage", hierPart: invokerAddress },
+              can: { namespace: "file", segments: ["CREATE", "GET"] }
             },
             rootIssuer: invokerAddress,
           }
