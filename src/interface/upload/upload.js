@@ -51,9 +51,8 @@ function validateNamespace(req, res, next) {
 
   if (!isNamespaceValid) {
     const err = new Error('Uploading file on namespace:' + namespace + ' unauthorized');
-
     return res.status(401).json({
-      error: 'Uploading file on namespace:' + namespace + ' unauthorized'
+      error: err
     });
   }
 
@@ -78,6 +77,7 @@ async function uploadFn(req, res) {
     chainId,
     file: req.files?.file,
     tags,
+    namepsace
   }).catch(console.log);
 
   await Log.create('upload', { contractAddress, invokerAddress, ipfsHash: createdFile.ipfsHash, tags });
