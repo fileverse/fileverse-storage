@@ -20,14 +20,6 @@ async function uploadFn(req, res) {
   const { contractAddress, invokerAddress, chainId, namepsace } = req;
   const { tags } = req.query;
 
-  if (!validateNamespace(namepsace, req.headers)) {
-    return res.status(401).json({
-      error: 'Uploading file on namespace:' + namepsace + ' unauthorized'
-    });
-  }
-
-  // TODO: Add namespace to metadata records
-
   const createdFile = await upload({
     contractAddress,
     invokerAddress,
