@@ -14,7 +14,7 @@ const router = require('./interface');
 const { errorHandler } = require('./interface/middleware');
 const { asyncHandler } = require('./infra/asyncHandler');
 const ucan = require('./infra/ucan');
-const validateNamespaceMiddleware = require('./infra/middlewares/namespace')
+const validateNamespaceMiddleware = require('./interface/middleware/validateNamespace')
 
 // Express App
 const app = express();
