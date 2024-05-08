@@ -3,23 +3,6 @@ const { Schema } = mongoose;
 
 const _portal = {};
 
-const portalFileSchema = new Schema({
-    ipfsHash: {
-        type: String,
-        required: true
-    },
-    fileSize: {
-        type: Number,
-        required: true
-    },
-    gatewayUrl: {
-        type: String,
-        required: true
-    }
-});
-
-
-
 _portal.schema = new Schema({
     contractAddress: {
         type: String,
@@ -28,7 +11,7 @@ _portal.schema = new Schema({
         index: true,
     },
     files: {
-        type: [portalFileSchema],
+        type: Array,
         default: [],
     }
 });

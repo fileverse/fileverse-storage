@@ -36,11 +36,13 @@ async function enablePortalHadler(req, res) {
     const publicLayoutFile = await portalContract.getFile(publicLayoutFileId);
 
     const filesIpfsHash = getFilesMetadata(publicLayoutFile);
-    const allFiles = await File.find(filesIpfsHash);
+    const allFiles = await File.findAllIpfsHashes(filesIpfsHash);
 
     const files = allFiles.map(file => {
         return {
-            
+            ipfsHash: file.ipfsHash,
+            gatewayUrl: file.gatewayUrl,
+            fileSize: file.fileSize,
         }
     });
 
@@ -53,11 +55,6 @@ async function enablePortalHadler(req, res) {
     }
 
     res.status(200).send("Portal enabled successfully");
-
-    /*
-    * FILE sturct
-   * { name, ipfsHash, type, gatewayUrl}
-   */
 }
 
 module.exports = enablePortalHadler;
