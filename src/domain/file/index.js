@@ -1,5 +1,6 @@
 const create = require('./create');
 const getSizeByContract = require('./getSizeByContract');
-const find = require('./find');
+const { findAll, findOne } = require('./findall');
 
-module.exports = { create, getSizeByContract, find };
+
+module.exports = { create, getSizeByContract, findAll, findOne };

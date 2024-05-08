@@ -5,18 +5,22 @@ async function create({
   chainId,
   fileSize,
   ipfsHash,
+  gatewayUrl,
   contractAddress,
   invokerAddress,
   tags,
+  namespace
 }) {
   const file = await new File({
     fileId,
     chainId,
     fileSize,
     ipfsHash,
+    gatewayUrl,
     contractAddress,
     invokerAddress,
     tags,
+    namespace
   }).save();
   await Limit.updateOne(
     { contractAddress },
