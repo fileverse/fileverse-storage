@@ -6,6 +6,7 @@ const _models = {
   Limit: require('./limit').model,
   Task: require('./task').model,
   Stat: require('./stat').model,
+  Portal: require('./portal').model,
 };
 
 module.exports = _models;
