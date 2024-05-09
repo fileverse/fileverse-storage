@@ -26,15 +26,18 @@ async function getUniqueFile(req, resp) {
         response.error = 'ipfsHash is required';
         return resp.status(400).json(response);
     }
-
-    const file = await File.findOne(ipfsHash);
-    if (!file) {
-        response.message = 'no files found for given ipfsHash';
-        return resp.status(200).json(response);
+    try {
+        const file = await File.findOne(ipfsHash);
+        if (!file) {
+            response.message = 'no files found for given ipfsHash';
+            return resp.status(200).json(response);
+        }
+        response.data = getResponse([file]);
+        response.message = "SUCCESS";
+    } catch (error) {
+        response.error = error.message;
     }
 
-    response.data = getResponse([file]);
-    response.message = "SUCCESS";
     resp.status(200).json(response);
 }
 
