@@ -12,7 +12,7 @@ async function update(contractAddress, files) {
 }
 
 async function getPortalOps(contractAddress) {
-    const portal = find(contractAddress);
+    const portal = await find(contractAddress);
     return portal ? update : create;
 }
 
