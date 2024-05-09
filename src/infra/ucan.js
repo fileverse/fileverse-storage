@@ -99,7 +99,7 @@ let verify = async (req, res, next) => {
   // Express headers are auto converted to lowercase
   let token = req.headers['authorization'];
   if (!token || !invokerAddress) {
-    next();
+    return next();
   }
 
   token = token.startsWith('Bearer ') ? token.slice(7, token.length) : token;
