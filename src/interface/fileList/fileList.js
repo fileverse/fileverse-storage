@@ -47,7 +47,6 @@ async function fileList(req, resp) {
     }
     const { invokerAddress } = req.query;
 
-
     const files = await File.findAll(invokerAddress);
     if (!files) {
         response.message = 'no files found for given invokerAddress'

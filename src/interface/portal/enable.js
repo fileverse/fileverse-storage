@@ -25,14 +25,12 @@ function getFilesMetadata(publicLayoutFile) {
     return resp;
 }
 
-
-
 async function enablePortalHadler(req, res) {
     const { contractAddress } = req;
-    const { publicLayoutFileId } = req.body;
+    const { publicLayoutFileId, network } = req.body;
 
     // get public layout file from portal contract
-    const portalContract = new PortalContract(contractAddress, req.network);
+    const portalContract = new PortalContract(contractAddress, network);
     const publicLayoutFile = await portalContract.getFile(publicLayoutFileId);
 
     const filesIpfsHash = getFilesMetadata(publicLayoutFile);

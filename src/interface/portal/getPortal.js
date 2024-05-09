@@ -4,13 +4,21 @@ const Portal = require('../../domain/publicPortal');
 async function getPortalHandler(req, res) {
     const { contractAddress } = req;
 
-    const portal = await Portal.find(contractAddress);
-    if (!portal) {
-        res.status(404).send("Portal not found");
-    } else {
-        res.status(200).send(portal);
+    let resp = {
+        error: null,
+        message: "",
+        data: {},
     }
 
+    const portal = await Portal.find(contractAddress);
+    if (!portal) {
+        resp.error = "Portal not found";
+    } else {
+        resp.data = portal;
+        resp.message = "Portal found";
+    }
+
+    res.status(200).send(resp)
 }
 
 module.exports = getPortalHandler;
