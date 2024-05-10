@@ -1,25 +1,25 @@
 const { Portal } = require('../../infra/database/models');
-const { find } = require('./find');
+const { findOne } = require('./find');
 
-async function create(contractAddress, files) {
-    const portal = await new Portal({ contractAddress, files }).save();
+async function create(fileId, contractAddress, files, resolvedContent, resolvedMetadata) {
+    const portal = await new Portal({ fileId, contractAddress, files, resolvedContent, resolvedMetadata }).save();
     return portal;
 }
 
-async function update(contractAddress, files) {
-    const portal = await Portal.findOneAndUpdate({ contractAddress }, { files });
+async function update(fileId, contractAddress, files) {
+    const portal = await Portal.findOneAndUpdate({ fileId, contractAddress }, { files });
     return portal;
 }
 
-async function getPortalOps(contractAddress) {
-    const portal = await find(contractAddress);
+async function getPortalOps(fileId, contractAddress) {
+    const portal = await findOne(fileId, contractAddress);
     return portal ? update : create;
 }
 
 
-async function updateOrCreate(contractAddress, files) {
-    const _method = await getPortalOps(contractAddress);
-    return _method(contractAddress, files);
+async function updateOrCreate(fileId, contractAddress, files, resolvedContent, resolvedMetadata) {
+    const _method = await getPortalOps(fileId, contractAddress);
+    return _method(fileId, contractAddress, files, resolvedContent, resolvedMetadata);
 }
 
 module.exports = updateOrCreate;
