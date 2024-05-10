@@ -1,9 +1,9 @@
 const { Portal } = require('../../infra/database/models');
 
 
-async function find(contractAddress) {
+async function findOne(fileId, contractAddress) {
     try {
-        const portal = await Portal.find({ contractAddress });
+        const portal = await Portal.findOne({ fileId, contractAddress });
         return portal;
     } catch (error) {
         console.error('Error finding portal:', error);
@@ -11,4 +11,4 @@ async function find(contractAddress) {
     }
 }
 
-module.exports = find;
+module.exports = findOne;

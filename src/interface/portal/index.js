@@ -10,8 +10,7 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 const enablePortalHadler = require('./enable');
 const getPortalHandler = require('./getPortal');
 
-// router.post('/enable', asyncHandlerArray([isAuthenticated, enablePortalHadler]));
-router.post('/enable', asyncHandlerArray([enablePortalHadler]));
-router.get('/', asyncHandlerArray([getPortalHandler]));
+router.post('/index', asyncHandlerArray([isAuthenticated, enablePortalHadler]));
+router.get('file/:fileId', asyncHandlerArray([getPortalHandler]));
 
 module.exports = router;

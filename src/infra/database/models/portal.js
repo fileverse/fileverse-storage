@@ -10,17 +10,35 @@ _portal.schema = new Schema({
         required: true,
         index: true,
     },
+    fileId: {
+        type: String,
+        required: true,
+        index: true,
+    },
     files: {
         type: Array,
         default: [],
-    }
+        required: true,
+    },
+    resolvedContent: {
+        type: JSON,
+        required: true,
+    },
+    resolvedMetadata: {
+        type: JSON,
+        required: true,
+    },
 });
 
 _portal.schema.methods.safeObject = function () {
     const safeFields = [
         '_id',
         'contractAddress',
+        'fileId',
         'files',
+        'resolvedContent',
+        'resolvedMetadata',
+
     ];
     const newSafeObject = {};
     safeFields.forEach((elem) => {
