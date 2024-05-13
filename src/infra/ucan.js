@@ -6,7 +6,7 @@ const ucans = require('ucans');
 const serviceDID = config.SERVICE_DID;
 
 
-async function namespaceValidation(namespace, invokerAddress, token) {
+async function validateNamespace(namespace, invokerAddress, token) {
   try {
     const result = await ucans.verify(token, {
       audience: serviceDID,
@@ -27,7 +27,7 @@ async function namespaceValidation(namespace, invokerAddress, token) {
   }
 }
 
-async function contractAddressValidation(contractAddress, invokerAddress, token, chainId) {
+async function validateContractAddress(contractAddress, invokerAddress, token, chainId) {
   let invokerDid = null;
 
   try {
@@ -61,7 +61,7 @@ async function contractAddressValidation(contractAddress, invokerAddress, token,
   }
 }
 
-async function invokerAddressValidation(invokerAddress, token) {
+async function validateInvokerAddress(invokerAddress, token) {
   try {
     const result = await ucans.verify(token, {
       audience: serviceDID,
@@ -105,11 +105,11 @@ let verify = async (req, res, next) => {
   token = token.startsWith('Bearer ') ? token.slice(7, token.length) : token;
 
   if (namespace) {
-    req.isAuthenticated = await namespaceValidation(namespace, invokerAddress, token);
+    req.isAuthenticated = await validateNamespace(namespace, invokerAddress, token);
   } else if (contractAddress) {
-    req.isAuthenticated = await contractAddressValidation(contractAddress, invokerAddress, token, chainId);
+    req.isAuthenticated = await validateContractAddress(contractAddress, invokerAddress, token, chainId);
   } else {
-    req.isAuthenticated = await invokerAddressValidation(invokerAddress, token);
+    req.isAuthenticated = await validateInvokerAddress(invokerAddress, token);
   }
 
   next();
