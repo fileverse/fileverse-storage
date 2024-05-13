@@ -7,8 +7,13 @@ const IPFS_BASE_URLS = require('./constants');
  */
 async function getGatewayUrl(hash) {
     const fetchPromises = IPFS_BASE_URLS.map(url => axios.get(url + hash));
-    const executedPromise = fetchPromises.find(promise => promise === result);
-    return executedPromise ? executedPromise.config.url : null;
+    const firstResolvedPromise = await Promise.race(fetchPromises);
+
+    if (firstResolvedPromise) {
+        return firstResolvedPromise.config.url;
+    } else {
+        return null;
+    }
 }
 
 module.exports = getGatewayUrl;
