@@ -16,11 +16,10 @@ async function checkStorageLimit(contractAddress, invokerAddress) {
 async function canUpload(req, res, next) {
   const invokerAddress = req.invokerAddress;
   const contractAddress = req.contractAddress;
-  const namespace = req.namespace;
 
   if (!req.isAuthenticated) {
     const code = invokerAddress ? 403 : 401;
-    const message = `invokerAddress: ${invokerAddress} does not have permission to upload file for subdomain: ${contractAddress} and namespace: ${namespace}`;
+    const message = `${invokerAddress} does not have permission to upload file for subdomain ${contractAddress}`;
     return ErrorHandler.throwError({ code, message, req });
   }
 

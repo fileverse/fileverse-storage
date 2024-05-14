@@ -15,7 +15,7 @@ const cache = new Cache();
  * @param {Array} options.tags - The tags associated with the file.
  * @returns {Object} - The uploaded file metadata.
  */
-async function upload({ fileId, chainId, contractAddress, file, invokerAddress, tags, namespace }) {
+async function upload({ fileId, chainId, contractAddress, file, invokerAddress, tags }) {
   // Extract file metadata
   const { name, mimetype, data } = file;
 
@@ -41,7 +41,6 @@ async function upload({ fileId, chainId, contractAddress, file, invokerAddress, 
     invokerAddress,
     fileSize: ipfsFile?.pinSize,
     tags: tags || [],
-    namespace,
   });
 
   // Return uploaded file metadata

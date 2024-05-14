@@ -25,11 +25,6 @@ _file.schema = new Schema({
     index: true,
     default: [],
   },
-  namespace: {
-    type: String,
-    default: null,
-    required: false,
-  },
   timeStamp: {
     type: Date,
     required: true,
@@ -52,7 +47,6 @@ _file.schema.methods.safeObject = function () {
     'ipfsHash',
     'fileSize',
     'tags',
-    'namespace',
     'timeStamp',
   ];
   const newSafeObject = {};
