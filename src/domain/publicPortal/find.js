@@ -11,4 +11,14 @@ async function findOne(fileId, contractAddress) {
     }
 }
 
-module.exports = findOne;
+async function findAll(contractAddress) {
+    try {
+        const portals = await Portal.find({ contractAddress });
+        return portals;
+    } catch (error) {
+        console.error('Error finding portals:', error);
+        return [];
+    }
+}
+
+module.exports = { findOne, findAll };
