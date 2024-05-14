@@ -48,7 +48,7 @@ async function validateContractAddress(contractAddress, invokerAddress, token, c
         {
           capability: {
             with: { scheme: "storage", hierPart: contractAddress.toLowerCase() },
-            can: { namespace: "file", segments: ["CREATE", "GET"] }
+            can: { namespace: "file", segments: ["CREATE"] }
           },
           rootIssuer: invokerDid,
         }
