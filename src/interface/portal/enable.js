@@ -15,10 +15,6 @@ function extractFilesFromPortal(publicLayoutFile) {
     return resp;
 }
 
-async function normaliseFile(file) {
-
-}
-
 
 async function getNormalizedFiles(publicLayoutFile) {
     const files = extractFilesFromPortal(publicLayoutFile);
