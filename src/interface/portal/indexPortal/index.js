@@ -9,10 +9,10 @@ const router = express.Router();
 const enablePortalHadler = require('./enable');
 const triggerJobProcessing = require('./trigger');
 const processStatus = require('./triggerStatus');
-const isAuthenticated = require('../../middleware/isAuthenticated');
+const middleware = require('../../middleware');
 
-router.post('/', asyncHandlerArray([isAuthenticated, enablePortalHadler]));
+router.post('/', asyncHandlerArray([middleware.isAuthenticated, enablePortalHadler]));
 router.get('/trigger', asyncHandlerArray([triggerJobProcessing]));
-router.get('/trigger/status', asyncHandlerArray([isAuthenticated, processStatus]));
+router.get('/trigger/status', asyncHandlerArray([middleware.isAuthenticated, processStatus]));
 
 module.exports = router;
