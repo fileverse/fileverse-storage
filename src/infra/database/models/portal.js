@@ -28,6 +28,16 @@ _portal.schema = new Schema({
         type: JSON,
         required: true,
     },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        required: true,
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now,
+        required: true,
+    },
 });
 
 _portal.schema.methods.safeObject = function () {
@@ -38,7 +48,8 @@ _portal.schema.methods.safeObject = function () {
         'files',
         'resolvedContent',
         'resolvedMetadata',
-
+        'createdAt',
+        'updatedAt',
     ];
     const newSafeObject = {};
     safeFields.forEach((elem) => {

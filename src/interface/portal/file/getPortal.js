@@ -18,6 +18,8 @@ async function getAllPortalHandler(req, res) {
             normalisedFiles: portal.files,
             resolvedContent: portal.resolvedContent,
             resolvedMetadata: portal.resolvedMetadata,
+            createdAt: portal.createdAt ? portal.createdAt : null,
+            updatedAt: portal.updatedAt ? portal.updatedAt : null,
         }));
     }
 
@@ -40,6 +42,8 @@ async function getPortalHandler(req, res) {
             normalisedFiles: portal.files,
             resolvedContent: portal.resolvedContent,
             resolvedMetadata: portal.resolvedMetadata,
+            createdAt: portal.createdAt ? portal.createdAt : null,
+            updatedAt: portal.updatedAt ? portal.updatedAt : null,
         }
     }
     res.status(200).send(resp)
