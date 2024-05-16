@@ -9,4 +9,5 @@ module.exports = {
   canCheckLimitUse: require('./canCheckLimitUse'),
   canListTask: require('./canListTask'),
   canCompleteTask: require('./canCompleteTask'),
+  isAuthenticated: require('./isAuthenticated'),
 };

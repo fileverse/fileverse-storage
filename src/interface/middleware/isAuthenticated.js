@@ -1,6 +1,6 @@
 const ErrorHandler = require('../../infra/errorHandler');
 
-async function canViewAnalytics(req, res, next) {
+async function isAuthenticated(req, res, next) {
     const invokerAddress = req.invokerAddress;
     const contractAddress = req.contractAddress;
     if (req.isAuthenticated) {
@@ -12,10 +12,10 @@ async function canViewAnalytics(req, res, next) {
         }
         return ErrorHandler.throwError({
             code: statusCode,
-            message: `${invokerAddress} does not have permission to enable public portal for ${contractAddress}`,
+            message: `invokerAddress: ${invokerAddress} and contractAddress: ${contractAddress} is not authenticated to make this request.`,
             req,
         });
     }
 }
 
-module.exports = canViewAnalytics;
+module.exports = isAuthenticated;

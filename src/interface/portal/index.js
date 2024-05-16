@@ -1,17 +1,10 @@
-const {
-    asyncHandler,
-    asyncHandlerArray,
-} = require('../../infra/asyncHandler');
-
 const express = require('express');
 const router = express.Router();
 
-const isAuthenticated = require('../middleware/isAuthenticated');
-const enablePortalHadler = require('./enable');
-const { getPortalHandler, getAllPortalHandler } = require('./getPortal');
+const file = require('./file');
+const index = require('./indexPortal');
 
-router.post('/index', asyncHandlerArray([isAuthenticated, enablePortalHadler]));
-router.get('/file/:fileId', asyncHandlerArray([getPortalHandler]));
-router.get('/file', asyncHandlerArray([getAllPortalHandler]));
+router.use('/file', file);
+router.use('/index', index);
 
 module.exports = router;
