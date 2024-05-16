@@ -1,16 +1,13 @@
-const Portal = require('../../domain/publicPortal');
-
-let resp = {
-    error: null,
-    message: "",
-    data: {},
-}
+const Portal = require('../../../domain/publicPortal');
+const constants = require('../../../domain/contants');
 
 async function getAllPortalHandler(req, res) {
+    let resp = { ...constants.Response.GenericResp };
     const { contractAddress } = req;
 
     const portals = await Portal.findAll(contractAddress);
     if (portals.length === 0) {
+        resp.message = "NOT_FOUND";
         resp.error = "Portal not found for contractAddress: " + contractAddress;
 
     } else {
@@ -25,10 +22,10 @@ async function getAllPortalHandler(req, res) {
     }
 
     res.status(200).send(resp);
-
 }
 
 async function getPortalHandler(req, res) {
+    let resp = { ...constants.Response.GenericResp };
     const { contractAddress } = req;
     const { fileId } = req.params;
 

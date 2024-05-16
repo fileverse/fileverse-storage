@@ -1,7 +1,8 @@
-const PortalContract = require('../../domain/contract');
-const Portal = require('../../domain/publicPortal');
-const HASH = require('../../domain/hashResolver')
-
+const PortalContract = require('../../../domain/contract');
+const Portal = require('../../../domain/publicPortal');
+const HASH = require('../../../domain/hashResolver');
+const Job = require('../../../domain/jobs');
+const constants = require('../../../domain/contants');
 
 function extractFilesFromPortal(publicLayoutFile) {
     const sections = publicLayoutFile.sections;
@@ -35,12 +36,7 @@ async function getNormalizedFiles(publicLayoutFile) {
     return normalisedFiles;
 }
 
-async function enablePortalHadler(req, res) {
-    // Extract contract address and chain ID from request
-    const { contractAddress, chainId } = req;
-    // Extract public layout file ID from request body
-    const { publicLayoutFileId } = req.body;
-
+async function processJobs(chainId, contractAddress, publicLayoutFileId) {
     // Create an instance of PortalContract with the contract address and chain ID
     const network = PortalContract.networkFromChainId(chainId);
     const portalContract = new PortalContract(contractAddress, network);
@@ -71,12 +67,33 @@ async function enablePortalHadler(req, res) {
     catch (err) {
         // Log and send an error response if there is an error in updating the portal files
         console.log("Error in updating portal files", err);
-        res.status(500).send("Error in updating portal files due to: " + err);
         return
+    }
+}
+
+async function triggerJobProcessing(req, res) {
+    // Extract contract address and chain ID from request
+    // TODO: Add key validation since this is cron job
+
+    const jobsToProcess = await Job.getAvailableJobs(5);
+    for (const job of jobsToProcess) {
+        const jobData = job.jobData;
+        const contractAddress = job.contractAddress;
+        const chainId = jobData.chainId;
+        const publicLayoutFileId = jobData.publicLayoutFileId;
+
+        try {
+            // Process the job
+            await processJobs(chainId, contractAddress, publicLayoutFileId);
+            // Update the job status to completed
+            await Job.updateJobStatus(job, constants.JobConst.Completed);
+        } catch (error) {
+            await Job.updateJobRetries(job);
+        }
     }
 
     // Send a success response if the portal is enabled successfully
-    res.status(200).send({ message: "Portal enabled successfully" });
+    res.status(200).send({});
 }
 
-module.exports = enablePortalHadler;
+module.exports = triggerJobProcessing;
