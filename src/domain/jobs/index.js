@@ -38,6 +38,7 @@ async function updateJobStatus(job, status) {
 
 async function updateJobRetries(job) {
     job.retries += 1;
+    job.status = constants.JobConst.Pending;
     if (job.retries >= constants.JobConst.RetryLimit) {
         job.status = constants.JobConst.Failed;
     }

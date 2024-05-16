@@ -8,8 +8,9 @@ const Type = {
 }
 
 const RetryLimit = 3;
+const ProcessLimit = 10;
 
 module.exports = {
-    Pending, Processing, Failed, Completed, RetryLimit, Type
+    Pending, Processing, Failed, Completed, RetryLimit, Type, ProcessLimit
 };
 
