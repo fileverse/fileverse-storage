@@ -7,6 +7,7 @@ const _models = {
   Task: require('./task').model,
   Stat: require('./stat').model,
   Portal: require('./portal').model,
+  Job: require('./job').model,
 };
 
 module.exports = _models;
