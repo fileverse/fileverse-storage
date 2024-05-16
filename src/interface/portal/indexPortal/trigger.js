@@ -23,10 +23,9 @@ async function getNormalizedFiles(publicLayoutFile) {
 
     let normalisedFiles = []
     for (const file of files) {
-        const ipfsHash = file.metadata.ipfsHash;
+        const ipfsHash = file?.metadata?.ipfsHash;
 
-        // retun the fileType/fileSource after extracting the value from me
-        const gatewayUrl = await HASH.getGatewayUrl(ipfsHash);
+        const gatewayUrl = ipfsHash ? await HASH.getGatewayUrl(ipfsHash) : null;
 
         normalisedFiles.push({
             name: file.metadata.name,
@@ -48,7 +47,7 @@ async function processJobs(job) {
     const publicLayoutFileId = jobData.publicLayoutFileId;
 
     try {
-        await Job.updateJobStatus(job, constants.JobConst.Processing);
+        await Job.updateJobStatus(job, constants.JobConst.Status.Processing);
 
         // Create an instance of PortalContract with the contract address and chain ID
         const network = PortalContract.networkFromChainId(chainId);
@@ -76,7 +75,7 @@ async function processJobs(job) {
             resolvedMetadata = publicLayoutMetadata
         );
 
-        await Job.updateJobStatus(job, constants.JobConst.Completed);
+        await Job.updateJobStatus(job, constants.JobConst.Status.Completed);
     }
     catch (err) {
         await Job.updateJobRetries(job);
