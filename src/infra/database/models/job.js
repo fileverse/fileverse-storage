@@ -37,7 +37,7 @@ _job.schema = new Schema({
     },
     status: {
         type: String,
-        default: constants.JobConst.Pending,
+        default: constants.JobConst.Status.Pending,
         required: true,
         index: true,
     },

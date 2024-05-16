@@ -5,7 +5,7 @@ async function getJobByContractAddress(contractAddress) {
     // get job by contract address
     const jobs = await Job.find({
         contractAddress,
-        status: { $in: [constants.JobConst.Pending, constants.JobConst.Processing] },
+        status: { $in: [constants.JobConst.Status.Pending, constants.JobConst.Status.Processing] },
         retries: { $lt: constants.JobConst.RetryLimit }
     }).exec();
 
@@ -22,7 +22,7 @@ async function getJobByUuid(uuid) {
 async function getAvailableJobs(limit) {
     // filter jobs by status in Pending or Processing
     const jobs = await Job.find({
-        status: { $in: [constants.JobConst.Pending, constants.JobConst.Processing] },
+        status: { $in: [constants.JobConst.Status.Pending, constants.JobConst.Status.Processing] },
         retries: { $lt: constants.JobConst.RetryLimit }
     }).sort({ updatedAt: 1 }).limit(limit).exec();
 

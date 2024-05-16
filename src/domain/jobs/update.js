@@ -3,10 +3,10 @@ const constants = require('../../domain/contants');
 async function updateJobStatus(job, status) {
     // update job status
     const allowedStatus = [
-        constants.JobConst.Pending,
-        constants.JobConst.Processing,
-        constants.JobConst.Completed,
-        constants.JobConst.Failed
+        constants.JobConst.Status.Pending,
+        constants.JobConst.Status.Processing,
+        constants.JobConst.Status.Completed,
+        constants.JobConst.Status.Failed
     ];
 
     if (!allowedStatus.includes(status)) {
@@ -20,9 +20,9 @@ async function updateJobStatus(job, status) {
 
 async function updateJobRetries(job) {
     job.retries += 1;
-    job.status = constants.JobConst.Pending;
+    job.status = constants.JobConst.Status.Pending;
     if (job.retries >= constants.JobConst.RetryLimit) {
-        job.status = constants.JobConst.Failed;
+        job.status = constants.JobConst.Status.Failed;
     }
     job.updatedAt = new Date();
     await job.save();
