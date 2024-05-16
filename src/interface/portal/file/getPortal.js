@@ -67,13 +67,17 @@ async function getPortalHandler(req, res) {
     const queueJobs = await Job.getJobByContractAddress(contractAddress);
     if (queueJobs.length > 0) {
         resp.message = constants.Response.RespMsg.SUCCESS;
-        resp.data = queueJobs.map(job => ({
-            uuid: job.uuid,
-            status: job.status,
-            jobData: job.jobData,
-            createdAt: job.createdAt ? job.createdAt : null,
-            updatedAt: job.updatedAt ? job.updatedAt : null,
-        }));
+        resp.data = queueJobs.map(job => {
+            if (job.jobData.fileId === fileId) {
+                return {
+                    uuid: job.uuid,
+                    status: job.status,
+                    jobData: job.jobData,
+                    createdAt: job.createdAt ? job.createdAt : null,
+                    updatedAt: job.updatedAt ? job.updatedAt : null,
+                }
+            }
+        });
         res.status(200).send(resp);
         return;
     }
