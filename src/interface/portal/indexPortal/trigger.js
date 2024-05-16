@@ -24,13 +24,17 @@ async function getNormalizedFiles(publicLayoutFile) {
     let normalisedFiles = []
     for (const file of files) {
         const ipfsHash = file.metadata.ipfsHash;
+
+        // retun the fileType/fileSource after extracting the value from me
         const gatewayUrl = await HASH.getGatewayUrl(ipfsHash);
 
         normalisedFiles.push({
             name: file.metadata.name,
+            type: file.type,
             mimeType: file.metadata.mimeType,
             ipfsHash: ipfsHash,
             gatewayUrl: gatewayUrl,
+            metadata: file.metadata
         });
     }
 
