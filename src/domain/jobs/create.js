@@ -12,4 +12,4 @@ async function createJob(jobType, jobData, contractAddress) {
     return job;
 }
 
-module.exports = createJob;
+module.exports = { createJob };
