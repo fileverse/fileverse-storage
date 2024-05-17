@@ -16,6 +16,14 @@ module.exports = {
   ownsGitcoinPassport,
   tasks: [
     {
+      taskId: "EDIT_PUBLIC_PORTAL",
+      name: "Edit your public portal",
+      activityType: "AUTO",
+      points: 50,
+      type: "CREATE",
+      category: "DISCOVERY",
+    },
+    {
       taskId: "PRIVATE_KEY_DOWNLOAD",
       name: "Download your encryption keys",
       activityType: "CLIENT",
