@@ -18,7 +18,7 @@ module.exports = {
     {
       taskId: "EDIT_PUBLIC_PORTAL",
       name: "Edit your public portal",
-      activityType: "AUTO",
+      activityType: "CLIENT",
       points: 50,
       type: "CREATE",
       category: "DISCOVERY",
