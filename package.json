@@ -31,6 +31,7 @@
     "node-cache": "^5.1.2",
     "request": "^2.88.2",
     "ucans": "^0.10.0",
+    "uuid": "^9.0.1",
     "web3.storage": "^4.4.0"
   },
   "devDependencies": {

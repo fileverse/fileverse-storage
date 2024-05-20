@@ -8,8 +8,13 @@ _file.schema = new Schema({
   contractAddress: {
     type: String,
     lowercase: true,
-    required: true,
+    required: false,
     index: true,
+  },
+  gatewayUrl: {
+    type: String,
+    default: null,
+    required: false,
   },
   fileId: { type: String },
   chainId: { type: String },
@@ -19,6 +24,11 @@ _file.schema = new Schema({
     type: [String],
     index: true,
     default: [],
+  },
+  namespace: {
+    type: String,
+    default: null,
+    required: false,
   },
   timeStamp: {
     type: Date,
@@ -37,10 +47,12 @@ _file.schema.methods.safeObject = function () {
     '_id',
     'invokerAddress',
     'contractAddress',
+    'gatewayUrl',
     'fileId',
     'ipfsHash',
     'fileSize',
     'tags',
+    'namespace',
     'timeStamp',
   ];
   const newSafeObject = {};
