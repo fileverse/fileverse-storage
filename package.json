@@ -15,6 +15,7 @@
   "author": "Vijay Krishnavanshi",
   "license": "ISC",
   "dependencies": {
+    "@filebase/sdk": "^1.0.4",
     "@pinata/sdk": "^1.1.26",
     "aws-sdk": "^2.1209.0",
     "bunyan": "^1.8.15",
@@ -30,6 +31,7 @@
     "node-cache": "^5.1.2",
     "request": "^2.88.2",
     "ucans": "^0.10.0",
+    "uuid": "^9.0.1",
     "web3.storage": "^4.4.0"
   },
   "devDependencies": {
