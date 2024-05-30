@@ -1,5 +1,6 @@
 const config = require("../../../config");
 const { Limit } = require("../../infra/database/models");
+const getDefaultStorageLimit = require("../../infra/defaultStorageLimit");
 const { claims } = require("./claim");
 
 const NodeCache = require("node-cache");
@@ -34,11 +35,11 @@ async function formatClaims(invokerAddress, contractAddress, claimsMap, removeCa
 }
 
 async function getStorageStatus({ contractAddress, invokerAddress, setCache = false }) {
-  const limit = await contractAddress ? Limit.findOne({ contractAddress }) : Limit.findOne({ invokerAddress });
+  const limit = await Limit.findOne({ invokerAddress, contractAddress });
   return {
     contractAddress,
     invokerAddress,
-    storageLimit: limit?.storageLimit || config.DEFAULT_STORAGE_LIMIT,
+    storageLimit: limit?.storageLimit || getDefaultStorageLimit(contractAddress),
     claims: await formatClaims(invokerAddress, contractAddress, limit?.claimsMap, setCache),
   };
 }
