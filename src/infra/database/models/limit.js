@@ -4,6 +4,14 @@ const { Schema } = mongoose;
 
 const _limit = {};
 
+const getDefaultStorageLimit = (contractAddress) => {
+
+  const regularUserStorageLimit = Number(config.DEFAULT_STORAGE_LIMIT) || 200000000;
+  // temp user storage limit is by default 1/4th of regular user storage limit
+  const tempUserStorageLimit = Number(config.DEFAULT_TEMP_STORAGE_LIMIT) || Math.floor(regularUserStorageLimit / 4);
+  return contractAddress ? regularUserStorageLimit : tempUserStorageLimit;
+};
+
 _limit.schema = new Schema({
   contractAddress: {
     type: String,
@@ -20,7 +28,9 @@ _limit.schema = new Schema({
   },
   storageLimit: {
     type: Number,
-    default: config.DEFAULT_STORAGE_LIMIT
+    default: function () { // Use a function to calculate the default value dynamically
+      return getDefaultStorageLimit(this.contractAddress);
+    },
   },
   storageUse: {
     type: Number,
@@ -61,18 +71,5 @@ _limit.schema.methods.safeObject = function () {
 };
 
 _limit.model = mongoose.model("limits", _limit.schema);
-
-const getDefaultStorageLimit = (contractAddress) => {
-
-  const regularUserStorageLimit = Number(config.DEFAULT_STORAGE_LIMIT) || 200000000;
-  // temp user storage limit is by default 1/4th of regular user storage limit
-  const tempUserStorageLimit = Number(config.DEFAULT_TEMP_STORAGE_LIMIT) || Math.floor(regularUserStorageLimit / 4);
-  return contractAddress ? regularUserStorageLimit : tempUserStorageLimit;
-};
-
-_limit.pre('save', function (next) {
-  this.storageLimit = getDefaultStorageLimit(this.contractAddress);
-  next();
-});
 
 module.exports = _limit;
