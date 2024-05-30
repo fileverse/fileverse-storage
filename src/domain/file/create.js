@@ -1,4 +1,5 @@
 const { File, Limit } = require("../../infra/database/models");
+const getDefaultStorageLimit = require("../../infra/defaultStorageLimit");
 
 async function create({
   fileId,
@@ -22,11 +23,13 @@ async function create({
     tags,
     namespace
   }).save();
+
+  const storageLimit = getDefaultStorageLimit(contractAddress);
   await Limit.updateOne(
-    { contractAddress },
+    { invokerAddress, contractAddress },
     {
       $inc: { storageUse: fileSize },
-      $setOnInsert: { contractAddress },
+      $setOnInsert: { invokerAddress, contractAddress, storageLimit },
     },
     { upsert: true }
   );

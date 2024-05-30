@@ -28,9 +28,7 @@ _limit.schema = new Schema({
   },
   storageLimit: {
     type: Number,
-    default: function () { // Use a function to calculate the default value dynamically
-      return getDefaultStorageLimit(this.contractAddress);
-    },
+    default: config.DEFAULT_STORAGE_LIMIT,
   },
   storageUse: {
     type: Number,
