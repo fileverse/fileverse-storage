@@ -1,5 +1,5 @@
 const Portal = require('../../../domain/publicPortal');
-const constants = require('../../../domain/contants');
+const constants = require('../../../domain/constants');
 const Job = require('../../../domain/jobs');
 
 

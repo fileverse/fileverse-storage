@@ -8,7 +8,7 @@ async function claimStorage({ contractAddress, invokerAddress }) {
     invokerAddress,
     setCache: true,
   });
-  let storageLimit = contractAddress ? Number(config.DEFAULT_STORAGE_LIMIT) : Number(config.DEFAULT_TEMP_STORAGE_LIMIT);
+  let storageLimit = Number(config.DEFAULT_STORAGE_LIMIT);
   const claimsMap = {};
   status.claims.map((elem) => {
     if (elem.canClaim) {
@@ -18,7 +18,6 @@ async function claimStorage({ contractAddress, invokerAddress }) {
   });
   await Limit.findOneAndUpdate(
     { contractAddress },
-    { invokerAddress },
     { $set: { storageLimit, claimsMap } },
     { upsert: true }
   );

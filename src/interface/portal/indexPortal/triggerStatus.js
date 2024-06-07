@@ -1,5 +1,5 @@
 const Job = require('../../../domain/jobs');
-const constants = require('../../../domain/contants');
+const constants = require('../../../domain/constants');
 
 async function processStatus(req, res) {
     let resp = { ...constants.Response.GenericResp };

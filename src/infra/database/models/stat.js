@@ -7,7 +7,7 @@ _stat.schema = new Schema({
   contractAddress: {
     type: String,
     lowercase: true,
-    required: false,
+    required: true,
     index: true,
   },
   tagStats: { type: Schema.Types.Mixed },

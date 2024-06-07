@@ -2,7 +2,7 @@ const PortalContract = require('../../../domain/contract');
 const Portal = require('../../../domain/publicPortal');
 const HASH = require('../../../domain/hashResolver');
 const Job = require('../../../domain/jobs');
-const constants = require('../../../domain/contants');
+const constants = require('../../../domain/constants');
 const config = require('../../../../config');
 
 function extractFilesFromPortal(publicLayoutFile) {

@@ -8,7 +8,7 @@ _log.schema = new Schema({
   contractAddress: {
     type: String,
     lowercase: true,
-    required: false,
+    required: true,
     index: true,
   },
   eventName: { type: String, required: true },
