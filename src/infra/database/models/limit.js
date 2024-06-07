@@ -8,8 +8,15 @@ _limit.schema = new Schema({
   contractAddress: {
     type: String,
     lowercase: true,
-    required: true,
+    required: false,
     index: true,
+  },
+  invokerAddress: {
+    type: String,
+    lowercase: true,
+    required: false,
+    index: true,
+    default: null,
   },
   storageLimit: {
     type: Number,
