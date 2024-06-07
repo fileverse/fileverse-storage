@@ -1,4 +1,4 @@
-const constants = require('../constants');
+const constants = require('../contants');
 const { Job } = require('../../infra/database/models');
 
 async function getJobByContractAddress(contractAddress) {

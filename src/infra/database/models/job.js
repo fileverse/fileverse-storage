@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const constants = require('../../../domain/constants');
+const constants = require('../../../domain/contants');
 const uuidv4 = require('uuid').v4;
 
 

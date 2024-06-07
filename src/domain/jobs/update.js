@@ -1,4 +1,4 @@
-const constants = require('../constants');
+const constants = require('../contants');
 
 async function updateJobStatus(job, status) {
     // update job status

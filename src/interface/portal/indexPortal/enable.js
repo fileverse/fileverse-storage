@@ -1,5 +1,5 @@
 const Job = require('../../../domain/jobs');
-const constants = require('../../../domain/constants');
+const constants = require('../../../domain/contants');
 const Task = require('../../../domain/task')
 
 async function enablePortalHadler(req, res) {
