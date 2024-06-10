@@ -97,7 +97,7 @@ module.exports = {
     },
     {
       taskId: "CREATE_TWITTER_POST",
-      name: "Share a dPage on X",
+      name: "Share the dPage on X",
       activityType: "CLIENT",
       points: 50,
       type: "CREATE",

@@ -41,7 +41,6 @@ async function upload({ fileId, chainId, contractAddress, file, invokerAddress, 
     invokerAddress,
     fileSize: ipfsFile?.pinSize,
     tags: tags || [],
-    namespace,
   });
 
   // Return uploaded file metadata

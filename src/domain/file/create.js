@@ -9,7 +9,6 @@ async function create({
   contractAddress,
   invokerAddress,
   tags,
-  namespace
 }) {
   const file = await new File({
     fileId,
@@ -20,8 +19,8 @@ async function create({
     contractAddress,
     invokerAddress,
     tags,
-    namespace
   }).save();
+
   await Limit.updateOne(
     { contractAddress },
     {
