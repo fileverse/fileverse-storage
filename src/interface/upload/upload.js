@@ -7,7 +7,8 @@ const { Joi, validate } = validator;
 
 const uploadValidation = {
   headers: Joi.object({
-    contract: Joi.string().required(),
+    contract: Joi.string().optional(),
+    invoker: Joi.string().optional(),
   }).unknown(true),
   query: Joi.object({
     tags: Joi.array().items(Joi.string()).optional(),
@@ -17,16 +18,26 @@ const uploadValidation = {
 async function uploadFn(req, res) {
   const { contractAddress, invokerAddress, chainId } = req;
   const { tags } = req.query;
+  const { file } = req.files;
 
-  const createdFile = await upload({
-    contractAddress,
-    invokerAddress,
-    chainId,
-    file: req.files?.file,
-    tags,
-  }).catch(console.log);
+  if (file === undefined) {
+    return res.status(400).json({ error: 'No file found to upload' });
+  }
 
-  await Log.create('upload', { contractAddress, invokerAddress, ipfsHash: createdFile.ipfsHash, tags });
+  try {
+    const createdFile = await upload({
+      contractAddress,
+      invokerAddress,
+      chainId,
+      file: file,
+      tags,
+    }).catch(console.log);
+
+    await Log.create('upload', { contractAddress, invokerAddress, ipfsHash: createdFile.ipfsHash, tags });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+
   res.json(createdFile);
 }
 

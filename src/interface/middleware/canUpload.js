@@ -2,15 +2,16 @@ const getStorageUse = require("../../domain/limit/getStorageUse");
 const ErrorHandler = require("../../infra/errorHandler");
 
 
-async function checkStorageLimit(contractAddress, invokerAddress) {
+async function checkStorageLimit(file, contractAddress, invokerAddress) {
   if (!contractAddress && !invokerAddress) {
     return false;
   }
 
+  const filesize = file.data.length;
   const limit = await getStorageUse({ contractAddress, invokerAddress });
   const totalAllowedStorage = limit.storageLimit + limit.extraStorage;
 
-  return limit.storageUse >= totalAllowedStorage;
+  return limit.storageUse + filesize > totalAllowedStorage;
 }
 
 async function canUpload(req, res, next) {
@@ -23,7 +24,8 @@ async function canUpload(req, res, next) {
     return ErrorHandler.throwError({ code, message, req });
   }
 
-  const storageLimitBreached = await checkStorageLimit(contractAddress, invokerAddress);
+  const { file } = req.files;
+  const storageLimitBreached = await checkStorageLimit(file, contractAddress, invokerAddress);
   if (storageLimitBreached) {
     const statusCode = 507;
     const message = `Storage for ${contractAddress} is full, please either claim more storage or contact us on twitter @fileverse`;

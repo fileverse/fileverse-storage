@@ -1,5 +1,6 @@
 const { Readable } = require('stream');
 const File = require('./file');
+const Limit = require('./limit');
 const Cache = require('./cache');
 const { GetIpfsService } = require('./ipfs');
 const cache = new Cache();
@@ -42,6 +43,12 @@ async function upload({ fileId, chainId, contractAddress, file, invokerAddress, 
     fileSize: ipfsFile?.pinSize,
     tags: tags || [],
   });
+
+  await Limit.updateStorageUse({
+    contractAddress,
+    invokerAddress,
+    fileSize: ipfsFile?.pinSize,
+  })
 
   // Return uploaded file metadata
   return {

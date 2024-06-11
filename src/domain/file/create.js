@@ -1,4 +1,4 @@
-const { File, Limit } = require("../../infra/database/models");
+const { File } = require("../../infra/database/models");
 
 async function create({
   fileId,
@@ -21,14 +21,6 @@ async function create({
     tags,
   }).save();
 
-  await Limit.updateOne(
-    { contractAddress },
-    {
-      $inc: { storageUse: fileSize },
-      $setOnInsert: { contractAddress },
-    },
-    { upsert: true }
-  );
   return file.safeObject();
 }
 
