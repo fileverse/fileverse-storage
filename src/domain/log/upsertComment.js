@@ -11,7 +11,7 @@ async function upsertComment({ contractAddress, invokerAddress, file }) {
         contractAddress,
         invokerAddress,
     }, {
-        "$push": { "tags": file }
+        "$addToSet": { "tags": file }
     }, {
         "new": true, "upsert": true
     });
