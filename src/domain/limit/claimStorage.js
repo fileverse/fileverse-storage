@@ -1,6 +1,5 @@
 const config = require("../../../config");
 const { Limit } = require("../../infra/database/models");
-const getDefaultStorageLimit = require("../../infra/defaultStorageLimit");
 const getStorageStatus = require("./getStorageStatus");
 
 async function claimStorage({ contractAddress, invokerAddress }) {
@@ -9,7 +8,7 @@ async function claimStorage({ contractAddress, invokerAddress }) {
     invokerAddress,
     setCache: true,
   });
-  let storageLimit = getDefaultStorageLimit(contractAddress);
+  let storageLimit = contractAddress ? Number(config.DEFAULT_STORAGE_LIMIT) : Number(config.DEFAULT_TEMP_STORAGE_LIMIT);
   const claimsMap = {};
   status.claims.map((elem) => {
     if (elem.canClaim) {
@@ -18,7 +17,8 @@ async function claimStorage({ contractAddress, invokerAddress }) {
     }
   });
   await Limit.findOneAndUpdate(
-    { contractAddress, invokerAddress },
+    { contractAddress },
+    { invokerAddress },
     { $set: { storageLimit, claimsMap } },
     { upsert: true }
   );
