@@ -4,7 +4,7 @@ const { Joi, validate } = validator;
 
 const checkValidation = {
   headers: Joi.object({
-    contract: Joi.string().required(),
+    contract: Joi.string().optional(),
     invoker: Joi.string().required(),
     chain: Joi.string().required(),
   }).unknown(true),

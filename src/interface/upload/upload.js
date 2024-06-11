@@ -8,7 +8,7 @@ const { Joi, validate } = validator;
 const uploadValidation = {
   headers: Joi.object({
     contract: Joi.string().optional(),
-    invoker: Joi.string().optional(),
+    invoker: Joi.string().required(),
   }).unknown(true),
   query: Joi.object({
     tags: Joi.array().items(Joi.string()).optional(),
