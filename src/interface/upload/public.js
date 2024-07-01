@@ -26,7 +26,7 @@ async function uploadPublicFn(req, res) {
         tags,
     }).catch(console.log);
 
-    await Log.create('upload-public', { contractAddress, invokerAddress, ipfsHash: createdFile.ipfsHash, tags });
+    await Log.create('upload-public', { invokerAddress, ipfsHash: createdFile.ipfsHash, tags });
     res.json(createdFile);
 }
 
