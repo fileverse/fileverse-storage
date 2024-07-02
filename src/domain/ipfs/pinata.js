@@ -10,12 +10,13 @@ class Pinata extends IpfsStorageInterface {
     super();
     this.apiKey = config.PINATA_API_KEY;
     this.secretApiKey = config.PINATA_SECRET_KEY;
+    this.pinataGateway = config.PINATA_GATEWAY || 'https://ipfs.fileverse.io/ipfs';
     this.pinata = pinataSDK(this.apiKey, this.secretApiKey);
   }
 
   formatFile(file) {
     return {
-      ipfsUrl: `https://ipfs.fileverse.io/ipfs/${file.IpfsHash}`,
+      ipfsUrl: `${this.pinataGateway}/${file.IpfsHash}`,
       ipfsHash: file.IpfsHash,
       ipfsStorage: 'pinata',
       pinSize: file.PinSize,
