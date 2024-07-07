@@ -10,10 +10,11 @@ const {
 
 
 const upload = require('./upload');
+const uploadPublic = require('./public');
 
 // middlewares
 const {
-  canUpload,
+  canUpload, isPublic
 } = require('../middleware');
 
 router.post(
@@ -21,6 +22,13 @@ router.post(
   asyncHandler(canUpload),
   fileUpload(),
   asyncHandlerArray(upload),
+);
+
+router.post(
+  '/public',
+  asyncHandler(isPublic),
+  fileUpload(),
+  asyncHandlerArray(uploadPublic),
 );
 
 module.exports = router;

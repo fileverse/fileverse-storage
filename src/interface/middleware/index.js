@@ -10,4 +10,5 @@ module.exports = {
   canListTask: require('./canListTask'),
   canCompleteTask: require('./canCompleteTask'),
   isAuthenticated: require('./isAuthenticated'),
+  isPublic: require('./isPublic'),
 };
