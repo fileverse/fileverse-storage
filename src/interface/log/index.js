@@ -9,10 +9,12 @@ const { canView, isAuthenticated } = require('../middleware');
 
 const logComments = require('./logComments');
 const create = require('./create');
-const ddocCreate = require('./ddoc')
+const ddocCreate = require('./ddoc');
+const ddocSignUp = require('./ddocSignup');
 
 router.post('/create', asyncHandler(canView), asyncHandlerArray(create));
 router.put('/comment', asyncHandler(isAuthenticated), asyncHandlerArray(logComments));
 router.get('/create/ddoc', asyncHandlerArray(ddocCreate));
+router.post('/signup/ddoc', asyncHandlerArray(ddocSignUp));
 
 module.exports = router;

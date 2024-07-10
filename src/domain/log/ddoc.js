@@ -10,4 +10,14 @@ async function ddocCreate(invokerAddress) {
     return safeLog;
 }
 
-module.exports = ddocCreate;
+async function ddocSignup(invokerAddress) {
+    const logObject = await new Log({
+        eventName: "DDOC_SIGNUP",
+        invokerAddress,
+    }).save();
+
+    const safeLog = logObject.safeObject();
+    return safeLog;
+}
+
+module.exports = { ddocCreate, ddocSignup };
