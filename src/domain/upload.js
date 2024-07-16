@@ -25,6 +25,7 @@ async function upload({ fileId, chainId, contractAddress, file, invokerAddress, 
   // Calculate file size
   const filesize = data.length;
 
+  console.log('Uploading file:', mimetype, ", size:", filesize, ", bytes from contract:", contractAddress, ", invoker:", invokerAddress);
   // Upload file to IPFS
   const ipfsFile = await GetIpfsService().upload(stream, { name, filesize });
 
