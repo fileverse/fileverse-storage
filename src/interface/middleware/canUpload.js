@@ -30,6 +30,10 @@ async function canUpload(req, res, next) {
     return ErrorHandler.throwError({ code: statusCode, message, req });
   }
 
+  const file = req.files?.file;
+  const { data } = file;
+  const fileSize = data.length;
+  console.log("uploading file of size: ", fileSize, "bytes by invoker address: ", invokerAddress, "for contract address: ", contractAddress);
   next();
 }
 
