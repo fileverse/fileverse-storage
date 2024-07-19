@@ -11,8 +11,7 @@ const triggerJobProcessing = require('./trigger');
 const processStatus = require('./triggerStatus');
 const middleware = require('../../middleware');
 
-// router.post('/', asyncHandlerArray([middleware.isAuthenticated, enablePortalHadler]));
-router.post('/', asyncHandlerArray([enablePortalHadler]));
+router.post('/', asyncHandlerArray([middleware.isAuthenticated, enablePortalHadler]));
 router.get('/trigger', asyncHandlerArray([triggerJobProcessing]));
 router.get('/trigger/status', asyncHandlerArray([middleware.isAuthenticated, processStatus]));
 
