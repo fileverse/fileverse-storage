@@ -1,5 +1,6 @@
 const { createClient } = require('redis');
 const redisUrl = process.env.REDIS_URL || '127.0.0.1:6379';
+const redisPassword = process.env.REDIS_PASSWORD || '';
 
 // Custom serializer for BigInt values
 function customStringify(obj) {
@@ -12,7 +13,10 @@ function customStringify(obj) {
 
 async function publish(respObj) {
 
-    const client = await createClient({ url: `redis://${redisUrl}` })
+    const client = await createClient({
+        url: `redis://${redisUrl}`,
+        password: redisPassword,
+    })
         .on('connect', () => console.log('Connected to Redis'))
         .on('error', err => console.log('Redis Client Error', err))
         .connect();
