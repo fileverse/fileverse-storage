@@ -1,6 +1,6 @@
-const { createClient } = require('redis');
-const redisUrl = process.env.REDIS_URL || '127.0.0.1:6379';
-const redisPassword = process.env.REDIS_PASSWORD || '';
+const axios = require('axios');
+const url = process.env.PRODUCER_HOST;
+const apiKey = process.env.PRODUCER_API_KEY;
 
 // Custom serializer for BigInt values
 function customStringify(obj) {
@@ -13,22 +13,31 @@ function customStringify(obj) {
 
 async function publish(respObj) {
 
-    const client = await createClient({
-        url: `redis://${redisUrl}`,
-        password: redisPassword,
-    })
-        .on('connect', () => console.log('Connected to Redis'))
-        .on('error', err => console.log('Redis Client Error', err))
-        .connect();
-
     const message = customStringify(respObj);
-    let resp = await client.xAdd(
-        "public-portal",
-        "*",
-        { job: message },
-    );
+    if (url === undefined || apiKey === undefined) {
+        throw new Error('PRODUCER_HOST is not defined');
+    }
 
-    console.log(`Published message with ID: ${resp}`);
+    const endpoint = url + '/api/v1/producer/public-portal';
+
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: endpoint,
+        headers: {
+            'x-api-key': apiKey
+        },
+        data: message
+    };
+
+    const resp = await axios.request(config)
+
+    if (resp.status !== 200) {
+        throw new Error('Error in creating job: ' + resp.data);
+    } else {
+        console.log('Job created successfully');
+    }
+
 }
 
 module.exports = publish;
