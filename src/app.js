@@ -5,18 +5,8 @@
  * And make the routes visible.
  */
 
-const config = require('../config');
-
-if (config.ENABLE_APM === 'true') {
-  require('elastic-apm-node').start({
-    // Override service name from package.json
-    // Allowed characters: a-z, A-Z, 0-9, -, _, and space
-    serviceName: config.ELASTIC_SERVICE_NAME,
-    secretToken: config.ELASTIC_SECRET_TOKEN,
-    serverUrl: config.ELASTIC_SERVER_URL,
-    environment: config.ELASTIC_ENVIRONMENT,
-  });
-}
+var getRawBody = require('raw-body');
+var contentType = require('content-type');
 
 const express = require('express');
 const logger = require('morgan');
@@ -48,6 +38,32 @@ app.use(
 );
 
 app.use(asyncHandler(ucan.verify));
+app.use(function (req, res, next) {
+  let encoding = undefined;
+  if (req.headers['content-type']) {
+    encoding = contentType.parse(req)?.parameters?.charset || true;
+  }
+
+  getRawBody(req, {
+    length: req.headers['content-length'],
+    limit: '400mb',
+    encoding: encoding,
+  }, function (err, string) {
+    if (err) {
+      const headers = req.headers;
+      const identifier = {
+        chain: headers['chain'],
+        contract: headers['contract'],
+        invoker: headers['invoker'],
+        host: headers['host'],
+      }
+      console.log('req limit exceeded of req with headers', identifier)
+      return next(err)
+    }
+    req.text = string
+    next()
+  })
+})
 
 // This is to check if the service is online or not
 app.use('/ping', function (req, res) {
