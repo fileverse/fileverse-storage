@@ -5,7 +5,7 @@ const {
 const express = require('express');
 const router = express.Router();
 
-const canView = require('../middleware');
+const canView = require('../middleware/canView');
 
 const create = require('./create');
 const ddocCreate = require('./ddoc');
