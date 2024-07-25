@@ -5,20 +5,8 @@
  * And make the routes visible.
  */
 
-const config = require('../config');
 var getRawBody = require('raw-body');
 var contentType = require('content-type');
-
-if (config.ENABLE_APM === 'true') {
-  require('elastic-apm-node').start({
-    // Override service name from package.json
-    // Allowed characters: a-z, A-Z, 0-9, -, _, and space
-    serviceName: config.ELASTIC_SERVICE_NAME,
-    secretToken: config.ELASTIC_SECRET_TOKEN,
-    serverUrl: config.ELASTIC_SERVER_URL,
-    environment: config.ELASTIC_ENVIRONMENT,
-  });
-}
 
 const express = require('express');
 const logger = require('morgan');
