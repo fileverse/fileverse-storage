@@ -39,11 +39,15 @@ app.use(
 
 app.use(asyncHandler(ucan.verify));
 app.use(function (req, res, next) {
+  let encoding = undefined;
+  if (req.headers['content-type']) {
+    encoding = contentType.parse(req)?.parameters?.charset || true;
+  }
 
   getRawBody(req, {
     length: req.headers['content-length'],
     limit: '200mb',
-    encoding: contentType.parse(req)?.parameters?.charset || '',
+    encoding: encoding,
   }, function (err, string) {
     if (err) {
       const headers = req.headers;
