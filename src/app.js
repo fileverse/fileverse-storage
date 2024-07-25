@@ -39,10 +39,11 @@ app.use(
 
 app.use(asyncHandler(ucan.verify));
 app.use(function (req, res, next) {
+
   getRawBody(req, {
     length: req.headers['content-length'],
     limit: '200mb',
-    encoding: contentType.parse(req).parameters.charset
+    encoding: contentType.parse(req)?.parameters?.charset || '',
   }, function (err, string) {
     if (err) {
       const headers = req.headers;
