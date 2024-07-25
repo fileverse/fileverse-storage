@@ -46,7 +46,7 @@ app.use(function (req, res, next) {
 
   getRawBody(req, {
     length: req.headers['content-length'],
-    limit: '200mb',
+    limit: '400mb',
     encoding: encoding,
   }, function (err, string) {
     if (err) {
