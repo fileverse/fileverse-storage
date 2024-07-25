@@ -5,16 +5,14 @@ const {
 const express = require('express');
 const router = express.Router();
 
-const { canView, isAuthenticated } = require('../middleware');
+const canView = require('../middleware');
 
-const logComments = require('./logComments');
 const create = require('./create');
 const ddocCreate = require('./ddoc');
 const ddocSignUp = require('./ddocSignup');
 
 router.post('/create', asyncHandler(canView), asyncHandlerArray(create));
-router.put('/comment', asyncHandler(isAuthenticated), asyncHandlerArray(logComments));
-// router.get('/create/ddoc', asyncHandlerArray(ddocCreate));
-// router.post('/signup/ddoc', asyncHandlerArray(ddocSignUp));
+router.get('/create/ddoc', asyncHandlerArray(ddocCreate));
+router.post('/signup/ddoc', asyncHandlerArray(ddocSignUp));
 
 module.exports = router;
