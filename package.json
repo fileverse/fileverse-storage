@@ -29,7 +29,6 @@
     "mongoose": "^6.5.4",
     "morgan": "^1.10.0",
     "node-cache": "^5.1.2",
-    "raw-body": "^2.5.2",
     "request": "^2.88.2",
     "ucans": "^0.10.0",
     "uuid": "^9.0.1",
