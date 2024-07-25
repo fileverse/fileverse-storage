@@ -6,6 +6,8 @@
  */
 
 const config = require('../config');
+var getRawBody = require('raw-body');
+var contentType = require('content-type');
 
 if (config.ENABLE_APM === 'true') {
   require('elastic-apm-node').start({
@@ -27,6 +29,7 @@ const router = require('./interface');
 const { errorHandler } = require('./interface/middleware');
 const { asyncHandler } = require('./infra/asyncHandler');
 const ucan = require('./infra/ucan');
+const { id } = require('ethers/lib/utils');
 
 // Express App
 const app = express();
@@ -48,6 +51,27 @@ app.use(
 );
 
 app.use(asyncHandler(ucan.verify));
+app.use(function (req, res, next) {
+  getRawBody(req, {
+    length: req.headers['content-length'],
+    limit: '200mb',
+    encoding: contentType.parse(req).parameters.charset
+  }, function (err, string) {
+    if (err) {
+      const headers = req.headers;
+      const identifier = {
+        chain: headers['chain'],
+        contract: headers['contract'],
+        invoker: headers['invoker'],
+        host: headers['host'],
+      }
+      console.log('req limit exceeded of req with headers', identifier)
+      return next(err)
+    }
+    req.text = string
+    next()
+  })
+})
 
 // This is to check if the service is online or not
 app.use('/ping', function (req, res) {
