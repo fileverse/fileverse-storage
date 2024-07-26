@@ -30,7 +30,7 @@ async function canUpload(req, res, next) {
     const message = `Storage for ${contractAddress} is full, please either claim more storage or contact us on twitter @fileverse`;
     // ErrorHandler.throwError({ code: statusCode, message, req });
     reporter.reportError(message).catch(console.log);
-    return res.status(statusCode).json({ message });
+    return res.status(statusCode).json({ message }).end();
   }
 
   next();
