@@ -32,6 +32,7 @@ async function canUpload(req, res, next) {
     reporter.reportError(message).catch(console.log);
     res.status(statusCode).json({ message })
     res.end();
+    req.connection.destroy();
     return;
   }
 
