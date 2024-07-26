@@ -25,7 +25,7 @@ async function canUpload(req, res, next) {
 
   const storageLimitBreached = await checkStorageLimit(contractAddress, invokerAddress);
   if (storageLimitBreached) {
-    const statusCode = 507;
+    const statusCode = 400;
     const message = `Storage for ${contractAddress} is full, please either claim more storage or contact us on twitter @fileverse`;
     return ErrorHandler.throwError({ code: statusCode, message, req });
   }
