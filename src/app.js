@@ -35,7 +35,6 @@ app.use(
 );
 
 app.use(asyncHandler(ucan.verify));
-
 // This is to check if the service is online or not
 app.use('/ping', function (req, res) {
   res.json({ reply: 'pong' });

@@ -1,7 +1,6 @@
 const Job = require('../../../domain/jobs');
 const constants = require('../../../domain/contants');
 const Task = require('../../../domain/task')
-const publish = require('./publish');
 
 async function enablePortalHadler(req, res) {
     let resp = { ...constants.Response.GenericResp };
@@ -14,7 +13,6 @@ async function enablePortalHadler(req, res) {
     }
 
     try {
-        await publish({ contractAddress, chainId, publicLayoutFileId });
         const newJob = await Job.createJob(constants.JobConst.Type.PublicPortal, jobBody, contractAddress);
         resp.message = constants.Response.RespMsg.SUCCESS;
         resp.data = {
