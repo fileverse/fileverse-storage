@@ -1,5 +1,4 @@
 const getStorageUse = require("../../domain/limit/getStorageUse");
-// const ErrorHandler = require("../../infra/errorHandler");
 const reporter = require("../../infra/reporter");
 
 
@@ -14,31 +13,35 @@ async function checkStorageLimit(contractAddress, invokerAddress) {
   return limit.storageUse >= totalAllowedStorage;
 }
 
+function drainReq(req, res, statusCode, message) {
+  if (req.readable) {
+    req.resume();
+    req.on('end', () => {
+      res.status(statusCode).json({ error: message });
+    });
+  } else {
+    res.status(statusCode).json({ error: message });
+  }
+}
+
 async function canUpload(req, res, next) {
   const invokerAddress = req.invokerAddress;
   const contractAddress = req.contractAddress;
 
   if (!req.isAuthenticated) {
-    const code = invokerAddress ? 403 : 401;
+    const statusCode = invokerAddress ? 403 : 401;
     const message = `invokerAddress: ${invokerAddress} does not have permission to upload file for subdomain: ${contractAddress}`;
-    return ErrorHandler.throwError({ code, message, req });
+    reporter.reportError(message).catch(console.log);
+    drainReq(req, res, statusCode, message);
+    return;
   }
 
   const storageLimitBreached = await checkStorageLimit(contractAddress, invokerAddress);
   if (storageLimitBreached) {
     const statusCode = 400;
     const message = `Storage for ${contractAddress} is full, please either claim more storage or contact us on twitter @fileverse`;
-    // ErrorHandler.throwError({ code: statusCode, message, req });
     reporter.reportError(message).catch(console.log);
-
-    if (req.readable) {
-      req.resume();
-      req.on('end', () => {
-        res.status(statusCode).json({ error: message });
-      });
-    } else {
-      res.status(statusCode).json({ error: message });
-    }
+    drainReq(req, res, statusCode, message);
     return;
   }
 
