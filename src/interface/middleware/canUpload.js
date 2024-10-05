@@ -26,9 +26,6 @@ function drainReq(req, res, statusCode, message) {
 async function canUpload(req, res, next) {
   const invokerAddress = req.invokerAddress;
   const contractAddress = req.contractAddress;
-  console.log("invokerAddress: ", invokerAddress);
-  console.log("contractAddress: ", contractAddress);
-  console.log("req.isAuthenticated: ", req.isAuthenticated);
   if (!req.isAuthenticated) {
     const statusCode = invokerAddress ? 403 : 401;
     const message = `invokerAddress: ${invokerAddress} does not have permission to upload file for subdomain: ${contractAddress}`;
