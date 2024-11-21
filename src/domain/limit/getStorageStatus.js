@@ -40,6 +40,7 @@ async function getStorageStatus({ contractAddress, invokerAddress, setCache = fa
     contractAddress,
     storageLimit: (limit && limit.storageLimit) || config.DEFAULT_STORAGE_LIMIT,
     claims: await formatClaims(invokerAddress, contractAddress, limit?.claimsMap, setCache),
+    extendableStorage: limit?.extendableStorage || 1000000000,
   };
 }
 
