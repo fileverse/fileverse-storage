@@ -18,6 +18,6 @@ const extend = require('./extend');
 router.get('/check', asyncHandler(canCheckLimit), asyncHandlerArray(check));
 router.get('/use', asyncHandler(canCheckLimitUse), asyncHandlerArray(use));
 router.get('/claim', asyncHandler(canUpdateLimit), asyncHandlerArray(claim));
-router.post('/extend', asyncHandler(isAuthenticated), asyncHandlerArray(extend));
+router.put('/extend', asyncHandler(isAuthenticated), asyncHandlerArray(extend));
 
 module.exports = router;
