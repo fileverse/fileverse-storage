@@ -1,9 +1,7 @@
-const Log = require('../../domain/log');
-const { upload } = require('../../domain');
-const { validator } = require('../middleware');
+const Log = require("../../domain/log");
+const { upload } = require("../../domain");
+const { validator } = require("../middleware");
 const { Joi, validate } = validator;
-
-
 
 const uploadValidation = {
   headers: Joi.object({
@@ -26,7 +24,12 @@ async function uploadFn(req, res) {
     tags,
   }).catch(console.log);
 
-  await Log.create('upload', { contractAddress, invokerAddress, ipfsHash: createdFile.ipfsHash, tags });
+  await Log.create("upload", {
+    contractAddress,
+    invokerAddress,
+    ipfsHash: createdFile.ipfsHash,
+    tags,
+  });
   res.json(createdFile);
 }
 
