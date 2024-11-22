@@ -21,3 +21,4 @@ router.get('/claim', asyncHandler(canUpdateLimit), asyncHandlerArray(claim));
 router.put('/extend', asyncHandler(isAuthenticated), asyncHandlerArray(extend));
 
 module.exports = router;
+
