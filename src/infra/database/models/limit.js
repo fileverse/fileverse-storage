@@ -30,6 +30,10 @@ _limit.schema = new Schema({
     type: Number,
     default: 0,
   },
+  extendableStorage: {
+    type: Number,
+    default: 1000000000, // 1GB
+  },
   unit: { type: String, default: "bytes" },
   claimsMap: { type: Schema.Types.Mixed },
   timeStamp: {
