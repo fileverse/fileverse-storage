@@ -24,8 +24,6 @@ function drainReq(req, res, statusCode, message) {
 }
 
 async function canUpload(req, res, next) {
-  const fileSize = req.files.file.size;
-  console.warn(`Request ID: ${req.id}, URL: ${req.originalUrl}, File size: ${fileSize} bytes`);
   const invokerAddress = req.invokerAddress;
   const contractAddress = req.contractAddress;
   if (!req.isAuthenticated) {
