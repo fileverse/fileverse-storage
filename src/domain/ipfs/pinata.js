@@ -38,11 +38,14 @@ class Pinata extends IpfsStorageInterface {
         cidVersion: 0,
       },
     };
+
     try {
+      console.time("Upload to Pinata duration");
       const file = await this.pinata.pinFileToIPFS(
         readableStreamForFile,
         options,
       );
+      console.timeEnd("Upload to Pinata duration");
       return this.formatFile(file);
     }
     catch (e) {
