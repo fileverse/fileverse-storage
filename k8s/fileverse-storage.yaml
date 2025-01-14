@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       labels:
-        app: fileverse-storager-app
+        app: fileverse-storage-app
     spec:
       nodeSelector:
         node-name: node-d
