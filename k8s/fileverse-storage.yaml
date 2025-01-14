@@ -40,7 +40,7 @@ spec:
         livenessProbe: &probeConfig
           httpGet:
             path: /ping
-            port: 8081
+            port: 8001
           initialDelaySeconds: 3
           periodSeconds: 3
         resources:
