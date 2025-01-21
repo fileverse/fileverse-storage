@@ -34,7 +34,7 @@ spec:
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: secrets-store-fileverse-storage
-          mountPath: /app/.env
+          mountPath: /app/config/.env
           subPath: .env
           readOnly: true
         livenessProbe: &probeConfig
