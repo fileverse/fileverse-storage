@@ -22,8 +22,6 @@ spec:
       labels:
         app: fileverse-storage-app
     spec:
-      nodeSelector:
-        node-name: node-d
       serviceAccountName: fileverse-storage-sa
       containers:
       - name: fileverse-storage
