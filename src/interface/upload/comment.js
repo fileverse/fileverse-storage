@@ -1,4 +1,3 @@
-const Log = require('../../domain/log');
 const { upload } = require('../../domain');
 const { validator } = require('../middleware');
 const { Joi, validate } = validator;
