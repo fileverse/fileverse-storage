@@ -10,7 +10,7 @@ const uploadValidation = {
     }).unknown(true),
     
 };
-const commenSchema = Joi.object({
+const commentSchema = Joi.object({
     selectedText: Joi.string().required(),
     highlightYjsDiff: Joi.string().required(),
     content: Joi.string().required(),
@@ -32,7 +32,7 @@ async function uploadCommentFn(req, res) {
   }
   
   const jsonData = JSON.parse(file.data.toString());
-  const { error } = commenSchema.validate(jsonData);
+  const { error } = commentSchema.validate(jsonData);
   
   if(error) {
     return ErrorHandler.throwError({
