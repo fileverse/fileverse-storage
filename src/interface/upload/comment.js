@@ -11,11 +11,10 @@ const uploadValidation = {
     
 };
 const commentSchema = Joi.object({
-    selectedText: Joi.string().required(),
-    highlightYjsDiff: Joi.string().required(),
-    content: Joi.string().required(),
-  });
-  
+  selectedText: Joi.string().allow('').required(),
+  highlightYjsDiff: Joi.string().allow('').required(),
+  content: Joi.string().allow('').required(),
+});
   
 
 
