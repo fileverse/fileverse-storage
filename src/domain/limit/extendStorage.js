@@ -1,14 +1,9 @@
 const { Limit } = require("../../infra/database/models");
-const getStorageStatus = require("./getStorageStatus");
 
-async function extendStorage({ contractAddress, invokerAddress }) {
-  const status = await getStorageStatus({
-    contractAddress,
-    invokerAddress,
-    setCache: true,
-  });
+async function extendStorage({ contractAddress }) {
+  const limit = await Limit.findOne({ contractAddress });
 
-  if (status.extendableStorage <= 0) {
+  if (limit.extendableStorage && limit.extendableStorage <= 0) {
     throw new Error("No storage available to extend");
   }
 
@@ -16,9 +11,9 @@ async function extendStorage({ contractAddress, invokerAddress }) {
     { contractAddress },
     {
       $inc: {
-        extendableStorage: - 1000000000,
+        extendableStorage: -1000000000,
         extraStorage: 1000000000,
-      }
+      },
     },
     { new: true }
   );

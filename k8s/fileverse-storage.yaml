@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: fileverse-storage
+  labels:
+    name: fileverse-storage
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fileverse-storage
+  namespace: fileverse-storage
+  labels:
+    app: fileverse-storage-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fileverse-storage-app
+  template:
+    metadata:
+      labels:
+        app: fileverse-storage-app
+    spec:
+      serviceAccountName: fileverse-storage-sa
+      containers:
+      - name: fileverse-storage
+        image: 367148490862.dkr.ecr.eu-north-1.amazonaws.com/fileverse/fileverse-storage:${IMAGE_TAG}
+        ports: 
+        - name: http
+          containerPort: 8001
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: secrets-store-fileverse-storage
+          mountPath: /app/config/.env
+          subPath: .env
+          readOnly: true
+        livenessProbe: &probeConfig
+          httpGet:
+            path: /ping
+            port: 8001
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        resources:
+          requests:
+            cpu: 100m  # Minimum CPU requested
+            memory: 512Mi  # Minimum memory requested
+          limits:
+            cpu: 700m  # Maximum CPU allowed
+            memory: 1024Mi  # Maximum memory allowed
+        readinessProbe: *probeConfig
+      volumes:
+      - name: secrets-store-fileverse-storage
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: aws-secrets-fileverse-storage-${ENVIRONMENT}-env-file
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: fileverse-storage
+  name: fileverse-storage
+spec:
+  ports:
+    - port: 80
+      targetPort: 8001
+      protocol: TCP
+  type: NodePort
+  selector:
+    app: fileverse-storage-app
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: fileverse-storage
+  name: fileverse-storage-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /ping
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: fileverse-storage
+              port:
+                number: 80

@@ -14,6 +14,7 @@ async function use(req, res) {
   const { contractAddress, invokerAddress, chainId } = req;
   console.log({ contractAddress, invokerAddress, chainId });
   const data = await limit.getStorageUse({ contractAddress, invokerAddress });
+  console.log({ data });
   res.json({ ...data, storageLimit: data.storageLimit + data.extraStorage });
 }
 
