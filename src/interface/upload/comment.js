@@ -11,9 +11,7 @@ const uploadValidation = {
     
 };
 const commentSchema = Joi.object({
-  selectedText: Joi.string().allow('').required(),
-  highlightYjsDiff: Joi.string().allow('').required(),
-  content: Joi.string().allow('').required(),
+  encryptedData: Joi.string().allow('').required(),
   id: Joi.string().required(),
   username: Joi.string().required(),
 });
