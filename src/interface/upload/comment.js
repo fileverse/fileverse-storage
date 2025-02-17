@@ -12,6 +12,7 @@ const commentSchema = Joi.object({
   encryptedData: Joi.string().allow("").required(),
   id: Joi.string().required(),
   username: Joi.string().required(),
+  timestamp: Joi.date().timestamp("javascript").optional(), // milliseconds (13 digits)
 });
 
 async function uploadCommentFn(req, res) {
