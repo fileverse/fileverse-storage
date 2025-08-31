@@ -7,6 +7,7 @@ const { asyncHandler, asyncHandlerArray } = require("../../infra/asyncHandler");
 const check = require("./check");
 const claim = require("./claim");
 const use = require("./use");
+const legacyUse = require("./legacyUse");
 
 // middlewares
 const {
